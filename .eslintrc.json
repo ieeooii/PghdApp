@@ -6,7 +6,7 @@
   "rules": {
     "react/jsx-filename-extension": [
       1,
-      { "extensions": [".js", ".jsx", ".ts", ".tsx"] }
+      { "extensions": [".js", ".jsx", ".ts", ".tsx", "./"] }
     ],
     "jsx-a11y/accessible-emoji": "off",
     "arrow-parens": [2, "as-needed"],
