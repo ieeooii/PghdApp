@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import { App } from './build/components/app';
+import { Userinfo } from './src/components/signup/userinfo.tsx';
 
-AppRegistry.registerComponent('tshopequery', () => App);
+AppRegistry.registerComponent('tshopequery', () => Userinfo);
