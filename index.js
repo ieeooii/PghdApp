@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import { App } from './build/components/app';
+import { ProfileRoot } from './src/components/signup/profile-root.tsx';
 
-AppRegistry.registerComponent('tshopequery', () => App);
+AppRegistry.registerComponent('tshopequery', () => ProfileRoot);
