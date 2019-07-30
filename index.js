@@ -1,4 +1,4 @@
 import { AppRegistry } from 'react-native';
-import { App } from './build/components/app';
+import { SignIn } from './src/components/signin/signin-root.tsx';
 
-AppRegistry.registerComponent('tshopequery', () => App);
+AppRegistry.registerComponent('tshopequery', () => SignIn);
