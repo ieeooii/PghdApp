@@ -1,6 +1,6 @@
-import { Button, Container, Content, Form } from 'native-base';
+import { Button, Container, Content, Form, Text } from 'native-base';
 import * as React from 'react';
-import { Platform, StyleSheet, Text } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 import { Email } from './email';
 import { Nickname } from './nickname';
 import { Password } from './password';
@@ -11,23 +11,46 @@ const buttonColorAndroid: string = '#5800ff';
 
 const userinfoStyles = StyleSheet.create({
   infoContent: {
-    marginTop: 50,
+    flex: 1,
+    justifyContent: 'space-evenly',
+    ...Platform.select({
+      ios: {
+        marginTop: 50,
+        marginBottom: 40,
+      },
+      android: { marginTop: 20, marginBottom: 50 },
+    }),
+  },
+  termsContent: {
+    ...Platform.select({
+      ios: {
+        bottom: 80,
+        marginBottom: 100,
+      },
+      android: {
+        bottom: 100,
+        // marginBottom: 100,
+      },
+    }),
   },
   button: {
-    marginLeft: 38,
     flexDirection: 'row',
     justifyContent: 'center',
     overflow: 'hidden',
     width: '80%',
+    marginLeft: 38,
     ...Platform.select({
       ios: {
         borderColor: buttonColorIos,
         backgroundColor: buttonColorIos,
         borderRadius: 50,
+        bottom: 150,
       },
       android: {
         borderColor: buttonColorAndroid,
         backgroundColor: buttonColorAndroid,
+        bottom: 70,
+        right: 1,
       },
     }),
   },
@@ -39,7 +62,7 @@ const userinfoStyles = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 1,
+    elevation: 3,
   },
 });
 
@@ -53,19 +76,19 @@ export class Userinfo extends React.Component<Props, State> {
   render() {
     return (
       <Container>
-        <Content style={userinfoStyles.infoContent}>
+        <Form style={userinfoStyles.infoContent}>
           <Email />
           <Password />
           <Nickname />
-        </Content>
-        <Content>
+        </Form>
+        <Form style={userinfoStyles.termsContent}>
           <Terms />
-        </Content>
-        <Content style={userinfoStyles.shadow}>
+        </Form>
+        <Form style={userinfoStyles.shadow}>
           <Button style={userinfoStyles.button}>
             <Text style={userinfoStyles.buttonText}>완료</Text>
           </Button>
-        </Content>
+        </Form>
       </Container>
     );
   }
