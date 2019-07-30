@@ -68,6 +68,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginLeft: 8,
   },
+  relationshipTag: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#2600FF',
+  }
 });
 
 export class MiniProfile extends React.Component {
@@ -86,15 +91,7 @@ export class MiniProfile extends React.Component {
                   10대
                 </Text>
                 <View style={styles.relationship}>
-                  <Text
-                    style={{
-                      fontSize: 12,
-                      fontWeight: 'bold',
-                      color: '#2600FF',
-                    }}
-                  >
-                    관계
-                  </Text>
+                  <Text style={styles.relationshipTag}>관계</Text>
                 </View>
               </View>
             </View>
