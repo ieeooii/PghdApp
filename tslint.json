@@ -8,6 +8,14 @@
     "tslint-react-native"
   ],
   "rules": {
+    "import-name": [
+      true,
+      {
+        "lodash": "_",
+        "fp": "_",
+        "server": "ReactDOMServer"
+      }
+    ],
     "ordered-imports": [true],
     "quotemark": [true, "single", "jsx-single", "avoid-escape"],
     "semicolon": [true, "always"],
