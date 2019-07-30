@@ -1,50 +1,7 @@
 import { DatePicker, Form, Icon, Picker, Text } from 'native-base';
 import * as React from 'react';
-import { Platform, StyleSheet } from 'react-native';
-
-const profileBodyStyles = StyleSheet.create({
-  innerForm: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  datePicker: {
-    marginTop: -7,
-    flexDirection: 'row',
-  },
-  datePickerIcon: {
-    marginLeft: 22,
-    marginRight: 16,
-    ...Platform.select({
-      ios: {
-        marginTop: 7,
-        fontSize: 21,
-      },
-      android: {
-        marginTop: 10,
-        fontSize: 20,
-        color: '#767877',
-      },
-    }),
-  },
-  LastPickerForm: {
-    marginTop: -17,
-    ...Platform.select({
-      ios: {
-        marginRight: 16,
-      },
-      android: {
-        marginRight: 1,
-      },
-    }),
-  },
-  LastPicker: {
-    // width를 안주면 android에서 클릭 불가능
-    width: 130,
-  },
-});
+import { Platform } from 'react-native';
+import { profileBodyStyles } from '../style';
 
 export interface Props {}
 export interface State {
