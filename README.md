@@ -8,7 +8,7 @@ if `adb error`: `brew cask install android-platform-tools`
 1. npm install
 2. ios 시뮬레이터 실행:
    2-2 `npm run ios` or `react-native run-ios`
-   2-1 `error 65`: [search keyword - xcode error code 65. facebook forum] => [https://github.com/facebook/react-native/issues/25500] `cd hopeQeury-client` -> `sudo gem install cocoapods` -> `cd ios` -> `pod install`
+   2-1 `error 65`: [search keyword - xcode error code 65. facebook forum] => [https://github.com/facebook/react-native/issues/25500] `cd hopeQeury-client` -> `sudo gem install cocoapods` -> `cd ios` -> `pod install` -> ICON 로드 에러 발생시 `react-native link`
    2-2 build는 됐는데 아직도 error 가 있다면: `killall node`
 3. android 시뮬레이터 실행:
    3-1 configure => AVD Manger => device click
