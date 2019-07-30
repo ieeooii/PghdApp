@@ -66,6 +66,17 @@ export class App extends React.Component<Props, State> {
       >
         <ScrollView>
           <MiniProfile />
+          <View style={[styles.shadow, { alignItems: 'center' }]}>
+            <Button
+              style={
+                Platform.OS === 'ios'
+                  ? styles.mainButton
+                  : [styles.mainButton, styles.shadow]
+              }
+            >
+              <Text style={styles.todayRecord}>오늘 기록하기</Text>
+            </Button>
+          </View>
         </ScrollView>
       </View>
     );
