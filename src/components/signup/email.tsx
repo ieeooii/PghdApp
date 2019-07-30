@@ -1,17 +1,6 @@
 import { Form, Input, Item, Label, Text } from 'native-base';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
-
-const emailStyles = StyleSheet.create({
-  form: {
-    marginBottom: 0,
-    marginRight: 20,
-  },
-  txtIsValid: {
-    color: 'red',
-    marginLeft: 20,
-  },
-});
+import { emailStyles } from '../style';
 
 export interface Props {}
 export interface State {}

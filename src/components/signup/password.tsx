@@ -1,16 +1,6 @@
-import { Button, Form, Icon, Input, Item, Label, Text } from 'native-base';
+import { Form, Icon, Input, Item, Label, Text } from 'native-base';
 import * as React from 'react';
-import { StyleSheet } from 'react-native';
-
-const passwordStyles = StyleSheet.create({
-  form: {
-    marginRight: 20,
-  },
-  txtIsValid: {
-    color: 'red',
-    marginLeft: 20,
-  },
-});
+import { passwordStyles } from '../style';
 
 export interface Props {}
 export interface State {}
