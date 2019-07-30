@@ -1,7 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
 
 // profile-root STYLE
-const saveBtnColor: string = '#F3F5F4';
+const saveBtnColor: string = 'white';
 const skipBtnColor: string = '#5800ff';
 const saveBtnTextColor: string = '#5800ff';
 const skipBtnTextColor: string = '#F8FCFA';
