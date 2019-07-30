@@ -1,6 +1,6 @@
 import { Button, Segment, Text } from 'native-base';
 import * as React from 'react';
-import { profileHeaderStyles } from '../style';
+import { profilegenderStyles } from '../style';
 
 export interface Props {}
 export interface State {}
@@ -8,12 +8,12 @@ export interface State {}
 export class ProfileGender extends React.Component<Props, State> {
   render() {
     return (
-      <Segment style={profileHeaderStyles.genderSegment}>
-        <Button style={profileHeaderStyles.genderBtn} first>
-          <Text style={profileHeaderStyles.genderBtnTxt}>남자</Text>
+      <Segment style={profilegenderStyles.genderSegment}>
+        <Button style={profilegenderStyles.genderBtn} first>
+          <Text style={profilegenderStyles.genderBtnTxt}>남자</Text>
         </Button>
-        <Button style={profileHeaderStyles.genderBtn} last>
-          <Text style={profileHeaderStyles.genderBtnTxt}>여자</Text>
+        <Button style={profilegenderStyles.genderBtn} last>
+          <Text style={profilegenderStyles.genderBtnTxt}>여자</Text>
         </Button>
       </Segment>
     );
