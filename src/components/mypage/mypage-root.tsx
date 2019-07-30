@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
 export interface Props {}
 export interface State {}
 
-export class App extends React.Component<Props, State> {
+export class MypageRoot extends React.Component<Props, State> {
   render() {
     return (
       <View
