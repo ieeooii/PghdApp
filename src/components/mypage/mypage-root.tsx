@@ -77,6 +77,19 @@ export class App extends React.Component<Props, State> {
               <Text style={styles.todayRecord}>오늘 기록하기</Text>
             </Button>
           </View>
+          <View style={[styles.shadow, { width: '90%', alignSelf: 'center' }]}>
+            {/* scroll test용 입니다 */}
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+          </View>
         </ScrollView>
       </View>
     );
