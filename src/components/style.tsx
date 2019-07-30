@@ -122,7 +122,7 @@ export const profileBodyStyles = StyleSheet.create({
 });
 
 // profilegender STYLE
-export const profileHeaderStyles = StyleSheet.create({
+export const profilegenderStyles = StyleSheet.create({
   genderSegment: {
     backgroundColor: 'transparent',
     marginTop: 70,
