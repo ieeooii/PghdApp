@@ -1,4 +1,4 @@
-import { DatePicker, Form, Icon, Picker, Text, View } from 'native-base';
+import { DatePicker, Form, Icon, Picker, Text } from 'native-base';
 import * as React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 
@@ -49,7 +49,6 @@ const profileBodyStyles = StyleSheet.create({
 export interface Props {}
 export interface State {
   chosenDate: any;
-  language: any;
   selected: any;
   category: any;
 }
@@ -59,11 +58,9 @@ export class ProfileBody extends React.Component<Props, State> {
     super(props);
     this.state = {
       chosenDate: '생년월일을 선택하세요',
-      language: null,
       selected: '클릭하세요',
       category: ['환자', '보호자', '의사/약사', '다른질환', '기타'],
     };
-    this.setDate = this.setDate.bind(this);
   }
 
   setDate(newDate: any) {
@@ -78,26 +75,26 @@ export class ProfileBody extends React.Component<Props, State> {
 
   render() {
     this.onValueChange = this.onValueChange.bind(this);
-    const birthDay = this.state.chosenDate.toString().substr(4, 12);
-    console.log(birthDay);
+    this.setDate = this.setDate.bind(this);
+    // const birthDay = this.state.chosenDate.toString().substr(4, 12);
+    // 생년월일 뽑아내는 코드
 
     return (
       <Form>
         <Form style={profileBodyStyles.innerForm}>
-          <View>
+          <Form>
             <Text>생년월일</Text>
-          </View>
-          <View style={profileBodyStyles.datePicker}>
+          </Form>
+          <Form style={profileBodyStyles.datePicker}>
             <DatePicker
               minimumDate={new Date(1900, 1, 1)}
               maximumDate={new Date(2018, 12, 31)}
-              locale={'en'}
+              locale={'korea'}
               timeZoneOffsetInMinutes={undefined}
-              modalTransparent={false}
-              animationType={'fade'}
-              androidMode={'default'}
+              modalTransparent={true}
+              animationType={'slide'}
+              androidMode={'spinner'}
               placeHolderText='클릭하세요'
-              textStyle={{ color: 'blue' }}
               placeHolderTextStyle={{ color: 'blue' }}
               onDateChange={this.setDate}
               disabled={false}
@@ -113,12 +110,12 @@ export class ProfileBody extends React.Component<Props, State> {
                 name='arrow-dropdown'
               />
             )}
-          </View>
+          </Form>
         </Form>
         <Form style={profileBodyStyles.innerForm}>
-          <View>
+          <Form>
             <Text>질환관계</Text>
-          </View>
+          </Form>
           <Form style={profileBodyStyles.LastPickerForm}>
             <Picker
               style={profileBodyStyles.LastPicker}

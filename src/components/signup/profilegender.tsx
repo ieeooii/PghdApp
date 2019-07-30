@@ -4,16 +4,17 @@ import { StyleSheet } from 'react-native';
 
 const profileHeaderStyles = StyleSheet.create({
   genderSegment: {
+    backgroundColor: 'transparent',
     marginTop: 70,
     height: 100,
   },
-  genderButton: {
+  genderBtn: {
     justifyContent: 'center',
     borderColor: 'black',
     height: 50,
     width: 100,
   },
-  genderButtonText: {
+  genderBtnTxt: {
     color: 'black',
   },
 });
@@ -25,11 +26,11 @@ export class ProfileGender extends React.Component<Props, State> {
   render() {
     return (
       <Segment style={profileHeaderStyles.genderSegment}>
-        <Button style={profileHeaderStyles.genderButton} first>
-          <Text style={profileHeaderStyles.genderButtonText}>남자</Text>
+        <Button style={profileHeaderStyles.genderBtn} first>
+          <Text style={profileHeaderStyles.genderBtnTxt}>남자</Text>
         </Button>
-        <Button style={profileHeaderStyles.genderButton} last>
-          <Text style={profileHeaderStyles.genderButtonText}>여자</Text>
+        <Button style={profileHeaderStyles.genderBtn} last>
+          <Text style={profileHeaderStyles.genderBtnTxt}>여자</Text>
         </Button>
       </Segment>
     );

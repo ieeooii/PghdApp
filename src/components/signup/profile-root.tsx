@@ -22,8 +22,8 @@ const profileRootStyles = StyleSheet.create({
       },
     }),
   },
-  formText: { fontSize: 30 },
-  genderContent: {
+  formTxt: { fontSize: 30 },
+  genderForm: {
     ...Platform.select({
       ios: {
         paddingBottom: 20,
@@ -64,11 +64,18 @@ const profileRootStyles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 16,
   },
-  firstContent: {
+  titleGenderForm: {
     marginTop: -10,
   },
-  btnContent: {
-    bottom: 70,
+  btnForm: {
+    ...Platform.select({
+      ios: {
+        top: 50,
+      },
+      android: {
+        top: 50,
+      },
+    }),
   },
 });
 
@@ -79,33 +86,33 @@ export class ProfileRoot extends React.Component<Props, State> {
   render() {
     return (
       <Container>
-        <Content style={profileRootStyles.firstContent}>
-          <Content style={profileRootStyles.form}>
-            <Text style={profileRootStyles.formText}>내 정보</Text>
-          </Content>
-          <Content style={profileRootStyles.genderContent}>
+        <Form style={profileRootStyles.titleGenderForm}>
+          <Form style={profileRootStyles.form}>
+            <Text style={profileRootStyles.formTxt}>내 정보</Text>
+          </Form>
+          <Form style={profileRootStyles.genderForm}>
             <ProfileGender />
-          </Content>
-        </Content>
-        <Content>
+          </Form>
+        </Form>
+        <Form>
           <ProfileBody />
-        </Content>
-        <Content style={profileRootStyles.btnContent}>
-          <View style={profileRootStyles.shadow}>
+        </Form>
+        <Form style={profileRootStyles.btnForm}>
+          <Form style={profileRootStyles.shadow}>
             <Button
               style={[profileRootStyles.button, profileRootStyles.saveBtnColor]}
             >
               <Text style={profileRootStyles.saveBtnText}>저장</Text>
             </Button>
-          </View>
-          <View style={[profileRootStyles.shadow, { height: 170 }]}>
+          </Form>
+          <Form style={[profileRootStyles.shadow, { height: 170 }]}>
             <Button
               style={[profileRootStyles.button, profileRootStyles.skipBtnColor]}
             >
               <Text style={profileRootStyles.skipBtnText}>SKIP</Text>
             </Button>
-          </View>
-        </Content>
+          </Form>
+        </Form>
       </Container>
     );
   }
