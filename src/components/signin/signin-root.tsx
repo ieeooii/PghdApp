@@ -1,4 +1,4 @@
-import { Button, Container, Form, Text, View } from 'native-base';
+import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { loginbtn } from '../style';
 import { EmailPassword } from './email-password';
@@ -12,11 +12,11 @@ export class SignIn extends React.Component<Props, State> {
       <Container>
         <EmailPassword />
         <Form style={loginbtn.bottomLoginForm}>
-          <View style={loginbtn.shadowBtn}>
+          <Form style={loginbtn.shadowBtn}>
             <Button style={loginbtn.loginBtn} onPress={() => {}}>
               <Text style={loginbtn.loginTextColor}>로그인</Text>
             </Button>
-          </View>
+          </Form>
           <Form style={loginbtn.signupPasswordRow}>
             <Form>
               <Button
