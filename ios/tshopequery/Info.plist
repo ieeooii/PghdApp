@@ -63,12 +63,21 @@
 		<string>FontAwesome5_Brands.ttf</string>
 		<string>FontAwesome5_Regular.ttf</string>
 		<string>FontAwesome5_Solid.ttf</string>
+<<<<<<< HEAD
 		<string>Fontisto.ttf</string>
+=======
+>>>>>>> e5fbc5eded28edb1f6f79f92ae6864006da9de4b
 		<string>Foundation.ttf</string>
 		<string>Ionicons.ttf</string>
 		<string>MaterialCommunityIcons.ttf</string>
 		<string>MaterialIcons.ttf</string>
 		<string>Octicons.ttf</string>
+<<<<<<< HEAD
+=======
+		<string>Roboto_medium.ttf</string>
+		<string>Roboto.ttf</string>
+		<string>rubicon-icon-font.ttf</string>
+>>>>>>> e5fbc5eded28edb1f6f79f92ae6864006da9de4b
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
 	</array>
