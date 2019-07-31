@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { Button, Image, Platform, View } from 'react-native';
-import { styles } from './style';
+import { mainStyles } from './style';
 
 const mainColor: string = '#5800ff';
 const andsigninbtn: string = '#343434';
 
 const logourl: string = 'https://humanscape.io/images/logo-black.png';
+const styles = mainStyles;
 
 export interface Props {
   enthusiasmLevel?: number;
@@ -14,7 +15,7 @@ export interface Props {
 }
 export interface State {}
 
-export class App extends React.Component<Props, State> {
+export class Main extends React.Component<Props, State> {
   render() {
     return (
       <View style={styles.container}>
