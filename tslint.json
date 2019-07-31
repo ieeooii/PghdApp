@@ -44,13 +44,14 @@
     "no-duplicate-imports": false,
     "jsx-alignment": true,
     "jsx-no-bind": true,
-    "jsx-no-lambda": true,
+    "jsx-no-lambda": false,
     "prefer-template": [true, "allow-single-concat"],
     "eofline": true,
     "max-line-length": [
       true,
       { "limit": 120, "ignore-pattern": "^import |^export {(.*?)}" }
     ],
-    "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"]
+    "rulesDirectory": ["node_modules/tslint-eslint-rules/dist/rules"],
+    "ter-arrow-parens": [false, "as-needed", { "requireForBlockBody": true }]
   }
 }
