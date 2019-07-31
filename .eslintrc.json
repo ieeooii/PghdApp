@@ -4,6 +4,7 @@
   "env": { "node": true, "es6": true },
   "extends": ["airbnb", "airbnb-typescript/base"],
   "rules": {
+    "no-console": "off",
     "react/jsx-filename-extension": [
       1,
       { "extensions": [".js", ".jsx", ".ts", ".tsx", "./"] }
