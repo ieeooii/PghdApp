@@ -1,6 +1,6 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
-import { userinfoStyles } from '../style';
+import { profileRootStyles, userinfoStyles } from '../style';
 import { Email } from './email';
 import { Nickname } from './nickname';
 import { Password } from './password';
@@ -24,9 +24,9 @@ export class Userinfo extends React.Component<Props, State> {
         <Form style={userinfoStyles.termsContent}>
           <Terms />
         </Form>
-        <Form style={userinfoStyles.shadow}>
-          <Button style={userinfoStyles.button}>
-            <Text style={userinfoStyles.buttonText}>완료</Text>
+        <Form style={profileRootStyles.shadow}>
+          <Button style={profileRootStyles.button}>
+            <Text style={profileRootStyles.buttonText}>완료</Text>
           </Button>
         </Form>
       </Container>

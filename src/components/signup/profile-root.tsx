@@ -1,6 +1,6 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
-import { profileRootStyles } from '../style';
+import { profileRootStyles, termsStyles } from '../style';
 import { ProfileBody } from './profilebody';
 import { ProfileGender } from './profilegender';
 
@@ -11,7 +11,7 @@ export class ProfileRoot extends React.Component<Props, State> {
   render() {
     return (
       <Container>
-        <Form style={profileRootStyles.titleGenderForm}>
+        <Form style={termsStyles.titleGenderForm}>
           <Form style={profileRootStyles.form}>
             <Text style={profileRootStyles.formTxt}>내 정보</Text>
           </Form>
@@ -22,7 +22,7 @@ export class ProfileRoot extends React.Component<Props, State> {
         <Form>
           <ProfileBody />
         </Form>
-        <Form style={profileRootStyles.btnForm}>
+        <Form style={termsStyles.btnForm}>
           <Form style={profileRootStyles.shadow}>
             <Button
               style={[profileRootStyles.button, profileRootStyles.saveBtnColor]}
