@@ -1,50 +1,56 @@
+import { Button } from 'native-base';
 import * as React from 'react';
-import { Platform, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  Platform,
+  // StyleSheet,
+  Text,
+  View,
+  YellowBox,
+} from 'react-native';
 
-const styles = StyleSheet.create({
-  pghdContainer: {
-    width: '100%',
-    height: 100,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    ...Platform.select({
-      ios: {
-        borderRadius: 20,
-      },
-      android: {
-        borderRadius: 10,
-      },
-    }),
-    marginTop: 10,
-  },
-  shadow: {
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 5,
-        },
-        shadowRadius: 16,
-        shadowOpacity: 0.1,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
-  },
-});
+import { myprofileStyles, pghdRecordStyles } from '../style';
+
+const styles = pghdRecordStyles;
 
 export class PghdRecord extends React.Component {
+  constructor(props: any) {
+    super(props);
+    YellowBox.ignoreWarnings([
+      'Warning: isMounted(...) is deprecated',
+      'Module RCTImageLoader',
+    ]);
+  }
+
   render() {
     return (
       <View style={{ alignItems: 'center' }}>
         <View
-          style={
-            Platform.OS === 'ios'
-              ? styles.pghdContainer
-              : [styles.pghdContainer, styles.shadow]
-          }
+          style={[
+            styles.pghdContainerTop,
+            Platform.OS === 'android' ? styles.shadow : {},
+          ]}
+        >
+          <View style={[myprofileStyles.circle, { width: 36, height: 36 }]} />
+          <Text style={{ marginLeft: 10 }}>react-native</Text>
+          <Text style={{ marginLeft: 5, color: '#767676' }}>| 1.10</Text>
+          <Button
+            style={[
+              { backgroundColor: 'white', position: 'absolute', right: 5 },
+              Platform.OS === 'android' ? { elevation: 0 } : {},
+            ]}
+          >
+            <Image
+              source={require('../../../PGHD-RECORD-SELECT-ICON.png')}
+              style={{ resizeMode: 'contain', height: '45%' }}
+            />
+          </Button>
+        </View>
+        <View
+          style={[
+            styles.pghdContainerBotttom,
+            Platform.OS === 'ios' ? {} : styles.shadow,
+          ]}
         >
           <Text style={{ textAlign: 'center' }}>일별 PGHD 기록</Text>
         </View>
