@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native';
-import { Userinfo } from './src/components/signup/userinfo.tsx';
+import { Main } from './build/components/main';
 
 console.disableYellowBox = true; // yellow box delete
-AppRegistry.registerComponent('tshopequery', () => Userinfo);
+AppRegistry.registerComponent('tshopequery', () => Main);

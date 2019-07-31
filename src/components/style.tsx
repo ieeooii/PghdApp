@@ -98,10 +98,10 @@ export const userinfoStyles = StyleSheet.create({
         marginBottom: 100
       },
       android: {
-        bottom: 100
-      }
-    })
-  }
+        bottom: 100,
+      },
+    }),
+  },
 });
 
 export const emailPasswordForm = StyleSheet.create({
@@ -166,9 +166,10 @@ export const loginbtn = StyleSheet.create({
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
-    elevation: 16
-  }
+    elevation: 16,
+  },
 });
+
 // profile-root STYLE
 const saveBtnColor: string = "white";
 const skipBtnColor: string = "#5800ff";
@@ -352,7 +353,7 @@ export const termsStyles = StyleSheet.create({
     })
   },
   allAgreeTxt: {
-    right: 20
+    right: 20,
   },
   titleGenderForm: {
     marginTop: -10
@@ -426,10 +427,12 @@ export const profilegenderStyles = StyleSheet.create({
     width: 100
   },
   genderBtnTxt: {
-    color: "black"
-  }
+    color: 'black',
+  },
 });
-const mainColor: string = "#5800ff";
+
+const mainColor: string = '#5800ff';
+
 // main.tsx
 export const mainStyles = StyleSheet.create({
   container: {
@@ -518,4 +521,171 @@ export const mainStyles = StyleSheet.create({
       }
     })
   }
+});
+
+// mypage-mypage-root.tsx
+export const mypageRootStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    ...Platform.select({
+      ios: {
+        backgroundColor: 'white',
+      },
+      android: {
+        backgroundColor: '#F0F0F5',
+      },
+    }),
+    flexDirection: 'column',
+  },
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowRadius: 15,
+        shadowOpacity: 0.15,
+      },
+      android: {
+        elevation: 3,
+      },
+    }),
+  },
+  mainButton: {
+    width: '90%',
+    height: 60,
+    overflow: 'hidden',
+    ...Platform.select({
+      ios: {
+        borderRadius: 50,
+      },
+      android: {
+        borderRadius: 10,
+      },
+    }),
+    marginTop: 20,
+    justifyContent: 'center',
+    backgroundColor: mainColor,
+  },
+  todayRecord: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 19,
+  },
+});
+
+// mypage-my-profile.tsx
+export const myprofileStyles = StyleSheet.create({
+  myprofile: {
+    backgroundColor: 'white',
+    justifyContent: 'flex-start',
+    borderRadius: 0,
+    alignSelf: 'stretch',
+    ...Platform.select({
+      ios: {
+        height: 160,
+        paddingLeft: 30,
+        paddingTop: 30,
+      },
+      android: {
+        height: 140,
+      },
+    }),
+    padding: 30,
+  },
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowRadius: 16,
+        shadowOpacity: 0.1,
+      },
+      android: {
+        elevation: 10,
+      },
+    }),
+  },
+  circle: {
+    borderRadius: 100 / 2,
+    borderWidth: 1,
+    borderColor: '#F0F0F5',
+    alignItems: 'center',
+  },
+  usernicknameMypage: {
+    fontSize: 17,
+    fontWeight: 'normal',
+    lineHeight: 30,
+    marginLeft: 20,
+  },
+  relationship: {
+    width: 60,
+    padding: 4,
+    backgroundColor: 'white',
+    ...Platform.select({
+      ios: {
+        borderRadius: 20,
+      },
+      android: {
+        borderRadius: 4,
+      },
+    }),
+    borderWidth: 0.5,
+    borderColor: '#2600FF',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 8,
+  },
+  relationshipTag: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: '#2600FF',
+  },
+});
+
+// mypage-pghdrecord.tsx
+export const pghdRecordStyles = StyleSheet.create({
+  pghdContainerTop: {
+    width: '100%',
+    height: 60,
+    backgroundColor: 'white',
+    borderBottomColor: '#F0F0F5',
+    borderBottomWidth: 1,
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    padding: 16,
+    marginTop: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  pghdContainerBotttom: {
+    width: '100%',
+    height: 100,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    marginBottom: 10,
+  },
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowRadius: 15,
+        shadowOpacity: 0.5,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
 });
