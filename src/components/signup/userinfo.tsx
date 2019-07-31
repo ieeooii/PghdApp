@@ -5,10 +5,8 @@ import { Email } from './email';
 import { Nickname } from './nickname';
 import { Password } from './password';
 import { Terms } from './terms';
-
 export interface Props {}
 export interface State {}
-
 export class Userinfo extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);

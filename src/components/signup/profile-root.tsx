@@ -3,10 +3,8 @@ import * as React from 'react';
 import { profileRootStyles, termsStyles } from '../style';
 import { ProfileBody } from './profilebody';
 import { ProfileGender } from './profilegender';
-
 export interface Props {}
 export interface State {}
-
 export class ProfileRoot extends React.Component<Props, State> {
   render() {
     return (
