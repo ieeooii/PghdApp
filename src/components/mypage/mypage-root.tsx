@@ -7,15 +7,20 @@ import { PghdRecord } from './pghdrecord';
 
 const styles = mypageRootStyles;
 
-export interface Props {}
+export interface Props {
+  navi: any;
+}
 export interface State {}
 
 export class MypageRoot extends React.Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+  }
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <MiniProfile />
+          <MiniProfile navi={this.props} />
           <View
             style={[styles.shadow, { alignItems: 'center', marginBottom: 20 }]}
           >

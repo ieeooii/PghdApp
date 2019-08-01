@@ -9,6 +9,7 @@ const logourl: string = 'https://humanscape.io/images/logo-black.png';
 const styles = mainStyles;
 
 export interface Props {
+  navigation: any;
   enthusiasmLevel?: number;
   onIncrement?: () => void;
   onDecrement?: () => void;
@@ -16,6 +17,9 @@ export interface Props {
 export interface State {}
 
 export class Main extends React.Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+  }
   render() {
     return (
       <View style={styles.container}>
@@ -29,14 +33,24 @@ export class Main extends React.Component<Props, State> {
           <View style={[styles.mainbutton, styles.signinplat]}>
             <Button
               title='SING IN'
-              onPress={this.props.onDecrement || (() => {})}
+              onPress={
+                () => {
+                  this.props.navigation.navigate('SignIn');
+                }
+                // this.props.onDecrement || (() => {})
+              }
               color={Platform.OS === 'ios' ? mainColor : andsigninbtn}
             />
           </View>
           <View style={[styles.mainbutton, styles.signupplat]}>
             <Button
               title='SING UP'
-              onPress={this.props.onDecrement || (() => {})}
+              onPress={
+                () => {
+                  this.props.navigation.navigate('Signup');
+                }
+                // this.props.onDecrement || (() => {})
+              }
               color={Platform.OS === 'ios' ? 'white' : mainColor}
             />
           </View>

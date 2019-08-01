@@ -5,9 +5,13 @@ import { Email } from './email';
 import { Nickname } from './nickname';
 import { Password } from './password';
 import { Terms } from './terms';
-export interface Props {}
+
+export interface Props {
+  navigation: any;
+}
 export interface State {}
-export class Userinfo extends React.Component<Props, State> {
+
+export class Signup extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
   }
@@ -23,7 +27,12 @@ export class Userinfo extends React.Component<Props, State> {
           <Terms />
         </Form>
         <Form style={profileRootStyles.shadow}>
-          <Button style={profileRootStyles.button}>
+          <Button
+            onPress={() => {
+              this.props.navigation.navigate('ProfileRoot');
+            }}
+            style={profileRootStyles.button}
+          >
             <Text style={profileRootStyles.buttonText}>완료</Text>
           </Button>
         </Form>

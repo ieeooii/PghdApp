@@ -3,17 +3,27 @@ import * as React from 'react';
 import { loginbtn } from '../style';
 import { EmailPassword } from './email-password';
 
-export interface Props {}
+export interface Props {
+  navigation: any;
+}
 export interface State {}
 
 export class SignIn extends React.Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+  }
   render() {
     return (
       <Container>
         <EmailPassword />
         <Form style={loginbtn.bottomLoginForm}>
           <Form style={loginbtn.shadowBtn}>
-            <Button style={loginbtn.loginBtn} onPress={() => {}}>
+            <Button
+              style={loginbtn.loginBtn}
+              onPress={() => {
+                this.props.navigation.navigate('MypageRoot');
+              }}
+            >
               <Text style={loginbtn.loginTextColor}>로그인</Text>
             </Button>
           </Form>
@@ -22,7 +32,9 @@ export class SignIn extends React.Component<Props, State> {
               <Button
                 transparent
                 style={loginbtn.etcLeftBtnMargin}
-                onPress={() => {}}
+                onPress={() => {
+                  this.props.navigation.navigate('Signup');
+                }}
               >
                 <Text style={loginbtn.signupPasswordFont}>회원가입</Text>
               </Button>

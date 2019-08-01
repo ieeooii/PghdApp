@@ -3,9 +3,16 @@ import * as React from 'react';
 import { profileRootStyles, termsStyles } from '../style';
 import { ProfileBody } from './profilebody';
 import { ProfileGender } from './profilegender';
-export interface Props {}
+
+export interface Props {
+  navigation: any;
+}
 export interface State {}
+
 export class ProfileRoot extends React.Component<Props, State> {
+  constructor(props: any) {
+    super(props);
+  }
   render() {
     return (
       <Container>
@@ -23,6 +30,9 @@ export class ProfileRoot extends React.Component<Props, State> {
         <Form style={termsStyles.btnForm}>
           <Form style={profileRootStyles.shadow}>
             <Button
+              onPress={() => {
+                this.props.navigation.navigate('MypageRoot');
+              }}
               style={[profileRootStyles.button, profileRootStyles.saveBtnColor]}
             >
               <Text style={profileRootStyles.saveBtnText}>저장</Text>
@@ -30,6 +40,9 @@ export class ProfileRoot extends React.Component<Props, State> {
           </Form>
           <Form style={[profileRootStyles.shadow, { height: 170 }]}>
             <Button
+              onPress={() => {
+                this.props.navigation.navigate('MypageRoot');
+              }}
               style={[profileRootStyles.button, profileRootStyles.skipBtnColor]}
             >
               <Text style={profileRootStyles.skipBtnText}>SKIP</Text>
