@@ -9,9 +9,9 @@ export class Password extends React.Component<Props, State> {
   render() {
     return (
       <Form style={passwordStyles.form}>
-        <Item inlineLabel>
-          <Label>비밀번호</Label>
-          <Input />
+        <Item>
+          {/* <Label>비밀번호</Label> */}
+          <Input placeholder='비밀번호' />
           <Icon name='eye-off' />
           {/* <Icon name='eye' /> 클릭하면 아이콘 모양 이거로 바꿈*/}
         </Item>

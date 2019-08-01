@@ -1,4 +1,4 @@
-import { Button, Container, Form, Text, View } from 'native-base';
+import { Container } from 'native-base';
 import * as React from 'react';
 import { ModifyPhoto } from './modifyphoto';
 import { UserInfo } from './userInfo';

@@ -9,9 +9,9 @@ export class Email extends React.Component<Props, State> {
   render() {
     return (
       <Form style={emailStyles.form}>
-        <Item inlineLabel>
-          <Label>이메일 주소</Label>
-          <Input />
+        <Item>
+          {/* <Label>이메일 주소</Label> */}
+          <Input placeholder='이메일 주소' />
         </Item>
         <Text style={emailStyles.txtIsValid}>이메일 유효성 체크</Text>
       </Form>
