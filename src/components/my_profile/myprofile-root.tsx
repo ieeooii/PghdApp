@@ -1,7 +1,7 @@
 import { Container } from 'native-base';
 import * as React from 'react';
-import { ModifyPhoto } from './modifyphoto';
-import { UserInfo } from './userInfo';
+import { ModifyPhoto } from './modify-photo';
+import { UserInfo } from './user-info';
 
 export interface Props {}
 export interface State {}

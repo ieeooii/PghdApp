@@ -3,7 +3,7 @@ import * as React from 'react';
 import { Platform, ScrollView, Text, View } from 'react-native';
 import { mypageRootStyles } from '../style';
 import { MiniProfile } from './mini-profile';
-import { PghdRecord } from './pghdrecord';
+import { PghdRecord } from './pghd-record';
 
 const styles = mypageRootStyles;
 

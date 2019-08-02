@@ -2,7 +2,7 @@ import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { profileRootStyles, userinfoStyles } from '../style';
 import { Email } from './email';
-import { Nickname } from './nickname';
+import { Nickname } from './nick-name';
 import { Password } from './password';
 import { Terms } from './terms';
 

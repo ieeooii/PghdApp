@@ -1,10 +1,10 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import { Main } from '../components/main';
-import { MypageRoot } from '../components/mypage/mypage-root';
-import { MyProfile } from '../components/myprofile/myprofile-root';
-import { SignIn } from '../components/signin/signin-root';
-import { ProfileRoot } from '../components/signup/profile-root';
-import { Signup } from '../components/signup/signup';
+import { MypageRoot } from '../components/my_page/mypage-root';
+import { MyProfile } from '../components/my_profile/myprofile-root';
+import { SignIn } from '../components/sign_in/sign-in-root';
+import { ProfileRoot } from '../components/sign_up/profile-root';
+import { Signup } from '../components/sign_up/sign-up';
 
 const appNavigator = createStackNavigator({
   Home: {
