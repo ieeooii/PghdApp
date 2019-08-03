@@ -5,7 +5,6 @@ import { myprofileStyles } from '../style';
 
 const styles = myprofileStyles;
 export interface Props {
-  navigation: any;
   navi: any;
 }
 export interface State {}

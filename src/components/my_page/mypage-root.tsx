@@ -8,6 +8,7 @@ import { PghdRecord } from './pghd-record';
 const styles = mypageRootStyles;
 
 export interface Props {
+  navigation: any;
   navi: any;
 }
 export interface State {}
@@ -30,6 +31,9 @@ export class MypageRoot extends React.Component<Props, State> {
                   ? styles.mainButton
                   : [styles.mainButton, styles.shadow]
               }
+              onPress={() => {
+                this.props.navigation.navigate('TodayPghd');
+              }}
             >
               <Text style={styles.todayRecord}>오늘 기록하기</Text>
             </Button>

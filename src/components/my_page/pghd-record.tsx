@@ -41,7 +41,7 @@ export class PghdRecord extends React.Component {
             ]}
           >
             <Image
-              source={require('../../../PGHD-RECORD-SELECT-ICON.png')}
+              source={require('./PGHD-RECORD-SELECT-ICON.png')}
               style={{ resizeMode: 'contain', height: '45%' }}
             />
           </Button>
