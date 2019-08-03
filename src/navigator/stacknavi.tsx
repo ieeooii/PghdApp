@@ -10,7 +10,7 @@ const appNavigator = createStackNavigator({
   Home: {
     screen: Main,
     navigationOptions: () => ({
-      // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
+      header: null,
     }),
   },
   ProfileRoot: {
@@ -34,7 +34,7 @@ const appNavigator = createStackNavigator({
   MypageRoot: {
     screen: MypageRoot,
     navigationOptions: () => ({
-      // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
+      header: null,
     }),
   },
   MyProfile: {

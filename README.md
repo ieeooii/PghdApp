@@ -15,3 +15,5 @@ if `adb error`: `brew cask install android-platform-tools`
    3-2 `npm start` => `npm run android` or `react-native run-android`
    3-2 `error - Execution failed for task ':app:validateSigningDebug'.`: [https://github.com/facebook/react-native/issues/25629] => @bondehagen url click => debug.keystore file move in android/app
 4. `npm run tsc`: typescript compile 확인.(type error 확인 가능)
+5. 처음 pull 또는 clone 받았을때 실행 순서 \* => `react-native link` => `cd ios` => `pod install`=>    `cd ..` => `react-native run-ios`
+   (이 순서대로 안하고 react-native run-ios를 가장 먼저 실행하고 에러가 나면, ios/build 폴더 삭제하고 다시실행하기)

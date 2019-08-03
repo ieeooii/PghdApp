@@ -21,7 +21,9 @@ export class ProfileBody extends React.Component<Props, State> {
   }
 
   setDate(newDate: any) {
-    this.setState({ chosenDate: newDate });
+    this.setState({
+      chosenDate: newDate,
+    });
   }
 
   onValueChange(value: string) {
@@ -33,8 +35,8 @@ export class ProfileBody extends React.Component<Props, State> {
   render() {
     this.onValueChange = this.onValueChange.bind(this);
     this.setDate = this.setDate.bind(this);
-    // const birthDay = this.state.chosenDate.toString().substr(4, 12);
     // 생년월일 뽑아내는 코드
+    // const birthDay = this.state.chosenDate.toString().substr(4, 12);
 
     return (
       <Form>

@@ -33,7 +33,11 @@ export class ProfileRoot extends React.Component<Props, State> {
               onPress={() => {
                 this.props.navigation.navigate('MypageRoot');
               }}
-              style={[profileRootStyles.button, profileRootStyles.saveBtnColor]}
+              style={[
+                profileRootStyles.button,
+                profileRootStyles.saveBtnColor,
+                profileRootStyles.androidShadow,
+              ]}
             >
               <Text style={profileRootStyles.saveBtnText}>저장</Text>
             </Button>
@@ -43,7 +47,11 @@ export class ProfileRoot extends React.Component<Props, State> {
               onPress={() => {
                 this.props.navigation.navigate('MypageRoot');
               }}
-              style={[profileRootStyles.button, profileRootStyles.skipBtnColor]}
+              style={[
+                profileRootStyles.button,
+                profileRootStyles.skipBtnColor,
+                profileRootStyles.androidShadow,
+              ]}
             >
               <Text style={profileRootStyles.skipBtnText}>SKIP</Text>
             </Button>
