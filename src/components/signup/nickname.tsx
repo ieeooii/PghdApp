@@ -5,6 +5,9 @@ import { nicknameStyles } from '../style';
 export interface Props {
   changeSignupState: any;
   inputCheck: any;
+  isBtnAble: any;
+  isBtnDisAble: any;
+  rootState: any;
 }
 export interface State {
   nickname: string;
@@ -24,6 +27,8 @@ export class Nickname extends React.Component<Props, State> {
     const regCheckNickname = /^[A-Za-z0-9|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{1,12}$/;
 
     if (this.state.nickname.length !== 0 && this.state.nickname.length > 12) {
+      this.props.inputCheck('nicknameCheck', false);
+      this.props.isBtnDisAble();
       return this.props.inputCheck(
         'nicknameCheck',
         false,
@@ -36,6 +41,8 @@ export class Nickname extends React.Component<Props, State> {
       this.state.nickname.length !== 0 &&
       !regCheckNickname.test(this.state.nickname)
     ) {
+      this.props.inputCheck('nicknameCheck', false);
+      this.props.isBtnDisAble();
       return this.props.inputCheck(
         'nicknameCheck',
         false,
@@ -44,12 +51,21 @@ export class Nickname extends React.Component<Props, State> {
         </Text>,
       );
     }
-    if (this.state.nickname.length !== 0) {
+    if (
+      this.state.nickname.length !== 0 &&
+      this.props.rootState.nickname.length !== 0
+    ) {
+      this.props.inputCheck('nicknameCheck', true);
+      this.props.isBtnAble();
       return this.props.inputCheck('nicknameCheck', true, <Text></Text>);
     }
+    this.props.inputCheck('nicknameCheck', false);
+    this.props.isBtnDisAble();
+    return <Text></Text>;
   }
 
   render() {
+    console.log('nickname.tsx 렌더');
     return (
       <Form style={nicknameStyles.form}>
         <Item>

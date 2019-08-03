@@ -122,9 +122,6 @@ export const signupStyles = StyleSheet.create({
       },
     }),
   },
-  buttonText: {
-    color: 'white',
-  },
   shadow: {
     ...Platform.select({
       ios: {

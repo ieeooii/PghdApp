@@ -10,6 +10,9 @@ export interface Props {
   termsAgree: any;
   termsDisAgree: any;
   eachCheckColor: any;
+  isBtnAble: any;
+  isBtnDisAble: any;
+  rootState: any;
 }
 export interface State {}
 
@@ -24,16 +27,18 @@ export class TermsCardItem extends React.Component<Props, State> {
   }
   render() {
     console.log('terms_carditem.tsx 렌더');
-    console.log('root State', this.props.rootState);
+    // console.log('root State', this.props.rootState);
     return (
       <CardItem>
         <Icon
           onPress={() => {
             if (colorFlag === 0) {
               this.props.termsAgree();
+              this.props.isBtnAble();
               colorFlag = 1;
             } else {
               this.props.termsDisAgree();
+              this.props.isBtnDisAble();
               colorFlag = 0;
             }
           }}

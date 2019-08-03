@@ -5,6 +5,9 @@ import { TermsCardItem } from './terms_carditem';
 
 export interface Props {
   termsCheck: any;
+  isBtnAble: any;
+  isBtnDisAble: any;
+  rootState: any;
 }
 export interface State {
   checkAllColor: string;
@@ -14,6 +17,7 @@ export interface State {
 }
 
 let colorFlag = 0;
+let colorFlag2 = 1;
 
 export class Terms extends React.Component<Props, State> {
   public props: any;
@@ -53,8 +57,34 @@ export class Terms extends React.Component<Props, State> {
 
   render() {
     this.changeColor = this.changeColor.bind(this);
-    // console.log('terms.tsx 렌더');
+    console.log('terms.tsx 렌더');
+    console.log('colorFlag2==>', colorFlag2);
     // console.log('root State', this.props.rootState);
+    if (
+      this.state.terms1Color === 'green' &&
+      this.state.terms2Color === 'green' &&
+      this.state.terms3Color === 'green' &&
+      colorFlag === 0
+    ) {
+      this.props.termsCheck('all', true);
+      this.changeColor('all', 'green');
+      colorFlag = 1;
+      colorFlag2 = 0;
+    } else if (
+      !(
+        this.state.terms1Color === 'green' &&
+        this.state.terms2Color === 'green' &&
+        this.state.terms3Color === 'green'
+      ) &&
+      colorFlag2 === 0
+    ) {
+      console.log('들어오나');
+      colorFlag2 = 1;
+      colorFlag = 0;
+      this.setState({
+        checkAllColor: 'black',
+      });
+    }
 
     return (
       <Form style={termsStyles.form}>
@@ -66,11 +96,15 @@ export class Terms extends React.Component<Props, State> {
                   if (colorFlag === 0) {
                     this.changeColor('all', 'green');
                     this.props.termsCheck('all', true);
+                    this.props.isBtnAble();
                     colorFlag = 1;
+                    colorFlag2 = 0;
                   } else {
                     this.changeColor('all', 'black');
                     this.props.termsCheck('all', false);
+                    this.props.isBtnDisAble();
                     colorFlag = 0;
+                    colorFlag2 = 1;
                   }
                 }}
                 name='checkmark-circle-outline'
@@ -88,6 +122,8 @@ export class Terms extends React.Component<Props, State> {
             eachCheckBtn={termsStyles.checkBtn1}
             eachArrowBtn={termsStyles.arrowBtn1}
             eachCheckColor={this.state.terms1Color}
+            isBtnAble={this.props.isBtnAble}
+            isBtnDisAble={this.props.isBtnDisAble}
             termsAgree={() => {
               this.changeColor('terms1', 'green');
               this.props.termsCheck('agreementService', true);
@@ -104,6 +140,8 @@ export class Terms extends React.Component<Props, State> {
             eachCheckBtn={termsStyles.checkBtn2}
             eachArrowBtn={termsStyles.arrowBtn2}
             eachCheckColor={this.state.terms2Color}
+            isBtnAble={this.props.isBtnAble}
+            isBtnDisAble={this.props.isBtnDisAble}
             termsAgree={() => {
               this.changeColor('terms2', 'green');
               this.props.termsCheck('agreementPrivate', true);
@@ -120,6 +158,8 @@ export class Terms extends React.Component<Props, State> {
             eachCheckBtn={termsStyles.checkBtn3}
             eachArrowBtn={termsStyles.arrowBtn3}
             eachCheckColor={this.state.terms3Color}
+            isBtnAble={this.props.isBtnAble}
+            isBtnDisAble={this.props.isBtnDisAble}
             termsAgree={() => {
               this.changeColor('terms3', 'green');
               this.props.termsCheck('agreementMarketing', true);

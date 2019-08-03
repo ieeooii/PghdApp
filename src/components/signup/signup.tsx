@@ -1,6 +1,6 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
-import { signupStyles, termsStyles } from '../style';
+import { signupStyles } from '../style';
 import { Email } from './email';
 import { Nickname } from './nickname';
 import { Password } from './password';
@@ -11,8 +11,11 @@ export interface Props {
 }
 export interface State {
   email: any;
+  emailCheck: Boolean;
   password: string;
+  passwordCheck: Boolean;
   nickname: string;
+  nicknameCheck: Boolean;
   relationship: string;
   birthDate: string;
   agreementService: Boolean;
@@ -21,6 +24,8 @@ export interface State {
   agreementPrivateAt: string;
   agreementMarketing: Boolean;
   agreementMarketingAt: string;
+  btnDisabled: Boolean;
+  btnColor: string;
   [key: string]: any;
 }
 
@@ -43,6 +48,8 @@ export class Signup extends React.Component<Props, State> {
       agreementPrivateAt: 'Unknown Type: date',
       agreementMarketing: false,
       agreementMarketingAt: 'Unknown Type: date',
+      btnDisabled: true,
+      btnColor: 'grey',
     };
   }
 
@@ -95,50 +102,133 @@ export class Signup extends React.Component<Props, State> {
     }
   }
 
+  // 버튼 활성화 위한 6개의 조건 만족여부 확인
+  isBtnAble() {
+    if (
+      this.state.emailCheck &&
+      this.state.passwordCheck &&
+      this.state.nicknameCheck &&
+      this.state.agreementService &&
+      this.state.agreementPrivate
+    ) {
+      this.setState({
+        btnDisabled: false,
+        btnColor: 'white',
+      });
+    }
+  }
+
+  isBtnDisAble() {
+    this.setState({
+      btnDisabled: true,
+      btnColor: 'grey',
+    });
+  }
+
   render() {
     this.changeSignupState = this.changeSignupState.bind(this);
     this.signupComplete = this.signupComplete.bind(this);
     this.inputCheck = this.inputCheck.bind(this);
     this.termsCheck = this.termsCheck.bind(this);
-    // console.log(termsStyles.allAgreeIcon);
-    // console.log('signup.tsx 렌더');
+    this.isBtnAble = this.isBtnAble.bind(this);
+    this.isBtnDisAble = this.isBtnDisAble.bind(this);
+    console.log('signup.tsx 렌더');
 
+    if (this.state.btnDisabled === true) {
+      return (
+        <Container>
+          <Form style={signupStyles.infoContent}>
+            <Email
+              changeSignupState={this.changeSignupState}
+              inputCheck={this.inputCheck}
+              isBtnAble={this.isBtnAble}
+              isBtnDisAble={() => {}}
+              rootState={this.state} // state 변화 확인용
+            />
+            <Password
+              changeSignupState={this.changeSignupState}
+              inputCheck={this.inputCheck}
+              isBtnAble={this.isBtnAble}
+              isBtnDisAble={() => {}}
+              rootState={this.state} // state 변화 확인용
+            />
+            <Nickname
+              changeSignupState={this.changeSignupState}
+              inputCheck={this.inputCheck}
+              isBtnAble={this.isBtnAble}
+              isBtnDisAble={() => {}}
+              rootState={this.state} // state 변화 확인용
+            />
+          </Form>
+          <Form style={signupStyles.termsContent}>
+            <Terms
+              termsCheck={this.termsCheck}
+              isBtnAble={this.isBtnAble}
+              isBtnDisAble={() => {}}
+              rootState={this.state} // state 변화 확인용
+            />
+          </Form>
+          <Form style={signupStyles.shadow}>
+            <Button
+              disabled={this.state.btnDisabled}
+              onPress={() => {
+                this.props.navigation.navigate('ProfileRoot');
+              }}
+              style={[signupStyles.button, signupStyles.androidShadow]}
+            >
+              <Text style={{ color: this.state.btnColor }}>완료</Text>
+            </Button>
+            {/* 완료 버튼 클릭 -> response message -> 'conflict'(이미 가입된 메일)
+            이메일 주소는 다르지만 닉네임이 같은경우의 response message -> "Validation error"  */}
+          </Form>
+        </Container>
+      );
+    }
     return (
       <Container>
         <Form style={signupStyles.infoContent}>
           <Email
             changeSignupState={this.changeSignupState}
             inputCheck={this.inputCheck}
+            isBtnAble={() => {}}
+            isBtnDisAble={this.isBtnDisAble}
             rootState={this.state} // state 변화 확인용
           />
           <Password
             changeSignupState={this.changeSignupState}
             inputCheck={this.inputCheck}
+            isBtnAble={() => {}}
+            isBtnDisAble={this.isBtnDisAble}
             rootState={this.state} // state 변화 확인용
           />
           <Nickname
             changeSignupState={this.changeSignupState}
             inputCheck={this.inputCheck}
+            isBtnAble={() => {}}
+            isBtnDisAble={this.isBtnDisAble}
             rootState={this.state} // state 변화 확인용
           />
         </Form>
         <Form style={signupStyles.termsContent}>
           <Terms
             termsCheck={this.termsCheck}
+            isBtnAble={() => {}}
+            isBtnDisAble={this.isBtnDisAble}
             rootState={this.state} // state 변화 확인용
           />
         </Form>
         <Form style={signupStyles.shadow}>
           <Button
+            disabled={this.state.btnDisabled}
             onPress={() => {
               this.props.navigation.navigate('ProfileRoot');
             }}
             style={[signupStyles.button, signupStyles.androidShadow]}
           >
-            <Text style={signupStyles.buttonText}>완료</Text>
+            <Text style={{ color: this.state.btnColor }}>완료</Text>
           </Button>
-          {/* 완료 버튼 클릭시 response의 message가 'conflict'라면 이미 가입된 메일임
-          이메일 주소는 다르지만 이름이 같은경우 "message": "Validation error" 가 날아옴 */}
+          {/* 완료 버튼 클릭 -> response message -> 'conflict'(이미 가입된 메일)
+            이메일 주소는 다르지만 닉네임이 같은경우의 response message -> "Validation error"  */}
         </Form>
       </Container>
     );

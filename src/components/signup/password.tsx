@@ -5,6 +5,9 @@ import { passwordStyles } from '../style';
 export interface Props {
   changeSignupState: any;
   inputCheck: any;
+  isBtnAble: any;
+  isBtnDisAble: any;
+  rootState: any;
 }
 export interface State {
   password: string;
@@ -38,6 +41,8 @@ export class Password extends React.Component<Props, State> {
     const regCheckPwd2 = /\d/.test(this.state.password); // 적어도 한개의 0-9 확인
 
     if (this.state.password.length !== 0 && this.state.password.length < 8) {
+      this.props.inputCheck('passwordCheck', false);
+      this.props.isBtnDisAble();
       return this.props.inputCheck(
         'passwordCheck',
         false,
@@ -45,6 +50,8 @@ export class Password extends React.Component<Props, State> {
       );
     }
     if (this.state.password.length !== 0 && !(regCheckPwd1 && regCheckPwd2)) {
+      this.props.inputCheck('passwordCheck', false);
+      this.props.isBtnDisAble();
       return this.props.inputCheck(
         'passwordCheck',
         false,
@@ -54,6 +61,8 @@ export class Password extends React.Component<Props, State> {
       );
     }
     if (this.state.password.length !== 0) {
+      this.props.inputCheck('passwordCheck', true);
+      this.props.isBtnAble();
       return this.props.inputCheck('passwordCheck', true, <Text></Text>);
     }
   }
@@ -61,6 +70,7 @@ export class Password extends React.Component<Props, State> {
   render() {
     this.iconChange = this.iconChange.bind(this);
     this.pwdCheck = this.pwdCheck.bind(this);
+    console.log('password.tsx 렌더');
 
     return (
       <Form style={passwordStyles.form}>

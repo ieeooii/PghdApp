@@ -5,6 +5,9 @@ import { emailStyles } from '../style';
 export interface Props {
   changeSignupState: any;
   inputCheck: any;
+  isBtnAble: any;
+  isBtnDisAble: any;
+  rootState: any;
 }
 export interface State {
   email: string;
@@ -25,9 +28,13 @@ export class Email extends React.Component<Props, State> {
       this.state.email,
     );
     if (regCheckEmail) {
+      this.props.inputCheck('emailCheck', true);
+      this.props.isBtnAble();
       return this.props.inputCheck('emailCheck', true, <Text></Text>);
     }
     if (this.state.email.length !== 0) {
+      this.props.inputCheck('emailCheck', false);
+      this.props.isBtnDisAble();
       return this.props.inputCheck(
         'emailCheck',
         false,
@@ -40,6 +47,7 @@ export class Email extends React.Component<Props, State> {
 
   render() {
     this.emailCheck = this.emailCheck.bind(this);
+    console.log('email.tsx 렌더');
     // console.log('===Root===', this.props.rootState);
 
     return (
