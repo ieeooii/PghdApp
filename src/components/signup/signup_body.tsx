@@ -18,7 +18,7 @@ export interface State {}
 
 export class SignupBody extends React.Component<Props, State> {
   render() {
-    console.log('signup_body.tsx 렌더');
+    // console.log('signup_body.tsx 렌더');
 
     return (
       <>

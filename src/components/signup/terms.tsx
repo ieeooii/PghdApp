@@ -57,7 +57,7 @@ export class Terms extends React.Component<Props, State> {
 
   render() {
     this.changeColor = this.changeColor.bind(this);
-    console.log('terms.tsx 렌더');
+    // console.log('terms.tsx 렌더');
 
     if (
       this.state.terms1Color === 'green' &&
@@ -77,7 +77,6 @@ export class Terms extends React.Component<Props, State> {
       ) &&
       colorFlag2 === 0
     ) {
-      console.log('들어오나');
       colorFlag2 = 1;
       colorFlag = 0;
       this.setState({

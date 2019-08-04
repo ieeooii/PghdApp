@@ -73,7 +73,7 @@ export class Password extends React.Component<Props, State> {
   render() {
     this.iconChange = this.iconChange.bind(this);
     this.pwdCheck = this.pwdCheck.bind(this);
-    console.log('password.tsx 렌더');
+    // console.log('password.tsx 렌더');
 
     return (
       <Form style={passwordStyles.form}>

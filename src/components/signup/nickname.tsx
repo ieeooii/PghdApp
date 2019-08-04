@@ -65,7 +65,7 @@ export class Nickname extends React.Component<Props, State> {
   }
 
   render() {
-    console.log('nickname.tsx 렌더');
+    // console.log('nickname.tsx 렌더');
 
     return (
       <Form style={nicknameStyles.form}>

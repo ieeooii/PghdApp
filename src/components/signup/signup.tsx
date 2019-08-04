@@ -130,7 +130,7 @@ export class Signup extends React.Component<Props, State> {
     this.termsCheck = this.termsCheck.bind(this);
     this.isBtnAble = this.isBtnAble.bind(this);
     this.isBtnDisAble = this.isBtnDisAble.bind(this);
-    console.log('signup.tsx 렌더');
+    // console.log('signup.tsx 렌더');
 
     return (
       // 완료버튼이 비활성화 상태인 경우 -> 자식 컴포넌트에서 isBtnDisAble함수 작동 안됨
