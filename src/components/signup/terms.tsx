@@ -1,7 +1,7 @@
 import { Body, Card, CardItem, Form, Icon, Text } from 'native-base';
 import * as React from 'react';
 import { termsStyles } from '../style';
-import { TermsCardItem } from './terms_carditem';
+import { TermsCardItem } from './terms-carditem';
 
 export interface Props {
   termsCheck: any;

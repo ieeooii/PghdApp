@@ -75,9 +75,9 @@ export class ProfileBody extends React.Component<Props, State> {
           <Form>
             <Text>질환관계</Text>
           </Form>
-          <Form style={profileBodyStyles.LastPickerForm}>
+          <Form style={profileBodyStyles.relationPickerForm}>
             <Picker
-              style={profileBodyStyles.LastPicker}
+              style={profileBodyStyles.relationPicker}
               mode='dropdown'
               placeholder='클릭하세요'
               iosIcon={<Icon name='arrow-down' />}

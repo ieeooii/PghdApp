@@ -469,7 +469,7 @@ export const profileBodyStyles = StyleSheet.create({
       },
     }),
   },
-  LastPickerForm: {
+  relationPickerForm: {
     marginTop: -17,
     ...Platform.select({
       ios: {
@@ -480,7 +480,7 @@ export const profileBodyStyles = StyleSheet.create({
       },
     }),
   },
-  LastPicker: {
+  relationPicker: {
     // width를 안주면 android에서 클릭 불가능
     width: 130,
   },

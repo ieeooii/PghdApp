@@ -1,8 +1,8 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { profileRootStyles, termsStyles } from '../style';
-import { ProfileBody } from './profilebody';
-import { ProfileGender } from './profilegender';
+import { ProfileBody } from './profile-body';
+import { ProfileGender } from './profile-gender';
 
 export interface Props {
   navigation: any;

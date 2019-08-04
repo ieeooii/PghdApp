@@ -1,7 +1,7 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { signupStyles } from '../style';
-import { SignupBody } from './signup_body';
+import { SignupBody } from './signup-body';
 
 export interface Props {
   navigation: any;

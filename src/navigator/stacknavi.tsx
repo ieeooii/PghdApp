@@ -4,7 +4,7 @@ import { MypageRoot } from '../components/mypage/mypage-root';
 import { MyProfile } from '../components/myprofile/myprofile-root';
 import { SignIn } from '../components/signin/signin-root';
 import { ProfileRoot } from '../components/signup/profile-root';
-import { Signup } from '../components/signup/signup';
+import { Signup } from '../components/signup/sign-up';
 
 const appNavigator = createStackNavigator({
   Home: {
