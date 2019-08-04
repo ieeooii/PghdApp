@@ -1,6 +1,6 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
-import { profileRootStyles, userinfoStyles } from '../style';
+import { signupStyles } from '../style';
 import { Email } from './email';
 import { Nickname } from './nickname';
 import { Password } from './password';
@@ -18,22 +18,22 @@ export class Signup extends React.Component<Props, State> {
   render() {
     return (
       <Container>
-        <Form style={userinfoStyles.infoContent}>
+        <Form style={signupStyles.infoContent}>
           <Email />
           <Password />
           <Nickname />
         </Form>
-        <Form style={userinfoStyles.termsContent}>
+        <Form style={signupStyles.termsContent}>
           <Terms />
         </Form>
-        <Form style={profileRootStyles.shadow}>
+        <Form style={signupStyles.shadow}>
           <Button
             onPress={() => {
               this.props.navigation.navigate('ProfileRoot');
             }}
-            style={profileRootStyles.button}
+            style={signupStyles.button}
           >
-            <Text style={profileRootStyles.buttonText}>완료</Text>
+            <Text>완료</Text>
           </Button>
         </Form>
       </Container>

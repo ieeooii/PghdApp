@@ -74,18 +74,18 @@ export const modifyPhoto = StyleSheet.create({
   },
 });
 
-// userinfo STYLE
+// signup STYLE
 const buttonColorIos: string = '#5800ff';
 const buttonColorAndroid: string = '#5800ff';
 
-export const userinfoStyles = StyleSheet.create({
+export const signupStyles = StyleSheet.create({
   infoContent: {
     flex: 1,
     justifyContent: 'space-evenly',
     ...Platform.select({
       ios: {
-        marginTop: 50,
-        marginBottom: 40,
+        marginTop: 20,
+        marginBottom: 10,
       },
       android: { marginTop: 20, marginBottom: 50 },
     }),
@@ -93,11 +93,54 @@ export const userinfoStyles = StyleSheet.create({
   termsContent: {
     ...Platform.select({
       ios: {
-        bottom: 80,
+        bottom: 30,
         marginBottom: 100,
       },
       android: {
+        bottom: 70,
+      },
+    }),
+  },
+  button: {
+    marginLeft: 38,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    overflow: 'hidden',
+    width: '80%',
+    ...Platform.select({
+      ios: {
+        borderColor: buttonColorIos,
+        backgroundColor: buttonColorIos,
+        borderRadius: 50,
         bottom: 100,
+      },
+      android: {
+        borderColor: buttonColorAndroid,
+        backgroundColor: buttonColorAndroid,
+        bottom: 40,
+        right: 1,
+      },
+    }),
+  },
+  shadow: {
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 3,
+      },
+    }),
+  },
+  androidShadow: {
+    ...Platform.select({
+      android: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 3,
       },
     }),
   },
@@ -200,6 +243,9 @@ export const profileRootStyles = StyleSheet.create({
     }),
   },
   formTxt: { fontSize: 30 },
+  titleGenderForm: {
+    marginTop: -10,
+  },
   genderForm: {
     ...Platform.select({
       ios: {
@@ -210,12 +256,23 @@ export const profileRootStyles = StyleSheet.create({
       },
     }),
   },
+  btnForm: {
+    ...Platform.select({
+      ios: {
+        top: 170,
+      },
+      android: {
+        top: 50,
+      },
+    }),
+  },
   button: {
     flexDirection: 'row',
     justifyContent: 'center',
     overflow: 'hidden',
     width: '80%',
     marginLeft: 38,
+    marginBottom: 15,
     ...Platform.select({
       ios: {
         borderColor: buttonColorIos,
@@ -248,6 +305,16 @@ export const profileRootStyles = StyleSheet.create({
       },
     }),
   },
+  btnForm: {
+    ...Platform.select({
+      ios: {
+        top: 170,
+      },
+      android: {
+        top: 50,
+      },
+    }),
+  },
   saveBtnColor: {
     backgroundColor: saveBtnColor,
   },
@@ -261,11 +328,26 @@ export const profileRootStyles = StyleSheet.create({
     color: skipBtnTextColor,
   },
   shadow: {
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 3,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 3,
+      },
+    }),
+  },
+  androidShadow: {
+    ...Platform.select({
+      android: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 3,
+      },
+    }),
   },
 });
 // email STYLE
@@ -289,6 +371,7 @@ export const passwordStyles = StyleSheet.create({
     marginLeft: 20,
   },
 });
+
 // terms STYLE
 export const termsStyles = StyleSheet.create({
   form: {
@@ -308,7 +391,6 @@ export const termsStyles = StyleSheet.create({
       ios: {},
     }),
   },
-  cardItem: {},
   cardItemBody: {
     alignItems: 'center',
   },
@@ -329,10 +411,9 @@ export const termsStyles = StyleSheet.create({
     left: 36,
   },
   arrowBtn3: {
-    left: 40,
+    left: 38,
   },
   checkBtn: {
-    color: 'green',
     ...Platform.select({
       ios: {
         fontSize: 40,
@@ -343,7 +424,7 @@ export const termsStyles = StyleSheet.create({
     }),
   },
   checkBtn1: {
-    right: 35,
+    right: 37,
   },
   checkBtn2: {
     right: 20,
@@ -351,12 +432,7 @@ export const termsStyles = StyleSheet.create({
   checkBtn3: {
     right: 20,
   },
-  allAgree: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-  },
   allAgreeIcon: {
-    color: 'green',
     ...Platform.select({
       ios: {
         fontWeight: 'bold',
@@ -367,21 +443,12 @@ export const termsStyles = StyleSheet.create({
       },
     }),
   },
+  allAgree: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
   allAgreeTxt: {
     right: 20,
-  },
-  titleGenderForm: {
-    marginTop: -10,
-  },
-  btnForm: {
-    ...Platform.select({
-      ios: {
-        top: 170,
-      },
-      android: {
-        top: 50,
-      },
-    }),
   },
 });
 // profilebody STYLE
@@ -412,18 +479,19 @@ export const profileBodyStyles = StyleSheet.create({
       },
     }),
   },
-  LastPickerForm: {
+  relationPickerForm: {
+    color: 'blue',
     marginTop: -17,
     ...Platform.select({
       ios: {
-        marginRight: 16,
+        marginRight: 0,
       },
       android: {
         marginRight: 1,
       },
     }),
   },
-  LastPicker: {
+  relationPicker: {
     // width를 안주면 android에서 클릭 불가능
     width: 130,
   },
