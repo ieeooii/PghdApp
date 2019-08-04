@@ -1,4 +1,4 @@
-import { Form, Input, Item, Label, Text } from 'native-base';
+import { Form, Input, Item, Text } from 'native-base';
 import * as React from 'react';
 import { nicknameStyles } from '../style';
 

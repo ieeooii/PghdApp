@@ -305,16 +305,7 @@ export const profileRootStyles = StyleSheet.create({
       },
     }),
   },
-  btnForm: {
-    ...Platform.select({
-      ios: {
-        top: 170,
-      },
-      android: {
-        top: 50,
-      },
-    }),
-  },
+
   saveBtnColor: {
     backgroundColor: saveBtnColor,
   },
