@@ -48,7 +48,6 @@ export class Email extends React.Component<Props, State> {
   render() {
     this.emailCheck = this.emailCheck.bind(this);
     console.log('email.tsx 렌더');
-    // console.log('===Root===', this.props.rootState);
 
     return (
       <Form style={emailStyles.form}>

@@ -27,7 +27,7 @@ export class TermsCardItem extends React.Component<Props, State> {
   }
   render() {
     console.log('terms_carditem.tsx 렌더');
-    // console.log('root State', this.props.rootState);
+
     return (
       <CardItem>
         <Icon

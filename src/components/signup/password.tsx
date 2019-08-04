@@ -65,6 +65,9 @@ export class Password extends React.Component<Props, State> {
       this.props.isBtnAble();
       return this.props.inputCheck('passwordCheck', true, <Text></Text>);
     }
+    this.props.inputCheck('passwordCheck', false);
+    this.props.isBtnDisAble();
+    return <Text></Text>;
   }
 
   render() {

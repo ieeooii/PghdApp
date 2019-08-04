@@ -58,8 +58,7 @@ export class Terms extends React.Component<Props, State> {
   render() {
     this.changeColor = this.changeColor.bind(this);
     console.log('terms.tsx 렌더');
-    console.log('colorFlag2==>', colorFlag2);
-    // console.log('root State', this.props.rootState);
+
     if (
       this.state.terms1Color === 'green' &&
       this.state.terms2Color === 'green' &&
