@@ -8,10 +8,15 @@ export interface Props {
   isBtnAble: any;
   isBtnDisAble: any;
   rootState: any;
+  changeFocus: any;
 }
 export interface State {
   email: string;
+  borderColor: string;
+  placeholderTextColor: string;
 }
+
+let focusFlag = 0;
 
 export class Email extends React.Component<Props, State> {
   public state: State;
@@ -20,6 +25,8 @@ export class Email extends React.Component<Props, State> {
     super(props);
     this.state = {
       email: '',
+      borderColor: '#D2D2D2',
+      placeholderTextColor: '#717372',
     };
   }
 
@@ -48,16 +55,33 @@ export class Email extends React.Component<Props, State> {
   render() {
     this.emailCheck = this.emailCheck.bind(this);
     // console.log('email.tsx 렌더');
+    if (!this.props.rootState.emailFocus && focusFlag === 1) {
+      this.state.borderColor = '#D2D2D2';
+      this.state.placeholderTextColor = '#717372';
+      this.props.changeFocus('emailFocus', false);
+      focusFlag = 0;
+    }
 
     return (
       <Form style={emailStyles.form}>
-        <Item>
+        <Item style={{ borderColor: this.state.borderColor }}>
           <Input
+            onFocus={() => {
+              this.props.changeFocus('emailFocus', true);
+              this.props.changeFocus('passwordFocus', false);
+              this.props.changeFocus('nicknameFocus', false);
+              this.setState({
+                borderColor: 'blue',
+                placeholderTextColor: 'blue',
+              });
+              focusFlag = 1;
+            }}
             onChangeText={text => {
               this.setState({ email: text });
               this.props.changeSignupState('email', text);
             }}
             placeholder='이메일 주소'
+            placeholderTextColor={this.state.placeholderTextColor}
           />
         </Item>
         {this.emailCheck()}

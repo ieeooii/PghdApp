@@ -13,6 +13,7 @@ export interface Props {
   isBtnDisAble: any;
   rootState: any;
   termsCheck: any;
+  changeFocus: any;
 }
 export interface State {}
 
@@ -29,6 +30,7 @@ export class SignupBody extends React.Component<Props, State> {
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
             rootState={this.props.rootState} // state 변화 확인용
+            changeFocus={this.props.changeFocus}
           />
           <Password
             changeSignupState={this.props.changeSignupState}
@@ -36,6 +38,7 @@ export class SignupBody extends React.Component<Props, State> {
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
             rootState={this.props.rootState} // state 변화 확인용
+            changeFocus={this.props.changeFocus}
           />
           <Nickname
             changeSignupState={this.props.changeSignupState}
@@ -43,6 +46,7 @@ export class SignupBody extends React.Component<Props, State> {
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
             rootState={this.props.rootState} // state 변화 확인용
+            changeFocus={this.props.changeFocus}
           />
         </Form>
         <Form style={signupStyles.termsContent}>

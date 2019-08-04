@@ -8,11 +8,16 @@ export interface Props {
   isBtnAble: any;
   isBtnDisAble: any;
   rootState: any;
+  changeFocus: any;
 }
 export interface State {
   password: string;
   secureTextEntry: Boolean;
+  borderColor: string;
+  placeholderTextColor: string;
 }
+
+let focusFlag = 0;
 
 export class Password extends React.Component<Props, State> {
   public state: State;
@@ -22,6 +27,8 @@ export class Password extends React.Component<Props, State> {
     this.state = {
       password: '',
       secureTextEntry: true,
+      borderColor: '#D2D2D2',
+      placeholderTextColor: '#717372',
     };
   }
 
@@ -75,10 +82,27 @@ export class Password extends React.Component<Props, State> {
     this.pwdCheck = this.pwdCheck.bind(this);
     // console.log('password.tsx 렌더');
 
+    if (!this.props.rootState.passwordFocus && focusFlag === 1) {
+      this.state.borderColor = '#D2D2D2';
+      this.state.placeholderTextColor = '#717372';
+      this.props.changeFocus('passwordFocus', false);
+      focusFlag = 0;
+    }
+
     return (
       <Form style={passwordStyles.form}>
-        <Item>
+        <Item style={{ borderColor: this.state.borderColor }}>
           <Input
+            onFocus={() => {
+              this.props.changeFocus('emailFocus', false);
+              this.props.changeFocus('passwordFocus', true);
+              this.props.changeFocus('nicknameFocus', false);
+              this.setState({
+                borderColor: 'blue',
+                placeholderTextColor: 'blue',
+              });
+              focusFlag = 1;
+            }}
             onChangeText={text => {
               this.setState({
                 password: text,
@@ -86,6 +110,7 @@ export class Password extends React.Component<Props, State> {
               this.props.changeSignupState('password', text);
             }}
             placeholder='비밀번호'
+            placeholderTextColor={this.state.placeholderTextColor}
             secureTextEntry={this.state.secureTextEntry}
           />
           {this.state.secureTextEntry === true

@@ -60,3 +60,9 @@ buck-out/
 
 # jest
 .jest/
+
+# ios
+ios
+
+# android
+android

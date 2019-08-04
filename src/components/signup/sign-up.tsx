@@ -23,6 +23,9 @@ export interface State {
   agreementMarketingAt: string;
   btnDisabled: Boolean;
   btnColor: string;
+  emailFocus: Boolean;
+  passwordFocus: Boolean;
+  nicknameFocus: Boolean;
   [key: string]: any;
 }
 
@@ -47,11 +50,14 @@ export class Signup extends React.Component<Props, State> {
       agreementMarketingAt: 'Unknown Type: date',
       btnDisabled: true,
       btnColor: 'grey',
+      emailFocus: false,
+      passwordFocus: false,
+      nicknameFocus: false,
     };
   }
 
   // 완료버튼 클릭 -> fetch 통신
-  signupComplete() {
+  signupFetch() {
     return fetch('http://api-stage.humanscape.io:80/api/v1/users/join', {
       method: 'POST',
       headers: {
@@ -123,13 +129,20 @@ export class Signup extends React.Component<Props, State> {
     });
   }
 
+  // 현재 커서의 위치 확인 함수
+  changeFocus(focus: string, boolean: Boolean) {
+    this.state[focus] = boolean;
+    this.setState({});
+  }
+
   render() {
     this.changeSignupState = this.changeSignupState.bind(this);
-    this.signupComplete = this.signupComplete.bind(this);
+    this.signupFetch = this.signupFetch.bind(this);
     this.inputCheck = this.inputCheck.bind(this);
     this.termsCheck = this.termsCheck.bind(this);
     this.isBtnAble = this.isBtnAble.bind(this);
     this.isBtnDisAble = this.isBtnDisAble.bind(this);
+    this.changeFocus = this.changeFocus.bind(this);
     // console.log('signup.tsx 렌더');
 
     return (
@@ -145,6 +158,7 @@ export class Signup extends React.Component<Props, State> {
             isBtnDisAble={() => {}}
             rootState={this.state}
             termsCheck={this.termsCheck}
+            changeFocus={this.changeFocus}
           />
         ) : (
           <SignupBody
@@ -154,6 +168,7 @@ export class Signup extends React.Component<Props, State> {
             isBtnDisAble={this.isBtnDisAble}
             rootState={this.state}
             termsCheck={this.termsCheck}
+            changeFocus={this.changeFocus}
           />
         )}
         <Form style={signupStyles.shadow}>
