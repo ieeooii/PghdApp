@@ -243,6 +243,9 @@ export const profileRootStyles = StyleSheet.create({
     }),
   },
   formTxt: { fontSize: 30 },
+  titleGenderForm: {
+    marginTop: -10,
+  },
   genderForm: {
     ...Platform.select({
       ios: {
@@ -250,6 +253,16 @@ export const profileRootStyles = StyleSheet.create({
       },
       android: {
         bottom: 20,
+      },
+    }),
+  },
+  btnForm: {
+    ...Platform.select({
+      ios: {
+        top: 170,
+      },
+      android: {
+        top: 50,
       },
     }),
   },
@@ -292,6 +305,7 @@ export const profileRootStyles = StyleSheet.create({
       },
     }),
   },
+
   saveBtnColor: {
     backgroundColor: saveBtnColor,
   },

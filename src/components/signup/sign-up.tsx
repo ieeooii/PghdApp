@@ -33,6 +33,7 @@ export interface State {
 
 export class Signup extends React.Component<Props, State> {
   public state: State;
+  public props: any;
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -224,7 +225,14 @@ export class Signup extends React.Component<Props, State> {
                         // 로컬에 토큰 저장하고 다음 페이지로 넘기기
                         console.log(' 회원가입 성공 == ');
 
-                        this.props.navigation.navigate('ProfileRoot');
+                        this.props.navigation.navigate('ProfileRoot', {
+                          signupData: {
+                            email: this.state.email,
+                            password: this.state.password,
+                            nickname: this.state.nickname,
+                            id: json.user.id,
+                          },
+                        });
                         return;
                       }
                       if (json.message === 'Validation error') {
