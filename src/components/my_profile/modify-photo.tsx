@@ -12,10 +12,7 @@ export class ModifyPhoto extends React.Component<Props, State> {
     return (
       <Form style={modifyPhoto.userIconMoveCenter}>
         <AntDesign name='user' style={modifyPhoto.userIcon}></AntDesign>
-        <SimpleLineIcons
-          name='pencil'
-          style={modifyPhoto.penIconMoveRight}
-        ></SimpleLineIcons>
+        <SimpleLineIcons name='pencil' style={modifyPhoto.penIconMoveRight} />
       </Form>
     );
   }

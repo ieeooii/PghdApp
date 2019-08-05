@@ -1,6 +1,8 @@
 import * as React from 'react';
-import Appcontainer from './src/navigator/stacknavi.tsx';
+import Appcontainer from './build/navigator/stack-navi';
 
-export default App = () => (
-  <Appcontainer />
-);
+const App = () => {
+  return <Appcontainer />;
+};
+
+export default App;

@@ -704,3 +704,31 @@ export const pghdRecordStyles = StyleSheet.create({
     }),
   },
 });
+
+export const todayPghd = StyleSheet.create({
+  textInput: {
+    padding: 20,
+    paddingTop: 10,
+    fontSize: 18,
+    backgroundColor: 'white',
+    justifyContent: 'space-between',
+  },
+  upIoadButton: {
+    backgroundColor: 'white',
+    height: 36,
+    borderColor: 'white',
+    borderWidth: 1,
+    elevation: 0,
+  },
+  buttonTextColor: {
+    fontSize: 18,
+    ...Platform.select({
+      ios: {
+        color: 'dodgerblue',
+      },
+      android: {
+        color: 'black',
+      },
+    }),
+  },
+});
