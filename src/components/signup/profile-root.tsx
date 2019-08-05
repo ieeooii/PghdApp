@@ -11,17 +11,31 @@ export interface State {
   gender: string;
   birthDate: string;
   relationShip: string;
+  email: string;
+  password: string;
+  nickname: string;
+  clientId: string;
+  clientSecret: string;
+  id: string;
   [key: string]: any;
 }
 
 export class ProfileRoot extends React.Component<Props, State> {
   public state: State;
+  public props: any;
   constructor(props: any) {
     super(props);
     this.state = {
       gender: '',
       birthDate: '',
       relationShip: '환자',
+      email: this.props.navigation.state.params.signupData.email,
+      password: this.props.navigation.state.params.signupData.password,
+      nickname: this.props.navigation.state.params.signupData.nickname,
+      id: this.props.navigation.state.params.signupData.id,
+      clientId: '0b9fead3-889f-4885-840d-1572729f7d98',
+      clientSecret:
+        '6Ter8XpjqsVSFT98Os4n0KAWZddbBzL7jUrHaI7uCZs=$2a$10$iLeBxZCoVCf35NpP9gq9DO',
     };
   }
 
@@ -30,9 +44,27 @@ export class ProfileRoot extends React.Component<Props, State> {
     this.state[key] = value;
   }
 
+  login() {
+    return fetch(`http://api-stage.humanscape.io:80/api/v1/users/login/moah`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+        clientId: this.state.clientId,
+        clientSecret: this.state.clientSecret,
+      }),
+    });
+  }
+
   render() {
     this.changeState = this.changeState.bind(this);
-    console.log('profile-root.tsx 렌더');
+    this.login = this.login.bind(this);
+    // console.log('profile-root.tsx 렌더');
+    // console.log('profile-root.tsx PROPS ==> ', this.props);
+    // console.log('profile-root.tsx State ==> ', this.state);
 
     return (
       <Container>
@@ -57,7 +89,32 @@ export class ProfileRoot extends React.Component<Props, State> {
           <Form style={profileRootStyles.shadow}>
             <Button
               onPress={() => {
-                this.props.navigation.navigate('MypageRoot');
+                this.login()
+                  .then(response => {
+                    return response.json();
+                  })
+                  .then(json => {
+                    this.props.navigation.navigate('MypageRoot', {
+                      userData: {
+                        nickname: this.state.nickname,
+                        id: this.state.id,
+                        clientId: this.state.clientId,
+                        clientSecret: this.state.clientSecret,
+                        gender: this.state.gender,
+                        birthDate: this.state.birthDate,
+                        relationShip: this.state.relationShip,
+                      },
+                      loginData: {
+                        accessToken: json.accessToken,
+                        refreshToken: json.refreshToken,
+                        accessTokenExpiresAt: json.accessTokenExpiresAt,
+                        refreshTokenExpiresAt: json.refreshTokenExpiresAt,
+                      },
+                    });
+                  })
+                  .catch(error => {
+                    console.log('내정보 -> PGHD 페이지로의 이동 실패 ', error);
+                  });
               }}
               style={[
                 profileRootStyles.button,
@@ -71,7 +128,32 @@ export class ProfileRoot extends React.Component<Props, State> {
           <Form style={[profileRootStyles.shadow, { height: 170 }]}>
             <Button
               onPress={() => {
-                this.props.navigation.navigate('MypageRoot');
+                this.login()
+                  .then(response => {
+                    return response.json();
+                  })
+                  .then(json => {
+                    this.props.navigation.navigate('MypageRoot', {
+                      userData: {
+                        nickname: this.state.nickname,
+                        id: this.state.id,
+                        clientId: this.state.clientId,
+                        clientSecret: this.state.clientSecret,
+                        gender: '',
+                        birthDate: '',
+                        relationShip: '',
+                      },
+                      loginData: {
+                        accessToken: json.accessToken,
+                        refreshToken: json.refreshToken,
+                        accessTokenExpiresAt: json.accessTokenExpiresAt,
+                        refreshTokenExpiresAt: json.refreshTokenExpiresAt,
+                      },
+                    });
+                  })
+                  .catch(error => {
+                    console.log('내정보 -> PGHD 페이지로의 이동 실패 ', error);
+                  });
               }}
               style={[
                 profileRootStyles.button,

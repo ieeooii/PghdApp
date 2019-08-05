@@ -21,8 +21,8 @@ export class ProfileGender extends React.Component<Props, State> {
     };
   }
   render() {
-    console.log('profilgender.tsx 렌더');
-    console.log('root State ==>', this.props.rootState);
+    // console.log('profilgender.tsx 렌더');
+    // console.log('root State ==>', this.props.rootState);
 
     return (
       <Segment style={profilegenderStyles.genderSegment}>

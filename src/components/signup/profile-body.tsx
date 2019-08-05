@@ -14,6 +14,8 @@ export interface State {
 }
 
 export class ProfileBody extends React.Component<Props, State> {
+  public state: State;
+  public props: any;
   constructor(props: any) {
     super(props);
     this.state = {
@@ -40,11 +42,12 @@ export class ProfileBody extends React.Component<Props, State> {
   render() {
     this.relationChange = this.relationChange.bind(this);
     this.setBirthDate = this.setBirthDate.bind(this);
+
     // 생년월일 뽑아내는 코드
     // const birthDay = this.state.chosenDate.toString().substr(4, 12);
-    console.log('profilbody.tsx 렌더');
-    console.log('root State ==>', this.props.rootState);
-    console.log('profilbody State ==>', this.state);
+    // console.log('profilbody.tsx 렌더');
+    // console.log('root State ==>', this.props.rootState);
+    // console.log('profilbody State ==>', this.state);
 
     return (
       <Form>
