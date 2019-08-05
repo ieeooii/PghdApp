@@ -1,35 +1,79 @@
-import { Button, Container, Form, Text } from 'native-base';
+import {
+  Button,
+  Container,
+  Form,
+  Header,
+  Icon,
+  Left,
+  Right,
+  Text,
+} from 'native-base';
 import * as React from 'react';
-import { TextInput } from 'react-native';
+import { Alert, Platform, TextInput } from 'react-native';
 import { todayPghd } from '../style';
 
 const styles = todayPghd;
 
-interface IState {
+interface State {
   str?: string;
 }
-interface IProps {}
+interface Props {
+  navigation: any;
+}
 
-export class TodayPghd extends React.Component<IProps, IState> {
+export class TodayPghd extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = { str: '' };
   }
 
-  static navigationOptions = {
-    headerRight: (
-      <Button
-        onPress={() => alert('This is a button!')}
-        style={styles.upIoadButton}
-      >
-        <Text style={styles.buttonTextColor}>등록</Text>
-      </Button>
-    ),
-  };
+  uploadAlertOrFetch = () => {
+    if (this.state.str === '') {
+      Alert.alert(
+        '내용을 입력해주세요.',
+        '',
+        [
+          {
+            text: '확인',
+            onPress: () => {},
+          },
+        ],
+        { cancelable: false },
+      );
+    }
+  }
 
   render() {
     return (
       <Container>
+        <Header style={{ backgroundColor: 'white' }}>
+          <Left>
+            <Button transparent onPress={() => this.props.navigation.goBack()}>
+              <Icon
+                name='arrow-back'
+                style={Platform.OS === 'android' ? { color: 'black' } : {}}
+              />
+              <Text style={styles.buttonTextColor}>
+                {Platform.OS === 'ios' ? 'Back' : ''}
+              </Text>
+            </Button>
+          </Left>
+          <Right>
+            <Button
+              onPress={this.uploadAlertOrFetch}
+              style={[styles.upIoadButton]}
+            >
+              <Text
+                style={[
+                  styles.buttonTextColor,
+                  { position: 'relative', left: 20 },
+                ]}
+              >
+                등록
+              </Text>
+            </Button>
+          </Right>
+        </Header>
         <Form style={{ flex: 1 }}>
           <TextInput
             style={styles.textInput}
