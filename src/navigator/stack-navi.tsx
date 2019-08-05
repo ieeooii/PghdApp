@@ -1,3 +1,8 @@
+// import { Button, Text } from 'native-base';
+// import * as React from 'react';
+// import { todayPghd } from '../components/style';
+// const styles = todayPghd;
+
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import { Main } from '../components/main';
 import { MypageRoot } from '../components/my_page/mypage-root';
@@ -47,7 +52,7 @@ const appNavigator = createStackNavigator({
   TodayPghd: {
     screen: TodayPghd,
     navigationOptions: () => ({
-      // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
+      header: null,
     }),
   },
 });
