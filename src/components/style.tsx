@@ -79,7 +79,7 @@ const buttonColorIos: string = '#5800ff';
 const buttonColorAndroid: string = '#5800ff';
 
 export const signupStyles = StyleSheet.create({
-  infoContent: {
+  signupContent: {
     flex: 1,
     justifyContent: 'space-evenly',
     ...Platform.select({
@@ -364,9 +364,6 @@ export const termsStyles = StyleSheet.create({
   card: {
     alignItems: 'center',
     width: 300,
-    ...Platform.select({
-      ios: {},
-    }),
   },
   cardItemBody: {
     alignItems: 'center',
@@ -379,44 +376,73 @@ export const termsStyles = StyleSheet.create({
   },
   arrowBtn: {
     height: 35,
+
     bottom: 2,
+    ...Platform.select({
+      ios: {},
+      android: {
+        right: 50,
+        width: 45,
+      },
+    }),
   },
   arrowBtn1: {
-    left: 52,
+    left: 40,
   },
   arrowBtn2: {
-    left: 36,
+    left: 25,
   },
   arrowBtn3: {
-    left: 38,
+    left: 25,
   },
   checkBtn: {
     ...Platform.select({
       ios: {
-        fontSize: 40,
+        fontSize: 43,
       },
       android: {
-        fontSize: 23,
+        fontSize: 25,
       },
     }),
   },
-  checkBtn1: {
+  iconBtn1: {
     right: 37,
   },
-  checkBtn2: {
+  iconBtn2: {
     right: 20,
   },
-  checkBtn3: {
+  iconBtn3: {
     right: 20,
+  },
+  checkBtn1: {
+    right: 2,
+  },
+  checkBtn2: {
+    right: 2,
+  },
+  checkBtn3: {
+    right: 2,
+  },
+  allAgreeBtn: {
+    ...Platform.select({
+      ios: {
+        right: 85,
+      },
+      android: {
+        right: 85,
+      },
+    }),
   },
   allAgreeIcon: {
     ...Platform.select({
       ios: {
+        fontSize: 33,
         fontWeight: 'bold',
-        right: 90,
+        left: 10,
       },
       android: {
-        right: 91,
+        fontSize: 32,
+        left: 10,
       },
     }),
   },

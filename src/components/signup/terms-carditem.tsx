@@ -13,6 +13,8 @@ export interface Props {
   isBtnAble: any;
   isBtnDisAble: any;
   rootState: any;
+  eachIconBtn: any;
+  navi: any;
 }
 export interface State {}
 
@@ -30,7 +32,7 @@ export class TermsCardItem extends React.Component<Props, State> {
 
     return (
       <CardItem>
-        <Icon
+        <Button
           onPress={() => {
             if (colorFlag === 0) {
               this.props.termsAgree();
@@ -42,18 +44,26 @@ export class TermsCardItem extends React.Component<Props, State> {
               colorFlag = 0;
             }
           }}
-          name='checkmark'
-          style={[
-            this.props.eachCheckBtn,
-            termsStyles.checkBtn,
-            { color: this.props.eachCheckColor },
-          ]}
-        />
+          style={[this.props.eachIconBtn]}
+          transparent
+        >
+          <Icon
+            name='checkmark'
+            style={[
+              this.props.eachCheckBtn,
+              termsStyles.checkBtn,
+              { color: this.props.eachCheckColor },
+            ]}
+          />
+        </Button>
         <Text>{this.props.text}</Text>
         <Text style={termsStyles.promotionTxt}>{this.props.option}</Text>
         <Button
-          transparent
+          onPress={() => {
+            this.props.navi.navigation.navigate('TermsText');
+          }}
           style={[termsStyles.arrowBtn, this.props.eachArrowBtn]}
+          transparent
         >
           {Platform.OS === 'ios' ? (
             <Icon name='arrow-forward' style={termsStyles.arrowBtnColor} />

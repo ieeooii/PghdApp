@@ -34,6 +34,15 @@ export class Email extends React.Component<Props, State> {
     const regCheckEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/.test(
       this.state.email,
     );
+    if (!this.props.rootState.permitEmail) {
+      return this.props.inputCheck(
+        'emailCheck',
+        false,
+        <Text style={emailStyles.txtIsValid}>
+          이미 가입된 이메일 주소입니다.
+        </Text>,
+      );
+    }
     if (regCheckEmail) {
       this.props.inputCheck('emailCheck', true);
       this.props.isBtnAble();
@@ -55,6 +64,7 @@ export class Email extends React.Component<Props, State> {
   render() {
     this.emailCheck = this.emailCheck.bind(this);
     // console.log('email.tsx 렌더');
+
     if (!this.props.rootState.emailFocus && focusFlag === 1) {
       this.state.borderColor = '#D2D2D2';
       this.state.placeholderTextColor = '#717372';
@@ -71,17 +81,19 @@ export class Email extends React.Component<Props, State> {
               this.props.changeFocus('passwordFocus', false);
               this.props.changeFocus('nicknameFocus', false);
               this.setState({
-                borderColor: 'blue',
-                placeholderTextColor: 'blue',
+                borderColor: '#690591',
+                placeholderTextColor: '#690591',
               });
               focusFlag = 1;
             }}
             onChangeText={text => {
+              this.props.rootState.permitEmail = true;
               this.setState({ email: text });
               this.props.changeSignupState('email', text);
             }}
             placeholder='이메일 주소'
             placeholderTextColor={this.state.placeholderTextColor}
+            autoCapitalize='none'
           />
         </Item>
         {this.emailCheck()}

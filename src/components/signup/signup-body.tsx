@@ -14,6 +14,7 @@ export interface Props {
   rootState: any;
   termsCheck: any;
   changeFocus: any;
+  navi: any;
 }
 export interface State {}
 
@@ -23,13 +24,13 @@ export class SignupBody extends React.Component<Props, State> {
 
     return (
       <>
-        <Form style={signupStyles.infoContent}>
+        <Form style={signupStyles.signupContent}>
           <Email
             changeSignupState={this.props.changeSignupState}
             inputCheck={this.props.inputCheck}
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
-            rootState={this.props.rootState} // state 변화 확인용
+            rootState={this.props.rootState}
             changeFocus={this.props.changeFocus}
           />
           <Password
@@ -37,7 +38,7 @@ export class SignupBody extends React.Component<Props, State> {
             inputCheck={this.props.inputCheck}
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
-            rootState={this.props.rootState} // state 변화 확인용
+            rootState={this.props.rootState}
             changeFocus={this.props.changeFocus}
           />
           <Nickname
@@ -45,7 +46,7 @@ export class SignupBody extends React.Component<Props, State> {
             inputCheck={this.props.inputCheck}
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
-            rootState={this.props.rootState} // state 변화 확인용
+            rootState={this.props.rootState}
             changeFocus={this.props.changeFocus}
           />
         </Form>
@@ -54,6 +55,7 @@ export class SignupBody extends React.Component<Props, State> {
             termsCheck={this.props.termsCheck}
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
+            navi={this.props.navi}
             rootState={this.props.rootState} // state 변화 확인용
           />
         </Form>

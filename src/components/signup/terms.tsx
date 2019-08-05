@@ -1,4 +1,4 @@
-import { Body, Card, CardItem, Form, Icon, Text } from 'native-base';
+import { Body, Button, Card, CardItem, Form, Icon, Text } from 'native-base';
 import * as React from 'react';
 import { termsStyles } from '../style';
 import { TermsCardItem } from './terms-carditem';
@@ -8,6 +8,7 @@ export interface Props {
   isBtnAble: any;
   isBtnDisAble: any;
   rootState: any;
+  navi: any;
 }
 export interface State {
   checkAllColor: string;
@@ -57,7 +58,8 @@ export class Terms extends React.Component<Props, State> {
 
   render() {
     this.changeColor = this.changeColor.bind(this);
-    // console.log('terms.tsx 렌더');
+    console.log('terms.tsx 렌더');
+    console.log('terms.tsx state == ', this.state);
 
     if (
       this.state.terms1Color === 'green' &&
@@ -89,7 +91,7 @@ export class Terms extends React.Component<Props, State> {
         <Card style={termsStyles.card}>
           <CardItem bordered>
             <Body style={[termsStyles.cardItemBody, termsStyles.allAgree]}>
-              <Icon
+              <Button
                 onPress={() => {
                   if (colorFlag === 0) {
                     this.changeColor('all', 'green');
@@ -105,12 +107,18 @@ export class Terms extends React.Component<Props, State> {
                     colorFlag2 = 1;
                   }
                 }}
-                name='checkmark-circle-outline'
-                style={[
-                  termsStyles.allAgreeIcon,
-                  { color: this.state.checkAllColor },
-                ]}
-              />
+                style={termsStyles.allAgreeBtn}
+                transparent
+              >
+                <Icon
+                  name='checkmark-circle-outline'
+                  style={[
+                    termsStyles.allAgreeIcon,
+                    { color: this.state.checkAllColor },
+                  ]}
+                />
+              </Button>
+
               <Text style={termsStyles.allAgreeTxt}>전체동의</Text>
             </Body>
           </CardItem>
@@ -119,9 +127,11 @@ export class Terms extends React.Component<Props, State> {
             option={''}
             eachCheckBtn={termsStyles.checkBtn1}
             eachArrowBtn={termsStyles.arrowBtn1}
+            eachIconBtn={termsStyles.iconBtn1}
             eachCheckColor={this.state.terms1Color}
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
+            navi={this.props.navi}
             termsAgree={() => {
               this.changeColor('terms1', 'green');
               this.props.termsCheck('agreementService', true);
@@ -137,9 +147,11 @@ export class Terms extends React.Component<Props, State> {
             option={''}
             eachCheckBtn={termsStyles.checkBtn2}
             eachArrowBtn={termsStyles.arrowBtn2}
+            eachIconBtn={termsStyles.iconBtn2}
             eachCheckColor={this.state.terms2Color}
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
+            navi={this.props.navi}
             termsAgree={() => {
               this.changeColor('terms2', 'green');
               this.props.termsCheck('agreementPrivate', true);
@@ -155,9 +167,11 @@ export class Terms extends React.Component<Props, State> {
             option={' (선택)'}
             eachCheckBtn={termsStyles.checkBtn3}
             eachArrowBtn={termsStyles.arrowBtn3}
+            eachIconBtn={termsStyles.iconBtn3}
             eachCheckColor={this.state.terms3Color}
             isBtnAble={this.props.isBtnAble}
             isBtnDisAble={this.props.isBtnDisAble}
+            navi={this.props.navi}
             termsAgree={() => {
               this.changeColor('terms3', 'green');
               this.props.termsCheck('agreementMarketing', true);

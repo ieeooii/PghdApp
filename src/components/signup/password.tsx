@@ -12,7 +12,7 @@ export interface Props {
 }
 export interface State {
   password: string;
-  secureTextEntry: Boolean;
+  secureTextEntry: any;
   borderColor: string;
   placeholderTextColor: string;
 }
@@ -98,8 +98,8 @@ export class Password extends React.Component<Props, State> {
               this.props.changeFocus('passwordFocus', true);
               this.props.changeFocus('nicknameFocus', false);
               this.setState({
-                borderColor: 'blue',
-                placeholderTextColor: 'blue',
+                borderColor: '#690591',
+                placeholderTextColor: '#690591',
               });
               focusFlag = 1;
             }}
@@ -111,6 +111,7 @@ export class Password extends React.Component<Props, State> {
             }}
             placeholder='비밀번호'
             placeholderTextColor={this.state.placeholderTextColor}
+            autoCapitalize='none'
             secureTextEntry={this.state.secureTextEntry}
           />
           {this.state.secureTextEntry === true

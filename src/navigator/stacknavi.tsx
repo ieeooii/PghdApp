@@ -5,6 +5,7 @@ import { MyProfile } from '../components/myprofile/myprofile-root';
 import { SignIn } from '../components/signin/signin-root';
 import { ProfileRoot } from '../components/signup/profile-root';
 import { Signup } from '../components/signup/sign-up';
+import { TermsText } from '../components/signup/terms_text';
 
 const appNavigator = createStackNavigator({
   Home: {
@@ -39,6 +40,12 @@ const appNavigator = createStackNavigator({
   },
   MyProfile: {
     screen: MyProfile,
+    navigationOptions: () => ({
+      // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
+    }),
+  },
+  TermsText: {
+    screen: TermsText,
     navigationOptions: () => ({
       // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
     }),

@@ -33,6 +33,15 @@ export class Nickname extends React.Component<Props, State> {
   nicknameCheck = () => {
     const regCheckNickname = /^[A-Za-z0-9|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{1,12}$/;
 
+    if (!this.props.rootState.permitNickname) {
+      return this.props.inputCheck(
+        'nicknameCheck',
+        false,
+        <Text style={nicknameStyles.txtIsValid}>
+          이미 사용중인 닉네임입니다.
+        </Text>,
+      );
+    }
     if (this.state.nickname.length !== 0 && this.state.nickname.length > 12) {
       this.props.inputCheck('nicknameCheck', false);
       this.props.isBtnDisAble();
@@ -73,6 +82,7 @@ export class Nickname extends React.Component<Props, State> {
 
   render() {
     // console.log('nickname.tsx 렌더');
+
     if (!this.props.rootState.nicknameFocus && focusFlag === 1) {
       this.state.borderColor = '#D2D2D2';
       this.state.placeholderTextColor = '#717372';
@@ -89,12 +99,13 @@ export class Nickname extends React.Component<Props, State> {
               this.props.changeFocus('passwordFocus', false);
               this.props.changeFocus('nicknameFocus', true);
               this.setState({
-                borderColor: 'blue',
-                placeholderTextColor: 'blue',
+                borderColor: '#690591',
+                placeholderTextColor: '#690591',
               });
               focusFlag = 1;
             }}
             onChangeText={text => {
+              this.props.rootState.permitNickname = true;
               this.setState({
                 nickname: text,
               });
@@ -102,6 +113,7 @@ export class Nickname extends React.Component<Props, State> {
             }}
             placeholder='닉네임'
             placeholderTextColor={this.state.placeholderTextColor}
+            autoCapitalize='none'
           />
         </Item>
         {this.nicknameCheck()}
