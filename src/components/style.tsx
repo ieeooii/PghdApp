@@ -679,6 +679,7 @@ export const pghdRecordStyles = StyleSheet.create({
     alignItems: 'center',
   },
   pghdContainerBotttom: {
+    zIndex: 0,
     width: '100%',
     height: 100,
     backgroundColor: 'white',
@@ -703,8 +704,88 @@ export const pghdRecordStyles = StyleSheet.create({
       },
     }),
   },
+  shadowZero: {
+    ...Platform.select({
+      ios: {
+        shadowColor: 'white',
+        shadowOffset: {
+          width: 0,
+          height: 0,
+        },
+        shadowRadius: 0,
+        shadowOpacity: 0,
+      },
+      android: {
+        elevation: 0,
+      },
+    }),
+  },
+  fab: {
+    backgroundColor: 'rgba(0, 255, 0, 0)',
+    borderRadius: 0,
+    height: 40,
+    position: 'absolute',
+    ...Platform.select({
+      ios: {
+        width: 40,
+        margin: 26,
+        right: -36,
+      },
+      android: {
+        width: 60,
+        margin: 26,
+        marginTop: -10,
+        right: -38,
+      },
+    }),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonForm: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    flexDirection: 'column',
+    marginTop: -40,
+    position: 'absolute',
+    right: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: {
+          width: 0,
+          height: 5,
+        },
+        shadowRadius: 10,
+        shadowOpacity: 0.2,
+      },
+      android: {
+        elevation: 5,
+      },
+    }),
+  },
+  button: {
+    backgroundColor: 'white',
+    borderRadius: 5,
+    height: 40,
+    ...Platform.select({
+      ios: {
+        width: 80,
+      },
+      android: {
+        width: 60,
+        marginTop: -18,
+        borderWidth: 1,
+        borderColor: '#F0F0F5',
+      },
+    }),
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
+// mypage-today-pghd.tsx
 export const todayPghd = StyleSheet.create({
   textInput: {
     padding: 20,
@@ -721,7 +802,9 @@ export const todayPghd = StyleSheet.create({
     elevation: 0,
   },
   buttonTextColor: {
-    fontSize: 18,
+    fontSize: 17,
+    marginLeft: 2,
+    fontWeight: 'normal',
     ...Platform.select({
       ios: {
         color: 'dodgerblue',
