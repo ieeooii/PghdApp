@@ -36,10 +36,22 @@ export const userInfo = StyleSheet.create({
   datePickerWidth: {
     ...Platform.select({
       ios: {
-        marginRight: 150,
+        marginRight: 138,
       },
       android: {
-        marginRight: 180,
+        marginRight: 179,
+      },
+    }),
+  },
+  relationshipPickerWidth: {
+    ...Platform.select({
+      ios: {
+        width: 100,
+        marginLeft: 170,
+      },
+      android: {
+        width: 100,
+        marginLeft: 210,
       },
     }),
   },

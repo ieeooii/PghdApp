@@ -26,7 +26,7 @@ export class Signup extends React.Component<Props, State> {
         <Form style={userinfoStyles.termsContent}>
           <Terms />
         </Form>
-        <Form style={profileRootStyles.shadow}>
+        <Form>
           <Button
             onPress={() => {
               this.props.navigation.navigate('ProfileRoot');
