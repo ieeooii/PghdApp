@@ -59,9 +59,35 @@ export class ProfileRoot extends React.Component<Props, State> {
     });
   }
 
+  goPghdPage(
+    jsonData: any,
+    userGender: string,
+    userBirthDate: string,
+    userRelationShip: string,
+  ) {
+    this.props.navigation.navigate('MypageRoot', {
+      userData: {
+        nickname: this.state.nickname,
+        id: this.state.id,
+        clientId: this.state.clientId,
+        clientSecret: this.state.clientSecret,
+        gender: userGender,
+        birthDate: userBirthDate,
+        relationShip: userRelationShip,
+      },
+      loginData: {
+        accessToken: jsonData.accessToken,
+        refreshToken: jsonData.refreshToken,
+        accessTokenExpiresAt: jsonData.accessTokenExpiresAt,
+        refreshTokenExpiresAt: jsonData.refreshTokenExpiresAt,
+      },
+    });
+  }
+
   render() {
     this.changeState = this.changeState.bind(this);
     this.login = this.login.bind(this);
+    this.goPghdPage = this.goPghdPage.bind(this);
     // console.log('profile-root.tsx 렌더');
     // console.log('profile-root.tsx PROPS ==> ', this.props);
     // console.log('profile-root.tsx State ==> ', this.state);
@@ -94,23 +120,16 @@ export class ProfileRoot extends React.Component<Props, State> {
                     return response.json();
                   })
                   .then(json => {
-                    this.props.navigation.navigate('MypageRoot', {
-                      userData: {
-                        nickname: this.state.nickname,
-                        id: this.state.id,
-                        clientId: this.state.clientId,
-                        clientSecret: this.state.clientSecret,
-                        gender: this.state.gender,
-                        birthDate: this.state.birthDate,
-                        relationShip: this.state.relationShip,
-                      },
-                      loginData: {
-                        accessToken: json.accessToken,
-                        refreshToken: json.refreshToken,
-                        accessTokenExpiresAt: json.accessTokenExpiresAt,
-                        refreshTokenExpiresAt: json.refreshTokenExpiresAt,
-                      },
-                    });
+                    alert('내정보를 저장하였습니다');
+                    return json;
+                  })
+                  .then(json => {
+                    this.goPghdPage(
+                      json,
+                      this.state.gender,
+                      this.state.birthDate,
+                      this.state.relationShip,
+                    );
                   })
                   .catch(error => {
                     console.log('내정보 -> PGHD 페이지로의 이동 실패 ', error);
@@ -133,23 +152,7 @@ export class ProfileRoot extends React.Component<Props, State> {
                     return response.json();
                   })
                   .then(json => {
-                    this.props.navigation.navigate('MypageRoot', {
-                      userData: {
-                        nickname: this.state.nickname,
-                        id: this.state.id,
-                        clientId: this.state.clientId,
-                        clientSecret: this.state.clientSecret,
-                        gender: '',
-                        birthDate: '',
-                        relationShip: '',
-                      },
-                      loginData: {
-                        accessToken: json.accessToken,
-                        refreshToken: json.refreshToken,
-                        accessTokenExpiresAt: json.accessTokenExpiresAt,
-                        refreshTokenExpiresAt: json.refreshTokenExpiresAt,
-                      },
-                    });
+                    this.goPghdPage(json, '', '', '');
                   })
                   .catch(error => {
                     console.log('내정보 -> PGHD 페이지로의 이동 실패 ', error);
