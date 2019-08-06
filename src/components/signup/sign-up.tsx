@@ -202,6 +202,7 @@ export class Signup extends React.Component<Props, State> {
                 })
                 .then(json => {
                   // console.log(' emailValidity json == ', json);
+
                   if (json.status === 'success') {
                     // 이메일 중복 경고
                     this.setState({
@@ -219,12 +220,15 @@ export class Signup extends React.Component<Props, State> {
                       return response.json();
                     })
                     .then(json => {
-                      // console.log('가입 가능한 email == json ', json);
-
                       if (json.message === 'success') {
-                        // 로컬에 토큰 저장하고 다음 페이지로 넘기기
-                        console.log(' 회원가입 성공 == ');
+                        // console.log(' 회원가입 성공 == ');
 
+                        alert(`회원가입 완료\n내정보 입력은 선택사항입니다`);
+                      }
+                      return json;
+                    })
+                    .then(json => {
+                      if (json.message === 'success') {
                         this.props.navigation.navigate('ProfileRoot', {
                           signupData: {
                             email: this.state.email,
@@ -245,10 +249,10 @@ export class Signup extends React.Component<Props, State> {
                         return;
                       }
                     })
-                    .catch(error => {
+                    .catch(error2 => {
                       console.log(
                         'email 중복도 아니고, nickname 중복도 아닌 에러',
-                        error,
+                        error2,
                       );
                     });
                 });
