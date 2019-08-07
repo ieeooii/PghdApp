@@ -18,6 +18,7 @@ export class MypageRoot extends React.Component<Props, State> {
     super(props);
   }
   render() {
+    console.log(this.props);
     return (
       <View style={styles.container}>
         <ScrollView>
