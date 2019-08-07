@@ -3,7 +3,10 @@ import * as React from 'react';
 import { Platform } from 'react-native';
 import { profileBodyStyles } from '../style';
 
-export interface Props {}
+export interface Props {
+  rootState: any;
+  changeState: any;
+}
 export interface State {
   chosenDate: any;
   selected: any;
@@ -11,30 +14,40 @@ export interface State {
 }
 
 export class ProfileBody extends React.Component<Props, State> {
+  public state: State;
+  public props: any;
   constructor(props: any) {
     super(props);
     this.state = {
-      chosenDate: '생년월일을 선택하세요',
-      selected: '클릭하세요',
+      chosenDate: '',
+      selected: '환자',
       category: ['환자', '보호자', '의사/약사', '다른질환', '기타'],
     };
   }
 
-  setDate(newDate: any) {
-    this.setState({ chosenDate: newDate });
+  setBirthDate(newDate: any) {
+    this.props.changeState('birthDate', newDate);
+    this.setState({
+      chosenDate: newDate,
+    });
   }
 
-  onValueChange(value: string) {
+  relationChange(value: string) {
+    this.props.changeState('relationShip', value);
     this.setState({
       selected: value,
     });
   }
 
   render() {
-    this.onValueChange = this.onValueChange.bind(this);
-    this.setDate = this.setDate.bind(this);
-    // const birthDay = this.state.chosenDate.toString().substr(4, 12);
+    this.relationChange = this.relationChange.bind(this);
+    this.setBirthDate = this.setBirthDate.bind(this);
+
     // 생년월일 뽑아내는 코드
+    // const birthDay = this.state.chosenDate.toString().substr(4, 12);
+    // console.log('profilbody.tsx 렌더');
+    // console.log('root State ==>', this.props.rootState);
+    // console.log('profilbody State ==>', this.state);
 
     return (
       <Form>
@@ -45,15 +58,14 @@ export class ProfileBody extends React.Component<Props, State> {
           <Form style={profileBodyStyles.datePicker}>
             <DatePicker
               minimumDate={new Date(1900, 1, 1)}
-              maximumDate={new Date(2018, 12, 31)}
-              locale={'korea'}
+              maximumDate={new Date()}
+              locale={'en'}
               timeZoneOffsetInMinutes={undefined}
               modalTransparent={true}
               animationType={'slide'}
               androidMode={'spinner'}
               placeHolderText='클릭하세요'
-              placeHolderTextStyle={{ color: 'blue' }}
-              onDateChange={this.setDate}
+              onDateChange={this.setBirthDate}
               disabled={false}
             />
             {Platform.OS === 'ios' ? (
@@ -73,15 +85,15 @@ export class ProfileBody extends React.Component<Props, State> {
           <Form>
             <Text>질환관계</Text>
           </Form>
-          <Form style={profileBodyStyles.LastPickerForm}>
+          <Form style={profileBodyStyles.relationPickerForm}>
             <Picker
-              style={profileBodyStyles.LastPicker}
+              style={profileBodyStyles.relationPicker}
               mode='dropdown'
               placeholder='클릭하세요'
               iosIcon={<Icon name='arrow-down' />}
               selectedValue={this.state.selected}
-              textStyle={{ color: 'blue' }}
-              onValueChange={this.onValueChange}
+              onValueChange={this.relationChange}
+              textStyle={{ color: 'black' }}
             >
               {this.state.category.map((val: any) => {
                 return <Picker.Item label={val} value={val} key={val} />;
