@@ -17,6 +17,7 @@ export class MypageRoot extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
   }
+
   render() {
     return (
       <View style={styles.container}>
@@ -40,16 +41,16 @@ export class MypageRoot extends React.Component<Props, State> {
           </View>
           <View style={[styles.shadow, { width: '90%', alignSelf: 'center' }]}>
             {/* scroll test용 입니다 */}
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
-            <PghdRecord navi={this.props} />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
+            <PghdRecord />
           </View>
         </ScrollView>
       </View>
