@@ -1,8 +1,3 @@
-// import { Button, Text } from 'native-base';
-// import * as React from 'react';
-// import { todayPghd } from '../components/style';
-// const styles = todayPghd;
-
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import { Main } from '../components/main';
 import { MypageRoot } from '../components/my_page/mypage-root';
@@ -11,6 +6,7 @@ import { MyProfile } from '../components/my_profile/myprofile-root';
 import { SignIn } from '../components/sign_in/sign-in-root';
 import { ProfileRoot } from '../components/sign_up/profile-root';
 import { Signup } from '../components/sign_up/sign-up';
+import { TermsText } from '../components/sign_up/terms-text';
 
 const appNavigator = createStackNavigator({
   Home: {
@@ -22,7 +18,7 @@ const appNavigator = createStackNavigator({
   ProfileRoot: {
     screen: ProfileRoot,
     navigationOptions: () => ({
-      // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
+      header: null,
     }),
   },
   Signup: {
@@ -49,10 +45,17 @@ const appNavigator = createStackNavigator({
       // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
     }),
   },
+
   TodayPghd: {
     screen: TodayPghd,
     navigationOptions: () => ({
       header: null,
+    }),
+  },
+  TermsText: {
+    screen: TermsText,
+    navigationOptions: () => ({
+      // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
     }),
   },
 });
