@@ -62,7 +62,8 @@ buck-out/
 .jest/
 
 #ios/android
-/ios
-/android
+# /ios
+# /android
 
+# config
 config/
