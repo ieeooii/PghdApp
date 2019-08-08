@@ -95,7 +95,6 @@ export class PghdRecord extends React.Component<Props, State> {
               source={require('./PGHD-RECORD-SELECT-ICON.png')}
               style={{ resizeMode: 'contain', height: '40%' }}
             />
-            {/* <Form style={[styles.buttonForm, { width: 80, height: 80 }]}> */}
             <Button
               style={[
                 styles.button,
@@ -116,7 +115,6 @@ export class PghdRecord extends React.Component<Props, State> {
             >
               <Text>삭제</Text>
             </Button>
-            {/* </Form> */}
           </Fab>
         </Form>
         <Form

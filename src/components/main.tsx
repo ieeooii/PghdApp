@@ -1,5 +1,6 @@
+import { Form } from 'native-base';
 import * as React from 'react';
-import { Button, Image, Platform, View } from 'react-native';
+import { Button, Image, Platform } from 'react-native';
 import { mainStyles } from './style';
 
 const mainColor: string = '#5800ff';
@@ -22,15 +23,15 @@ export class Main extends React.Component<Props, State> {
   }
   render() {
     return (
-      <View style={styles.container}>
+      <Form style={styles.container}>
         <Image
           source={{
             uri: logourl,
           }}
           style={styles.imagepo}
         />
-        <View style={styles.shadow}>
-          <View style={[styles.mainbutton, styles.signinplat]}>
+        <Form style={styles.shadow}>
+          <Form style={[styles.mainbutton, styles.signinplat]}>
             <Button
               title='SING IN'
               onPress={
@@ -41,8 +42,8 @@ export class Main extends React.Component<Props, State> {
               }
               color={Platform.OS === 'ios' ? mainColor : andsigninbtn}
             />
-          </View>
-          <View style={[styles.mainbutton, styles.signupplat]}>
+          </Form>
+          <Form style={[styles.mainbutton, styles.signupplat]}>
             <Button
               title='SING UP'
               onPress={
@@ -53,9 +54,9 @@ export class Main extends React.Component<Props, State> {
               }
               color={Platform.OS === 'ios' ? 'white' : mainColor}
             />
-          </View>
-        </View>
-      </View>
+          </Form>
+        </Form>
+      </Form>
     );
   }
 }

@@ -40,6 +40,25 @@ export class TodayPghd extends React.Component<Props, State> {
         ],
         { cancelable: false },
       );
+    } else {
+      return fetch(
+        'http://api-stage.humanscape.io:80/api/v1/users/login/moah',
+        {
+          method: 'POST', // method get & post 헷갈릴 수 있으니 조심!!
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            pghd: this.state.str,
+          }),
+        },
+      )
+        .then(data => {
+          console.log(data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 
