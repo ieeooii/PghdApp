@@ -5,6 +5,7 @@ import { myprofileStyles } from '../style';
 const styles = myprofileStyles;
 interface Props {
   navi: any;
+  children?: any;
 }
 interface State {}
 
@@ -25,14 +26,16 @@ export class MiniProfile extends React.Component<Props, State> {
             <Form style={[styles.circle, { width: 80, height: 80 }]} />
             <Form style={{ flexDirection: 'column' }}>
               <Text style={[styles.usernicknameMypage, { color: 'black' }]}>
-                react-native
+                {this.props.children[0]}
               </Text>
               <Form style={{ flexDirection: 'row' }}>
                 <Text style={[styles.usernicknameMypage, { color: '#767676' }]}>
                   10대
                 </Text>
                 <Form style={styles.relationship}>
-                  <Text style={styles.relationshipTag}>관계</Text>
+                  <Text style={styles.relationshipTag}>
+                    {this.props.children[1]}
+                  </Text>
                 </Form>
               </Form>
             </Form>

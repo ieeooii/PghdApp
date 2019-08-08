@@ -1,3 +1,5 @@
+// tslint:disable-next-line: import-name
+// import AsyncStorage from '@react-native-community/async-storage';
 import {
   Button,
   Container,
@@ -60,6 +62,12 @@ export class TodayPghd extends React.Component<Props, State> {
           console.log(error);
         });
     }
+  }
+
+  componentDidMount = async () => {
+    try {
+      // const walletAddress = await AsyncStorage.getItem('walletAddress');
+    } catch {}
   }
 
   render() {

@@ -11,6 +11,7 @@ interface State {
 
 interface Props {
   navi?: any;
+  children?: any;
 }
 
 export class PghdRecord extends React.Component<Props, State> {
@@ -61,71 +62,82 @@ export class PghdRecord extends React.Component<Props, State> {
   }
 
   render() {
-    return (
-      <Form style={{ alignItems: 'center' }}>
-        <Form
-          style={[
-            { zIndex: 1 },
-            styles.pghdContainerTop,
-            Platform.OS === 'android' ? styles.shadow : {},
-          ]}
-        >
-          <Form style={[myprofileStyles.circle, { width: 36, height: 36 }]} />
-          <Text style={{ marginLeft: 10 }}>react-native</Text>
-          <Text style={{ marginLeft: 5, color: '#767676' }}>| 1.10</Text>
-          <Fab
-            active={this.state.activebutton}
-            direction='down'
-            containerStyle={{}}
+    console.log('제대로 되는게 맞는 걸까', this.props.children);
+    if (this.props.children !== null) {
+      return (
+        <Form style={{ alignItems: 'center' }}>
+          <Form
             style={[
-              styles.fab,
-              Platform.OS === 'ios'
-                ? styles.shadowZero
-                : { backgroundColor: 'white', elevation: 0 },
+              { zIndex: 1 },
+              styles.pghdContainerTop,
+              Platform.OS === 'android' ? styles.shadow : {},
             ]}
-            position='topRight'
-            onPress={
-              Platform.OS === 'ios'
-                ? () =>
-                    this.setState({ activebutton: !this.state.activebutton })
-                : this.selectAlert
-            }
           >
-            <Image
-              source={require('./PGHD-RECORD-SELECT-ICON.png')}
-              style={{ resizeMode: 'contain', height: '40%' }}
-            />
-            <Button
+            <Form style={[myprofileStyles.circle, { width: 36, height: 36 }]} />
+            <Text style={{ marginLeft: 10 }}>{this.props.children[0]}</Text>
+            <Text style={{ marginLeft: 5, color: '#767676' }}>
+              | {this.props.children[1]}
+            </Text>
+            <Fab
+              active={this.state.activebutton}
+              direction='down'
+              containerStyle={{}}
               style={[
-                styles.button,
-                Platform.OS === 'android' ? { elevation: 0 } : styles.buttonForm,
+                styles.fab,
+                Platform.OS === 'ios'
+                  ? styles.shadowZero
+                  : { backgroundColor: 'white', elevation: 0 },
               ]}
-              onPress={() => {
-                this.props.navi.navigation.navigate('TodayPghd');
-              }}
+              position='topRight'
+              onPress={
+                Platform.OS === 'ios'
+                  ? () =>
+                      this.setState({ activebutton: !this.state.activebutton })
+                  : this.selectAlert
+              }
             >
-              <Text>수정</Text>
-            </Button>
-            <Button
-              style={[
-                styles.button,
-                Platform.OS === 'android' ? { elevation: 0 } : styles.buttonForm,
-              ]}
-              onPress={this.deleteAlert}
-            >
-              <Text>삭제</Text>
-            </Button>
-          </Fab>
+              <Image
+                source={require('./PGHD-RECORD-SELECT-ICON.png')}
+                style={{ resizeMode: 'contain', height: '40%' }}
+              />
+              <Button
+                style={[
+                  styles.button,
+                  Platform.OS === 'android'
+                    ? { elevation: 0 }
+                    : styles.buttonForm,
+                ]}
+                onPress={() => {
+                  this.props.navi.navigation.navigate('TodayPghd');
+                }}
+              >
+                <Text>수정</Text>
+              </Button>
+              <Button
+                style={[
+                  styles.button,
+                  Platform.OS === 'android'
+                    ? { elevation: 0 }
+                    : styles.buttonForm,
+                ]}
+                onPress={this.deleteAlert}
+              >
+                <Text>삭제</Text>
+              </Button>
+            </Fab>
+          </Form>
+          <Form
+            style={[
+              styles.pghdContainerBotttom,
+              Platform.OS === 'ios' ? {} : styles.shadow,
+            ]}
+          >
+            <Text style={{ textAlign: 'center' }}>
+              {this.props.children[2]}
+            </Text>
+          </Form>
         </Form>
-        <Form
-          style={[
-            styles.pghdContainerBotttom,
-            Platform.OS === 'ios' ? {} : styles.shadow,
-          ]}
-        >
-          <Text style={{ textAlign: 'center' }}>일별 PGHD 기록</Text>
-        </Form>
-      </Form>
-    );
+      );
+    }
   }
 }

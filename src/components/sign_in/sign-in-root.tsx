@@ -83,6 +83,7 @@ export class SignIn extends React.Component<Props, State> {
                           this.props.navigation.navigate('MypageRoot', {
                             signIn: {
                               signInToken: responseJSON.accessToken, // 로그인 성공시 mypage화면으로 token 전달
+                              userId: responseJSON.userId,
                               email: this.state.email,
                             },
                           });
