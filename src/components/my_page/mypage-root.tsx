@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Container, Form } from 'native-base';
 import * as React from 'react';
 import { Platform, ScrollView, Text } from 'react-native';
-import { accountAddress, BASE_URL, CLIENT_ID } from '../../../config/client';
+import { BASE_URL, CLIENT_ID } from '../../../config/client';
 import { mypageRootStyles } from '../style';
 import { MiniProfile } from './mini-profile';
 import { PghdRecord } from './pghd-record';
@@ -35,18 +35,16 @@ export class MypageRoot extends React.Component<Props, State> {
 
   componentDidMount = async () => {
     try {
-      // 1. [GET]나이대 state로 넘겨주어야 함.
       const signIn = this.props.navigation.state.params.signIn;
-      const PGHD_GET = `api/v1/clients/${CLIENT_ID}/users/${accountAddress}/pghd`;
-      const USER_DATA_GET = `api/v1/users/${signIn.email}`;
-      const USER_WALLET_GET = `api/v1/users/${signIn.userId}/userWallet`;
+      const GET_USER_DATA = `api/v1/users/${signIn.email}`;
+      const GET_USER_WALLET = `api/v1/users/${signIn.userId}/userWallet`;
       await AsyncStorage.setItem('accessToken', signIn.signInToken);
       await AsyncStorage.setItem('userEmail', signIn.email);
 
       // [GET]userWallet
-      const getUserWallet = await this.getDataFunc(
+      const getUserWallet = await this.getRequestFunc(
         signIn.signInToken,
-        USER_WALLET_GET,
+        GET_USER_WALLET,
       );
       await AsyncStorage.setItem(
         'walletAddress',
@@ -54,15 +52,20 @@ export class MypageRoot extends React.Component<Props, State> {
       );
 
       // [GET]PGHD(Get user pghd)
-      const getUserPghd = await this.getDataFunc(signIn.signInToken, PGHD_GET);
+      const walletAddress = await AsyncStorage.getItem('walletAddress');
+      const GET_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+      const getUserPghd = await this.getRequestFunc(
+        signIn.signInToken,
+        GET_PGHD,
+      );
       if (getUserPghd.data !== null) {
         this.setState({ usersPghdData: getUserPghd.data });
       }
 
       // [GET]Users
-      const getUserInfo = await this.getDataFunc(
+      const getUserInfo = await this.getRequestFunc(
         signIn.signInToken,
-        USER_DATA_GET,
+        GET_USER_DATA,
       );
       let relationStr = '';
       if (getUserInfo.relationship === null) {
@@ -78,7 +81,7 @@ export class MypageRoot extends React.Component<Props, State> {
     }
   }
 
-  getDataFunc = (token: string | null, path: string | null) => {
+  getRequestFunc = (token: string | null, path: string | null) => {
     if (token !== null) {
       return fetch(BASE_URL + path, {
         method: 'GET',
@@ -88,7 +91,9 @@ export class MypageRoot extends React.Component<Props, State> {
         },
       })
         .then(res => {
-          if (res.status === 200) {
+          if (res.status !== 200) {
+            alert(`error: ${res.status}`);
+          } else if (res.status === 200) {
             return res.json();
           }
         })

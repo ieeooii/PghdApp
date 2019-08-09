@@ -62,7 +62,6 @@ export class PghdRecord extends React.Component<Props, State> {
   }
 
   render() {
-    console.log('제대로 되는게 맞는 걸까', this.props.children);
     if (this.props.children !== null) {
       return (
         <Form style={{ alignItems: 'center' }}>

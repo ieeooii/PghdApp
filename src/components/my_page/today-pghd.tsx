@@ -1,5 +1,5 @@
 // tslint:disable-next-line: import-name
-// import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
 import {
   Button,
   Container,
@@ -12,12 +12,14 @@ import {
 } from 'native-base';
 import * as React from 'react';
 import { Alert, Platform, TextInput } from 'react-native';
+import { BASE_URL, CLIENT_ID } from '../../../config/client';
 import { todayPghd } from '../style';
 
 const styles = todayPghd;
 
 interface State {
   str?: string;
+  alertOkbutton?: boolean;
 }
 interface Props {
   navigation: any;
@@ -26,48 +28,104 @@ interface Props {
 export class TodayPghd extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
-    this.state = { str: '' };
+    this.state = { str: '', alertOkbutton: false };
   }
 
-  uploadAlertOrFetch = () => {
-    if (this.state.str === '') {
-      Alert.alert(
-        '내용을 입력해주세요.',
-        '',
-        [
-          {
-            text: '확인',
-            onPress: () => {},
-          },
-        ],
-        { cancelable: false },
-      );
-    } else {
-      return fetch(
-        'http://api-stage.humanscape.io:80/api/v1/users/login/moah',
+  alertFunc = (alertTitle: string, goBackFunc: any) => {
+    Alert.alert(
+      alertTitle,
+      '',
+      [
         {
-          method: 'POST', // method get & post 헷갈릴 수 있으니 조심!!
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            pghd: this.state.str,
-          }),
+          text: '확인',
+          onPress: () => goBackFunc,
         },
-      )
-        .then(data => {
-          console.log(data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
+      ],
+      { cancelable: false },
+    );
+  }
+
+  alertOkButtonFunc = () => {
+    this.setState({ alertOkbutton: true });
+    if (this.state.alertOkbutton === true) {
+      this.props.navigation.goBack();
+      this.setState({ alertOkbutton: false });
     }
   }
 
-  componentDidMount = async () => {
+  alertTwoSelectFunc = (alertTitle: string) => {
+    Alert.alert(
+      alertTitle,
+      '',
+      [
+        {
+          text: '확인',
+          onPress: this.alertOkButtonFunc,
+        },
+        {
+          text: '취소',
+          onPress: () => {},
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false },
+    );
+  }
+
+  buttonOnpressFunc = async (str: string | undefined) => {
     try {
-      // const walletAddress = await AsyncStorage.getItem('walletAddress');
-    } catch {}
+      if (str === undefined || str === '') {
+        this.alertFunc('내용을 입력해주세요.', {});
+      } else if (str.length > 0 && str !== undefined) {
+        const walletAddress = await AsyncStorage.getItem('walletAddress');
+        const accessToken = await AsyncStorage.getItem('accessToken');
+        const POST_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+
+        // [POST]PGHD(Create pghd)
+        await this.postRequestFunc(accessToken, POST_PGHD, str);
+      }
+    } catch (error) {
+      alert(`error: ${error}`);
+    }
+  }
+
+  backButtonOnpressFunc = (str: string | undefined) => {
+    if (str === undefined || str === '') {
+      this.props.navigation.goBack();
+    } else if (str !== undefined && str.length > 0) {
+      this.alertTwoSelectFunc('삭제하시겠습니까?');
+    }
+  }
+
+  postRequestFunc = (token: any, path: string | null, bodyStr: string) => {
+    if (token !== null && bodyStr !== undefined) {
+      return fetch(BASE_URL + path, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+          pghd: bodyStr,
+        }),
+      })
+        .then(res => {
+          if (res.status !== 200) {
+            alert(`error: ${res.status}`);
+          } else if (res.status === 200) {
+            return res.json();
+          }
+        })
+        .then(() =>
+          this.alertFunc(
+            '오늘의 PGHD가 등록 되었습니다.',
+            this.props.navigation.goBack(),
+          ),
+        )
+        .catch(error => {
+          alert(`error: ${error}`);
+        });
+    }
   }
 
   render() {
@@ -75,7 +133,10 @@ export class TodayPghd extends React.Component<Props, State> {
       <Container>
         <Header style={{ backgroundColor: 'white' }}>
           <Left>
-            <Button transparent onPress={() => this.props.navigation.goBack()}>
+            <Button
+              transparent
+              onPress={this.backButtonOnpressFunc.bind(this, this.state.str)}
+            >
               <Icon
                 name='arrow-back'
                 style={Platform.OS === 'android' ? { color: 'black' } : {}}
@@ -87,7 +148,7 @@ export class TodayPghd extends React.Component<Props, State> {
           </Left>
           <Right>
             <Button
-              onPress={this.uploadAlertOrFetch}
+              onPress={this.buttonOnpressFunc.bind(this, this.state.str)}
               style={[styles.upIoadButton]}
             >
               <Text
