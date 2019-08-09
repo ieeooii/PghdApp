@@ -14,6 +14,7 @@ export class MiniProfile extends React.Component<Props, State> {
     super(props);
   }
   render() {
+    const age = '10대';
     return (
       <Form>
         <Form style={[styles.shadow]}>
@@ -30,7 +31,7 @@ export class MiniProfile extends React.Component<Props, State> {
               </Text>
               <Form style={{ flexDirection: 'row' }}>
                 <Text style={[styles.usernicknameMypage, { color: '#767676' }]}>
-                  10대
+                  {age}
                 </Text>
                 <Form style={styles.relationship}>
                   <Text style={styles.relationshipTag}>

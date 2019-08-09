@@ -9,6 +9,8 @@ import { MiniProfile } from './mini-profile';
 import { PghdRecord } from './pghd-record';
 
 const styles = mypageRootStyles;
+const todayButtonName = '오늘 기록하기';
+const pghdRecordZero = '기록 된 내용이 없습니다.';
 
 interface Props {
   navigation: any;
@@ -53,10 +55,10 @@ export class MypageRoot extends React.Component<Props, State> {
 
       // [GET]PGHD(Get user pghd)
       const walletAddress = await AsyncStorage.getItem('walletAddress');
-      const GET_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+      const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
       const getUserPghd = await this.getRequestFunc(
         signIn.signInToken,
-        GET_PGHD,
+        GET_USER_PGHD,
       );
       if (getUserPghd.data !== null) {
         this.setState({ usersPghdData: getUserPghd.data });
@@ -92,7 +94,7 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${res.status}`);
+            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
             return res.json();
           }
@@ -118,25 +120,28 @@ export class MypageRoot extends React.Component<Props, State> {
                   : [styles.mainButton, styles.shadow]
               }
               onPress={() => {
-                this.props.navigation.navigate('TodayPghd');
+                this.props.navigation.navigate('TodayPghd', {
+                  beforePghd: undefined,
+                });
               }}
             >
-              <Text style={styles.todayRecord}>오늘 기록하기</Text>
+              <Text style={styles.todayRecord}>{todayButtonName}</Text>
             </Button>
           </Form>
 
           <Form style={[styles.shadow, { width: '90%', alignSelf: 'center' }]}>
             {this.state.usersPghdData === null ? (
-              <Text></Text>
+              <Text>{pghdRecordZero}</Text>
             ) : (
               this.state.usersPghdData.map((pghdData: any) => {
                 const date = dateFunc(pghdData.updatedAt);
                 const pghd = JSON.parse(pghdData.data).pghd;
+                const pghdId = pghdData.id;
                 return (
                   <PghdRecord
                     navi={this.props}
                     key={pghdData.id}
-                    children={[this.state.personalInfo[0], date, pghd]}
+                    children={[this.state.personalInfo[0], date, pghd, pghdId]}
                   />
                 );
               })

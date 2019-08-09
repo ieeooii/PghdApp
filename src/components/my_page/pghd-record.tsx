@@ -1,9 +1,15 @@
+// tslint:disable-next-line: import-name
+import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Fab, Form } from 'native-base';
 import * as React from 'react';
 import { Alert, Image, Platform, Text } from 'react-native';
+import { BASE_URL, CLIENT_ID } from '../../../config/client';
 import { myprofileStyles, pghdRecordStyles } from '../style';
 
 const styles = pghdRecordStyles;
+const deleteButtonName = '삭제';
+const modifyButtonName = '수정';
+const cancelButtonName = '취소';
 
 interface State {
   activebutton?: boolean;
@@ -22,17 +28,54 @@ export class PghdRecord extends React.Component<Props, State> {
     };
   }
 
-  deleteAlert = () => {
-    Alert.alert(
+  modifyNavigationFunc = (beforePghdRecord: string) => {
+    this.props.navi.navigation.navigate('TodayPghd', {
+      beforePghd: beforePghdRecord,
+      pghdId: this.props.children[3],
+    });
+  }
+
+  // [DELETE]PGHD(Delete pghd by account address)
+  deleteRequestFunc = (token: string | null, path: string | null) => {
+    if (token !== null) {
+      return fetch(BASE_URL + path, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+          pghd: this.props.children[2],
+        }),
+      })
+        .then(res => {
+          if (res.status !== 200) {
+            alert(`error: ${res.status}`);
+          } else if (res.status === 200) {
+            return res.json();
+          }
+        })
+        .catch(error => {
+          alert(`error: ${error}`);
+        });
+    }
+  }
+
+  alertDelectFunc = async () => {
+    const accessToken = await AsyncStorage.getItem('accessToken');
+    const walletAddress = await AsyncStorage.getItem('walletAddress');
+    const DELETE_USER_PGHD = `/api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+
+    await Alert.alert(
       '삭제하시겠습니까?',
       '',
       [
         {
-          text: '삭제',
-          onPress: () => {},
+          text: deleteButtonName,
+          onPress: () => this.deleteRequestFunc(accessToken, DELETE_USER_PGHD),
         },
         {
-          text: '취소',
+          text: cancelButtonName,
           onPress: () => {},
           style: 'cancel',
         },
@@ -41,20 +84,19 @@ export class PghdRecord extends React.Component<Props, State> {
     );
   }
 
-  selectAlert = () => {
+  // android에서 수정, 삭제 버튼이 작동하지 않아 alert로 변경
+  androidAlertTwoSelectFunc = () => {
     Alert.alert(
       '수정 또는 삭제 버튼을 클릭해주세요.',
       '',
       [
         {
-          text: '수정',
-          onPress: () => {
-            this.props.navi.navigation.navigate('TodayPghd');
-          },
+          text: modifyButtonName,
+          onPress: () => this.modifyNavigationFunc(this.props.children[2]),
         },
         {
-          text: '삭제',
-          onPress: this.deleteAlert,
+          text: deleteButtonName,
+          onPress: this.alertDelectFunc,
         },
       ],
       { cancelable: false },
@@ -92,7 +134,7 @@ export class PghdRecord extends React.Component<Props, State> {
                 Platform.OS === 'ios'
                   ? () =>
                       this.setState({ activebutton: !this.state.activebutton })
-                  : this.selectAlert
+                  : this.androidAlertTwoSelectFunc
               }
             >
               <Image
@@ -106,11 +148,11 @@ export class PghdRecord extends React.Component<Props, State> {
                     ? { elevation: 0 }
                     : styles.buttonForm,
                 ]}
-                onPress={() => {
-                  this.props.navi.navigation.navigate('TodayPghd');
-                }}
+                onPress={() =>
+                  this.modifyNavigationFunc(this.props.children[2])
+                }
               >
-                <Text>수정</Text>
+                <Text>{modifyButtonName}</Text>
               </Button>
               <Button
                 style={[
@@ -119,9 +161,9 @@ export class PghdRecord extends React.Component<Props, State> {
                     ? { elevation: 0 }
                     : styles.buttonForm,
                 ]}
-                onPress={this.deleteAlert}
+                onPress={this.alertDelectFunc}
               >
-                <Text>삭제</Text>
+                <Text>{deleteButtonName}</Text>
               </Button>
             </Fab>
           </Form>

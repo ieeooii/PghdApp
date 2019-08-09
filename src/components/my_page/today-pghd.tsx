@@ -16,10 +16,14 @@ import { BASE_URL, CLIENT_ID } from '../../../config/client';
 import { todayPghd } from '../style';
 
 const styles = todayPghd;
+const uploadButtonName = '등록';
+const okButtonName = '확인';
+const cancelButtonName = '취소';
 
 interface State {
   str?: string;
   alertOkbutton?: boolean;
+  beforePghd?: string;
 }
 interface Props {
   navigation: any;
@@ -28,29 +32,47 @@ interface Props {
 export class TodayPghd extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
-    this.state = { str: '', alertOkbutton: false };
+    this.state = {
+      str: undefined,
+      alertOkbutton: false,
+      beforePghd: this.props.navigation.state.params.beforePghd,
+    };
   }
 
-  alertFunc = (alertTitle: string, goBackFunc: any) => {
-    Alert.alert(
-      alertTitle,
-      '',
-      [
-        {
-          text: '확인',
-          onPress: () => goBackFunc,
-        },
-      ],
-      { cancelable: false },
-    );
+  componentDidMount = () => {
+    if (this.state.beforePghd === undefined) {
+      return this.state.str;
+    }
+    if (
+      this.state.beforePghd !== undefined &&
+      this.state.beforePghd.length > 0
+    ) {
+      this.setState({
+        str: this.state.beforePghd,
+      });
+    }
   }
 
-  alertOkButtonFunc = () => {
+  alertOkButtonOnPressFunc = () => {
     this.setState({ alertOkbutton: true });
     if (this.state.alertOkbutton === true) {
       this.props.navigation.goBack();
       this.setState({ alertOkbutton: false });
     }
+  }
+
+  alertOneSelectFunc = (alertTitle: string, goBackFunc: any) => {
+    Alert.alert(
+      alertTitle,
+      '',
+      [
+        {
+          text: okButtonName,
+          onPress: () => goBackFunc,
+        },
+      ],
+      { cancelable: false },
+    );
   }
 
   alertTwoSelectFunc = (alertTitle: string) => {
@@ -59,11 +81,11 @@ export class TodayPghd extends React.Component<Props, State> {
       '',
       [
         {
-          text: '확인',
-          onPress: this.alertOkButtonFunc,
+          text: okButtonName,
+          onPress: this.alertOkButtonOnPressFunc,
         },
         {
-          text: '취소',
+          text: cancelButtonName,
           onPress: () => {},
           style: 'cancel',
         },
@@ -72,35 +94,69 @@ export class TodayPghd extends React.Component<Props, State> {
     );
   }
 
-  buttonOnpressFunc = async (str: string | undefined) => {
+  uploadButtonOnPressFunc = async (str: string | undefined) => {
     try {
-      if (str === undefined || str === '') {
-        this.alertFunc('내용을 입력해주세요.', {});
-      } else if (str.length > 0 && str !== undefined) {
-        const walletAddress = await AsyncStorage.getItem('walletAddress');
-        const accessToken = await AsyncStorage.getItem('accessToken');
-        const POST_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+      const walletAddress = await AsyncStorage.getItem('walletAddress');
+      const accessToken = await AsyncStorage.getItem('accessToken');
 
+      if (this.props.navigation.state.params.pghdId !== undefined) {
+        const pghdId = this.props.navigation.state.params.pghdId;
+        const PATCH_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd/${pghdId}`;
+
+        // [PATCH]PGHD(Update pghd)
+        await this.postOrPatchRequestFunc(
+          'PATCH',
+          accessToken,
+          PATCH_USER_PGHD,
+          str,
+          'PGHD가 수정 되었습니다.',
+        );
+      } else if (str === undefined || str === '') {
+        this.alertOneSelectFunc('내용을 입력해주세요.', {});
+      } else if (str.length > 0 && str !== undefined) {
         // [POST]PGHD(Create pghd)
-        await this.postRequestFunc(accessToken, POST_PGHD, str);
+        const POST_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+        await this.postOrPatchRequestFunc(
+          'POST',
+          accessToken,
+          POST_USER_PGHD,
+          str,
+          '오늘의 PGHD가 등록 되었습니다.',
+        );
       }
     } catch (error) {
       alert(`error: ${error}`);
     }
   }
 
-  backButtonOnpressFunc = (str: string | undefined) => {
-    if (str === undefined || str === '') {
+  backButtonOnPressFunc = (str: string | undefined) => {
+    if (str === this.state.beforePghd && this.state.beforePghd !== undefined) {
       this.props.navigation.goBack();
-    } else if (str !== undefined && str.length > 0) {
+      this.setState({
+        str: undefined,
+      });
+    } else if (str === undefined || str === '') {
+      this.props.navigation.goBack();
+    } else if (
+      str !== this.state.beforePghd &&
+      str !== undefined &&
+      str.length > 0
+    ) {
       this.alertTwoSelectFunc('삭제하시겠습니까?');
     }
   }
 
-  postRequestFunc = (token: any, path: string | null, bodyStr: string) => {
+  // [POST]PGHD(Create pghd) || [PATCH]PGHD(Update pghd)
+  postOrPatchRequestFunc = (
+    methodReq: string,
+    token: any,
+    path: string | null,
+    bodyStr: string | undefined,
+    success: string,
+  ) => {
     if (token !== null && bodyStr !== undefined) {
       return fetch(BASE_URL + path, {
-        method: 'POST',
+        method: methodReq,
         headers: {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
@@ -110,21 +166,27 @@ export class TodayPghd extends React.Component<Props, State> {
         }),
       })
         .then(res => {
+          console.log(res);
           if (res.status !== 200) {
-            alert(`error: ${res.status}`);
+            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
             return res.json();
           }
         })
         .then(() =>
-          this.alertFunc(
-            '오늘의 PGHD가 등록 되었습니다.',
-            this.props.navigation.goBack(),
-          ),
+          this.alertOneSelectFunc(success, this.props.navigation.goBack()),
         )
         .catch(error => {
           alert(`error: ${error}`);
         });
+    }
+  }
+
+  paramsPghdCheckFunc = (str: string | undefined) => {
+    if (this.state.beforePghd !== undefined) {
+      this.backButtonOnPressFunc(this.state.beforePghd);
+    } else {
+      this.backButtonOnPressFunc(str);
     }
   }
 
@@ -135,7 +197,7 @@ export class TodayPghd extends React.Component<Props, State> {
           <Left>
             <Button
               transparent
-              onPress={this.backButtonOnpressFunc.bind(this, this.state.str)}
+              onPress={() => this.paramsPghdCheckFunc(this.state.str)}
             >
               <Icon
                 name='arrow-back'
@@ -148,7 +210,7 @@ export class TodayPghd extends React.Component<Props, State> {
           </Left>
           <Right>
             <Button
-              onPress={this.buttonOnpressFunc.bind(this, this.state.str)}
+              onPress={() => this.uploadButtonOnPressFunc(this.state.str)}
               style={[styles.upIoadButton]}
             >
               <Text
@@ -157,7 +219,7 @@ export class TodayPghd extends React.Component<Props, State> {
                   { position: 'relative', left: 20 },
                 ]}
               >
-                등록
+                {uploadButtonName}
               </Text>
             </Button>
           </Right>
