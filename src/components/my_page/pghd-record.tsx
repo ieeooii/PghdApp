@@ -32,11 +32,13 @@ export class PghdRecord extends React.Component<Props, State> {
     this.props.navi.navigation.navigate('TodayPghd', {
       beforePghd: beforePghdRecord,
       pghdId: this.props.children[3],
+      updateFunc: this.props.children[4],
     });
   }
 
   // [DELETE]PGHD(Delete pghd by account address)
-  deleteRequestFunc = (token: string | null, path: string | null) => {
+  deleteRequestFunc = (token: string | null, path: string) => {
+    const updateFunc = this.props.children[4];
     if (token !== null) {
       return fetch(BASE_URL + path, {
         method: 'DELETE',
@@ -44,15 +46,13 @@ export class PghdRecord extends React.Component<Props, State> {
           'Content-Type': 'application/json',
           Authorization: 'Bearer ' + token,
         },
-        body: JSON.stringify({
-          pghd: this.props.children[2],
-        }),
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${res.status}`);
+            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
-            return res.json();
+            alert('삭제되었습니다.');
+            updateFunc();
           }
         })
         .catch(error => {
@@ -64,7 +64,8 @@ export class PghdRecord extends React.Component<Props, State> {
   alertDelectFunc = async () => {
     const accessToken = await AsyncStorage.getItem('accessToken');
     const walletAddress = await AsyncStorage.getItem('walletAddress');
-    const DELETE_USER_PGHD = `/api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+    const pghdId = this.props.children[3];
+    const DELETE_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd/${pghdId}`;
 
     await Alert.alert(
       '삭제하시겠습니까?',
@@ -92,7 +93,7 @@ export class PghdRecord extends React.Component<Props, State> {
       [
         {
           text: modifyButtonName,
-          onPress: () => this.modifyNavigationFunc(this.props.children[2]),
+          onPress: this.modifyNavigationFunc.bind(this, this.props.children[2]),
         },
         {
           text: deleteButtonName,
@@ -171,6 +172,7 @@ export class PghdRecord extends React.Component<Props, State> {
             style={[
               styles.pghdContainerBotttom,
               Platform.OS === 'ios' ? {} : styles.shadow,
+              { padding: 20 },
             ]}
           >
             <Text style={{ textAlign: 'center' }}>

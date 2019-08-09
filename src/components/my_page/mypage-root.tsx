@@ -20,6 +20,7 @@ interface Props {
 interface State {
   usersPghdData: any;
   personalInfo: any;
+  update: boolean;
 }
 
 const dateFunc = (dateStr: string) => {
@@ -32,11 +33,13 @@ export class MypageRoot extends React.Component<Props, State> {
     this.state = {
       usersPghdData: null,
       personalInfo: [],
+      update: false,
     };
   }
 
   componentDidMount = async () => {
     try {
+      console.log(this.props.navigation.state.params.update);
       const signIn = this.props.navigation.state.params.signIn;
       const GET_USER_DATA = `api/v1/users/${signIn.email}`;
       const GET_USER_WALLET = `api/v1/users/${signIn.userId}/userWallet`;
@@ -83,7 +86,19 @@ export class MypageRoot extends React.Component<Props, State> {
     }
   }
 
-  getRequestFunc = (token: string | null, path: string | null) => {
+  componentDidUpdate = async () => {
+    // tslint:disable-next-line: no-boolean-literal-compare
+    if (this.state.update === true) {
+      const walletAddress = await AsyncStorage.getItem('walletAddress');
+      const accessToken = await AsyncStorage.getItem('accessToken');
+      const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
+      const getUserPghd = await this.getRequestFunc(accessToken, GET_USER_PGHD);
+      this.setState({ usersPghdData: getUserPghd.data, update: false });
+    }
+  }
+
+  // [GET]
+  getRequestFunc = (token: string | null, path: string) => {
     if (token !== null) {
       return fetch(BASE_URL + path, {
         method: 'GET',
@@ -105,7 +120,14 @@ export class MypageRoot extends React.Component<Props, State> {
     }
   }
 
+  renderBooleanFunc = () => {
+    this.setState({
+      update: true,
+    });
+  }
+
   render() {
+    console.log(this.state.update);
     return (
       <Container style={styles.container}>
         <ScrollView>
@@ -122,6 +144,7 @@ export class MypageRoot extends React.Component<Props, State> {
               onPress={() => {
                 this.props.navigation.navigate('TodayPghd', {
                   beforePghd: undefined,
+                  updateFunc: this.renderBooleanFunc,
                 });
               }}
             >
@@ -141,7 +164,13 @@ export class MypageRoot extends React.Component<Props, State> {
                   <PghdRecord
                     navi={this.props}
                     key={pghdData.id}
-                    children={[this.state.personalInfo[0], date, pghd, pghdId]}
+                    children={[
+                      this.state.personalInfo[0],
+                      date,
+                      pghd,
+                      pghdId,
+                      this.renderBooleanFunc,
+                    ]}
                   />
                 );
               })

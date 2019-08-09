@@ -146,11 +146,17 @@ export class TodayPghd extends React.Component<Props, State> {
     }
   }
 
+  goBackAndSetParamsFunc = () => {
+    const updateFunc = this.props.navigation.state.params.updateFunc;
+    updateFunc();
+    this.props.navigation.goBack();
+  }
+
   // [POST]PGHD(Create pghd) || [PATCH]PGHD(Update pghd)
   postOrPatchRequestFunc = (
     methodReq: string,
-    token: any,
-    path: string | null,
+    token: string | null,
+    path: string,
     bodyStr: string | undefined,
     success: string,
   ) => {
@@ -170,12 +176,9 @@ export class TodayPghd extends React.Component<Props, State> {
           if (res.status !== 200) {
             alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
-            return res.json();
+            this.alertOneSelectFunc(success, this.goBackAndSetParamsFunc());
           }
         })
-        .then(() =>
-          this.alertOneSelectFunc(success, this.props.navigation.goBack()),
-        )
         .catch(error => {
           alert(`error: ${error}`);
         });
