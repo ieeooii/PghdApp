@@ -1,48 +1,17 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { Alert } from 'react-native';
-import { CLIENT_ID, CLIENT_SECRET } from '../../../.env';
 import { profileRootStyles } from '../style';
 import { ProfileBody } from './profile-body';
 import { ProfileGender } from './profile-gender';
 
-export interface Props {
-  navigation: any;
-}
-export interface State {
-  gender: string;
-  birthDate: string;
-  relationShip: string;
-  email: string;
-  password: string;
-  nickname: string;
-  clientId: string;
-  clientSecret: string;
-  id: string;
-  [key: string]: any;
-}
+export interface Props {}
+export interface State {}
 
 export class ProfileRoot extends React.Component<Props, State> {
-  public state: State;
   public props: any;
   constructor(props: any) {
     super(props);
-    this.state = {
-      gender: '',
-      birthDate: '',
-      relationShip: '환자',
-      email: this.props.navigation.state.params.signupData.email,
-      password: this.props.navigation.state.params.signupData.password,
-      nickname: this.props.navigation.state.params.signupData.nickname,
-      id: this.props.navigation.state.params.signupData.id,
-      clientId: CLIENT_ID,
-      clientSecret: CLIENT_SECRET,
-    };
-  }
-
-  // root state 변화시키는 함수
-  changeState(key: string, value: any) {
-    this.state[key] = value;
   }
 
   // 버튼 클릭시 로그인 fetch
@@ -53,32 +22,18 @@ export class ProfileRoot extends React.Component<Props, State> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        clientId: this.state.clientId,
-        clientSecret: this.state.clientSecret,
+        email: this.props.email,
+        password: this.props.password,
+        clientId: this.props.clientId,
+        clientSecret: this.props.clientSecret,
       }),
     });
   }
 
   // Pghd 페이지로 이동
-  goPghdPage(
-    jsonData: any,
-    userGender: string,
-    userBirthDate: string,
-    userRelationShip: string,
-  ) {
+  goPghdPage(jsonData: any) {
     this.props.navigation.navigate('MypageRoot', {
-      userData: {
-        nickname: this.state.nickname,
-        id: this.state.id,
-        clientId: this.state.clientId,
-        clientSecret: this.state.clientSecret,
-        gender: userGender,
-        birthDate: userBirthDate,
-        relationShip: userRelationShip,
-      },
-      loginData: {
+      tokenData: {
         accessToken: jsonData.accessToken,
         refreshToken: jsonData.refreshToken,
         accessTokenExpiresAt: jsonData.accessTokenExpiresAt,
@@ -88,13 +43,9 @@ export class ProfileRoot extends React.Component<Props, State> {
   }
 
   render() {
-    this.changeState = this.changeState.bind(this);
     this.login = this.login.bind(this);
     this.goPghdPage = this.goPghdPage.bind(this);
     // console.log('profile-root.tsx 렌더');
-    // console.log('profile-root.tsx PROPS ==> ', this.props);
-    // console.log('profile-root.tsx State ==> ', this.state);
-
     return (
       <Container>
         <Form style={profileRootStyles.titleGenderForm}>
@@ -102,17 +53,11 @@ export class ProfileRoot extends React.Component<Props, State> {
             <Text style={profileRootStyles.formTxt}>내 정보</Text>
           </Form>
           <Form style={profileRootStyles.genderForm}>
-            <ProfileGender
-              changeState={this.changeState}
-              rootState={this.state} // root state 확인용
-            />
+            <ProfileGender reduxStore={this.props} />
           </Form>
         </Form>
         <Form>
-          <ProfileBody
-            changeState={this.changeState}
-            rootState={this.state} // root state 확인용
-          />
+          <ProfileBody reduxStore={this.props} />
         </Form>
         <Form style={profileRootStyles.btnForm}>
           <Form style={profileRootStyles.shadow}>
@@ -137,12 +82,7 @@ export class ProfileRoot extends React.Component<Props, State> {
                     return json;
                   })
                   .then(json => {
-                    this.goPghdPage(
-                      json,
-                      this.state.gender,
-                      this.state.birthDate,
-                      this.state.relationShip,
-                    );
+                    this.goPghdPage(json);
                   })
                   .catch(error => {
                     console.log('내정보 -> PGHD 페이지로의 이동 실패 ', error);
@@ -165,7 +105,10 @@ export class ProfileRoot extends React.Component<Props, State> {
                     return response.json();
                   })
                   .then(json => {
-                    this.goPghdPage(json, '', '', '');
+                    this.props.changeProfileState('gender', '');
+                    this.props.changeProfileState('birthDate', '');
+                    this.props.changeProfileState('relationship', '');
+                    this.goPghdPage(json);
                   })
                   .catch(error => {
                     console.log('내정보 -> PGHD 페이지로의 이동 실패 ', error);

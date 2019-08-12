@@ -1,9 +1,18 @@
 import * as React from 'react';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './src/redux';
 import Appcontainer from './src/navigator/stack-navi.tsx';
 
-// eslint-disable-next-line no-undef
+const store = createStore(reducer);
+
 export default App = () => {
   return (
-    <Appcontainer />
+    <Provider store={store}>
+      <Appcontainer />
+    </Provider>
   );
 };
+
+
+

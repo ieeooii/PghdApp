@@ -2,70 +2,26 @@ import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { Alert } from 'react-native';
 import { signupStyles } from '../style';
-import { SignupBody } from './signup-body';
+import { Email } from './email';
+import { Nickname } from './nickname';
+import { Password } from './password';
+import { Terms } from './terms';
+const uuidv1 = require('uuid/v1');
+const uniqString = uuidv1();
 
-export interface Props {
-  navigation: any;
-}
-export interface State {
-  email: any;
-  emailCheck: Boolean;
-  password: string;
-  passwordCheck: Boolean;
-  nickname: string;
-  nicknameCheck: Boolean;
-  relationship: string;
-  birthDate: string;
-  agreementService: Boolean;
-  agreementServiceAt: string;
-  agreementPrivate: Boolean;
-  agreementPrivateAt: string;
-  agreementMarketing: Boolean;
-  agreementMarketingAt: string;
-  btnDisabled: any;
-  btnColor: string;
-  emailFocus: Boolean;
-  passwordFocus: Boolean;
-  nicknameFocus: Boolean;
-  permitEmail: Boolean;
-  permitNickname: Boolean;
-  [key: string]: any;
-}
+export interface Props {}
+export interface State {}
 
 export class Signup extends React.Component<Props, State> {
-  public state: State;
   public props: any;
   constructor(props: Props) {
     super(props);
-    this.state = {
-      email: '',
-      emailCheck: false,
-      password: '',
-      passwordCheck: false,
-      nickname: '',
-      nicknameCheck: false,
-      birthDate: '',
-      relationship: '',
-      agreementService: false,
-      agreementServiceAt: 'Unknown Type: date',
-      agreementPrivate: false,
-      agreementPrivateAt: 'Unknown Type: date',
-      agreementMarketing: false,
-      agreementMarketingAt: 'Unknown Type: date',
-      btnDisabled: true,
-      btnColor: 'grey',
-      emailFocus: false,
-      passwordFocus: false,
-      nicknameFocus: false,
-      permitEmail: true,
-      permitNickname: true,
-    };
   }
 
   // 이메일 중복여부 확인
   emailValidity() {
     return fetch(
-      `http://api-stage.humanscape.io:80/api/v1/users/exists/${this.state.email}`,
+      `http://api-stage.humanscape.io:80/api/v1/users/exists/${this.props.email}`,
       {
         method: 'GET',
         headers: {
@@ -83,117 +39,58 @@ export class Signup extends React.Component<Props, State> {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        nickname: this.state.nickname,
+        email: this.props.email,
+        password: this.props.password,
+        nickname: this.props.nickname,
         type: 1,
-        birthDate: this.state.birthDate,
-        relationship: this.state.relationship,
+        birthDate: new Date(),
+        relationship: this.props.relationship,
         location: '지역',
         hospital: '서울대병원',
         incidenceTime: '2000년 초',
-        agreementService: this.state.agreementService,
+        agreementService: this.props.agreementService,
         agreementServiceAt: 'Unknown Type: date',
-        agreementPrivate: this.state.agreementPrivate,
+        agreementPrivate: this.props.agreementPrivate,
         agreementPrivateAt: 'Unknown Type: date',
-        agreementMarketing: this.state.agreementMarketing,
+        agreementMarketing: this.props.agreementMarketing,
         agreementMarketingAt: 'Unknown Type: date',
       }),
     });
   }
 
-  // root state 변경
-  changeSignupState(key: string, value: string) {
-    this.state[key] = value;
-  }
-
-  // input 적절한 작성여부 확인
-  inputCheck(key: string, boolean: Boolean, text: any) {
-    this.state[key] = boolean;
-    return text;
-  }
-
-  // 약관동의 체크
-  termsCheck(type: string, boolean: Boolean) {
-    if (type === 'all') {
-      this.state.agreementService = boolean;
-      this.state.agreementPrivate = boolean;
-      this.state.agreementMarketing = boolean;
-    } else {
-      this.state[type] = boolean;
-    }
-  }
-
-  // 버튼 활성화 위한 6개의 조건 만족여부 확인
-  isBtnAble() {
-    if (
-      this.state.emailCheck &&
-      this.state.passwordCheck &&
-      this.state.nicknameCheck &&
-      this.state.agreementService &&
-      this.state.agreementPrivate
-    ) {
-      this.setState({
-        btnDisabled: false,
-        btnColor: 'white',
-      });
-    }
-  }
-
-  // 버튼 비활성화
-  isBtnDisAble() {
-    this.setState({
-      btnDisabled: true,
-      btnColor: 'grey',
-    });
-  }
-
-  // 현재 input 커서의 위치 확인
-  changeFocus(focus: string, boolean: Boolean) {
-    this.state[focus] = boolean;
-    this.setState({});
+  createWallet(id: any, uniq: any) {
+    return fetch(
+      `http://api-stage.humanscape.io:80/api/v1/users/${id}/userWallet`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId: id,
+          address: uniq,
+          type: '1', // type은 뭔지 몰라서 '1'(string)로 해둠
+          priority: 0, // priority도 뭔지 몰라서 0(number)으로 해둠
+        }),
+      },
+    );
   }
 
   render() {
-    this.changeSignupState = this.changeSignupState.bind(this);
     this.signupFetch = this.signupFetch.bind(this);
-    this.inputCheck = this.inputCheck.bind(this);
-    this.termsCheck = this.termsCheck.bind(this);
-    this.isBtnAble = this.isBtnAble.bind(this);
-    this.isBtnDisAble = this.isBtnDisAble.bind(this);
-    this.changeFocus = this.changeFocus.bind(this);
     this.emailValidity = this.emailValidity.bind(this);
-    // console.log('signup.tsx state ==>', this.state);
+    this.createWallet = this.createWallet.bind(this);
     // console.log('signup.tsx 렌더');
-
     return (
-      // 완료버튼이 비활성화 상태인 경우 -> 자식 컴포넌트에서 isBtnDisAble함수 작동 안됨
-      // 완료버튼이 활성화 상태인 경우 -> 자식 컴포넌트에서 isBtnAble함수 작동 안됨
-      // root컴포넌트의 setState가 무한히 반복되는 것을 막기 위함
       <Container>
-        {this.state.btnDisabled === true ? (
-          <SignupBody
-            changeSignupState={this.changeSignupState}
-            inputCheck={this.inputCheck}
-            isBtnAble={this.isBtnAble}
-            isBtnDisAble={() => {}}
-            rootState={this.state}
-            termsCheck={this.termsCheck}
-            changeFocus={this.changeFocus}
-            navi={this.props}
-          />
-        ) : (
-          <SignupBody
-            changeSignupState={this.changeSignupState}
-            inputCheck={this.inputCheck}
-            isBtnAble={() => {}}
-            isBtnDisAble={this.isBtnDisAble}
-            rootState={this.state}
-            termsCheck={this.termsCheck}
-            changeFocus={this.changeFocus}
-            navi={this.props}
-          />
-        )}
+        <Form style={signupStyles.signupContent}>
+          <Email reduxStore={this.props} />
+          <Password reduxStore={this.props} />
+          <Nickname reduxStore={this.props} />
+        </Form>
+        <Form style={signupStyles.termsContent}>
+          <Terms reduxStore={this.props} />
+        </Form>
         <Form style={signupStyles.shadow}>
           <Button
             onPress={() => {
@@ -202,27 +99,25 @@ export class Signup extends React.Component<Props, State> {
                   return response.json();
                 })
                 .then(json => {
-                  // console.log(' emailValidity json == ', json);
-
+                  // console.log(' emailValidity json => ', json);
                   if (json.status === 'success') {
                     // 이메일 중복 경고
-                    this.setState({
-                      permitEmail: false,
-                    });
+                    this.props.permit('permitEmail', false);
                     return;
                   }
                 })
                 .catch(error => {
                   // emailValidity 에러 = 가입 가능 email -> 가입요청
-                  // console.log('가입 가능한 email == ', error);
+                  console.log('가입 가능한 email이라서 나오는 에러 =>', error);
 
                   this.signupFetch()
                     .then(response => {
                       return response.json();
                     })
                     .then(json => {
+                      // console.log('회원가입 요청에 대한 response =>', json);
                       if (json.message === 'success') {
-                        // console.log(' 회원가입 성공 == ');
+                        console.log(' 회원가입 성공 ');
 
                         Alert.alert(
                           '',
@@ -230,7 +125,9 @@ export class Signup extends React.Component<Props, State> {
                           [
                             {
                               text: '확인',
-                              onPress: () => {},
+                              onPress: () => {
+                                this.props.navigation.navigate('ProfileRoot');
+                              },
                             },
                           ],
                           { cancelable: false },
@@ -240,38 +137,46 @@ export class Signup extends React.Component<Props, State> {
                     })
                     .then(json => {
                       if (json.message === 'success') {
-                        this.props.navigation.navigate('ProfileRoot', {
-                          signupData: {
-                            email: this.state.email,
-                            password: this.state.password,
-                            nickname: this.state.nickname,
-                            id: json.user.id,
-                          },
-                        });
+                        this.props.changeSignupState('id', json.user.id);
+                        this.props.changeSignupState('userWallet', uniqString);
+                        this.createWallet(json.user.id, uniqString)
+                          .then(response => {
+                            return response.json();
+                          })
+                          .then(json => {
+                            console.log(
+                              'userWallet Post 요청에 대한 응답',
+                              json,
+                            );
+                          })
+                          .catch(error => {
+                            console.log(
+                              'userWallet Post 요청에 대한 에러',
+                              error,
+                            );
+                          });
                         return;
                       }
                       if (json.message === 'Validation error') {
                         // 닉네임 중복 경고 띄우기
-                        // console.log(' 닉네임 중복됨 == ');
+                        console.log(' 닉네임 중복됨 ');
 
-                        this.setState({
-                          permitNickname: false,
-                        });
+                        this.props.permit('permitNickname', false);
                         return;
                       }
                     })
-                    .catch(error2 => {
+                    .catch(error => {
                       console.log(
                         'email 중복도 아니고, nickname 중복도 아닌 에러',
-                        error2,
+                        error,
                       );
                     });
                 });
             }}
-            disabled={this.state.btnDisabled}
+            disabled={this.props.btnDisabled}
             style={[signupStyles.button, signupStyles.androidShadow]}
           >
-            <Text style={{ color: this.state.btnColor }}>완료</Text>
+            <Text style={{ color: this.props.btnColor }}>완료</Text>
           </Button>
         </Form>
       </Container>

@@ -3,15 +3,9 @@ import * as React from 'react';
 import { nicknameStyles } from '../style';
 
 export interface Props {
-  changeSignupState: any;
-  inputCheck: any;
-  isBtnAble: any;
-  isBtnDisAble: any;
-  rootState: any;
-  changeFocus: any;
+  reduxStore: any;
 }
 export interface State {
-  nickname: string;
   borderColor: string;
   placeholderTextColor: string;
 }
@@ -24,69 +18,62 @@ export class Nickname extends React.Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      nickname: '',
       borderColor: '#D2D2D2',
       placeholderTextColor: '#717372',
     };
   }
 
   nicknameCheck = () => {
-    const regCheckNickname = /^[A-Za-z0-9|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{1,12}$/;
+    const regCheckNickname = /^[A-Za-z0-9|ㄱ-ㅎ|ㅏ-ㅣ|가-힣]{1,12}$/.test(
+      this.props.reduxStore.nickname,
+    );
 
-    if (!this.props.rootState.permitNickname) {
-      return this.props.inputCheck(
-        'nicknameCheck',
-        false,
+    if (!this.props.reduxStore.permitNickname) {
+      this.props.reduxStore.inputCheck('nicknameCheck', false);
+      this.props.reduxStore.btnCheck();
+      return (
         <Text style={nicknameStyles.txtIsValid}>
           이미 사용중인 닉네임입니다.
-        </Text>,
+        </Text>
       );
     }
-    if (this.state.nickname.length !== 0 && this.state.nickname.length > 12) {
-      this.props.inputCheck('nicknameCheck', false);
-      this.props.isBtnDisAble();
-      return this.props.inputCheck(
-        'nicknameCheck',
-        false,
+    if (
+      this.props.reduxStore.nickname.length !== 0 &&
+      this.props.reduxStore.nickname.length > 12
+    ) {
+      this.props.reduxStore.inputCheck('nicknameCheck', false);
+      this.props.reduxStore.btnCheck();
+      return (
         <Text style={nicknameStyles.txtIsValid}>
           최대 12자까지 입력할 수 있습니다.
-        </Text>,
+        </Text>
       );
     }
-    if (
-      this.state.nickname.length !== 0 &&
-      !regCheckNickname.test(this.state.nickname)
-    ) {
-      this.props.inputCheck('nicknameCheck', false);
-      this.props.isBtnDisAble();
-      return this.props.inputCheck(
-        'nicknameCheck',
-        false,
+    if (this.props.reduxStore.nickname.length !== 0 && !regCheckNickname) {
+      this.props.reduxStore.inputCheck('nicknameCheck', false);
+      this.props.reduxStore.btnCheck();
+      return (
         <Text style={nicknameStyles.txtIsValid}>
           한글, 영문, 숫자만 입력할 수 있습니다.
-        </Text>,
+        </Text>
       );
     }
-    if (
-      this.state.nickname.length !== 0 &&
-      this.props.rootState.nickname.length !== 0
-    ) {
-      this.props.inputCheck('nicknameCheck', true);
-      this.props.isBtnAble();
-      return this.props.inputCheck('nicknameCheck', true, <Text></Text>);
+    if (this.props.reduxStore.nickname.length !== 0) {
+      this.props.reduxStore.inputCheck('nicknameCheck', true);
+      this.props.reduxStore.btnCheck();
+      return <Text></Text>;
     }
-    this.props.inputCheck('nicknameCheck', false);
-    this.props.isBtnDisAble();
+    this.props.reduxStore.inputCheck('nicknameCheck', false);
+    this.props.reduxStore.btnCheck();
     return <Text></Text>;
   }
 
   render() {
     // console.log('nickname.tsx 렌더');
-
-    if (!this.props.rootState.nicknameFocus && focusFlag === 1) {
+    if (!this.props.reduxStore.nicknameFocus && focusFlag === 1) {
       this.state.borderColor = '#D2D2D2';
       this.state.placeholderTextColor = '#717372';
-      this.props.changeFocus('nicknameFocus', false);
+      this.props.reduxStore.changeFocus('nicknameFocus', false);
       focusFlag = 0;
     }
 
@@ -95,9 +82,9 @@ export class Nickname extends React.Component<Props, State> {
         <Item style={{ borderColor: this.state.borderColor }}>
           <Input
             onFocus={() => {
-              this.props.changeFocus('emailFocus', false);
-              this.props.changeFocus('passwordFocus', false);
-              this.props.changeFocus('nicknameFocus', true);
+              this.props.reduxStore.changeFocus('emailFocus', false);
+              this.props.reduxStore.changeFocus('passwordFocus', false);
+              this.props.reduxStore.changeFocus('nicknameFocus', true);
               this.setState({
                 borderColor: '#690591',
                 placeholderTextColor: '#690591',
@@ -105,11 +92,8 @@ export class Nickname extends React.Component<Props, State> {
               focusFlag = 1;
             }}
             onChangeText={text => {
-              this.props.rootState.permitNickname = true;
-              this.setState({
-                nickname: text,
-              });
-              this.props.changeSignupState('nickname', text);
+              this.props.reduxStore.permit('permitNickname', true);
+              this.props.reduxStore.changeSignupState('nickname', text);
             }}
             placeholder='닉네임'
             placeholderTextColor={this.state.placeholderTextColor}
