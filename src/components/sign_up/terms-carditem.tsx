@@ -10,11 +10,8 @@ export interface Props {
   termsAgree: any;
   termsDisAgree: any;
   eachCheckColor: any;
-  isBtnAble: any;
-  isBtnDisAble: any;
-  rootState: any;
   eachIconBtn: any;
-  navi: any;
+  reduxStore: any;
 }
 export interface State {}
 
@@ -22,25 +19,20 @@ let colorFlag = 0;
 
 export class TermsCardItem extends React.Component<Props, State> {
   public props: any;
-  public state: State;
   constructor(props: Props) {
     super(props);
-    this.state = {};
   }
   render() {
     // console.log('terms_carditem.tsx 렌더');
-
     return (
       <CardItem>
         <Button
           onPress={() => {
             if (colorFlag === 0) {
               this.props.termsAgree();
-              this.props.isBtnAble();
               colorFlag = 1;
             } else {
               this.props.termsDisAgree();
-              this.props.isBtnDisAble();
               colorFlag = 0;
             }
           }}
@@ -60,7 +52,7 @@ export class TermsCardItem extends React.Component<Props, State> {
         <Text style={termsStyles.promotionTxt}>{this.props.option}</Text>
         <Button
           onPress={() => {
-            this.props.navi.navigation.navigate('TermsText');
+            this.props.reduxStore.navigation.navigate('TermsText');
           }}
           style={[termsStyles.arrowBtn, this.props.eachArrowBtn]}
           transparent

@@ -9,6 +9,7 @@ export class TermsText extends React.Component<Props, State> {
     super(props);
   }
   render() {
+    // console.log('terms-text.tsx 렌더');
     return <Text></Text>;
   }
 }

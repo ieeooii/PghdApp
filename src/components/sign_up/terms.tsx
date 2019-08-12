@@ -4,11 +4,7 @@ import { termsStyles } from '../style';
 import { TermsCardItem } from './terms-carditem';
 
 export interface Props {
-  termsCheck: any;
-  isBtnAble: any;
-  isBtnDisAble: any;
-  rootState: any;
-  navi: any;
+  reduxStore: any;
 }
 export interface State {
   checkAllColor: string;
@@ -59,15 +55,13 @@ export class Terms extends React.Component<Props, State> {
   render() {
     this.changeColor = this.changeColor.bind(this);
     // console.log('terms.tsx 렌더');
-    // console.log('terms.tsx state == ', this.state);
-
     if (
       this.state.terms1Color === 'green' &&
       this.state.terms2Color === 'green' &&
       this.state.terms3Color === 'green' &&
       colorFlag === 0
     ) {
-      this.props.termsCheck('all', true);
+      this.props.reduxStore.termsCheck('all', true);
       this.changeColor('all', 'green');
       colorFlag = 1;
       colorFlag2 = 0;
@@ -95,14 +89,14 @@ export class Terms extends React.Component<Props, State> {
                 onPress={() => {
                   if (colorFlag === 0) {
                     this.changeColor('all', 'green');
-                    this.props.termsCheck('all', true);
-                    this.props.isBtnAble();
+                    this.props.reduxStore.termsCheck('all', true);
+                    this.props.reduxStore.btnCheck();
                     colorFlag = 1;
                     colorFlag2 = 0;
                   } else {
                     this.changeColor('all', 'black');
-                    this.props.termsCheck('all', false);
-                    this.props.isBtnDisAble();
+                    this.props.reduxStore.termsCheck('all', false);
+                    this.props.reduxStore.btnCheck();
                     colorFlag = 0;
                     colorFlag2 = 1;
                   }
@@ -129,18 +123,17 @@ export class Terms extends React.Component<Props, State> {
             eachArrowBtn={termsStyles.arrowBtn1}
             eachIconBtn={termsStyles.iconBtn1}
             eachCheckColor={this.state.terms1Color}
-            isBtnAble={this.props.isBtnAble}
-            isBtnDisAble={this.props.isBtnDisAble}
-            navi={this.props.navi}
+            reduxStore={this.props.reduxStore}
             termsAgree={() => {
               this.changeColor('terms1', 'green');
-              this.props.termsCheck('agreementService', true);
+              this.props.reduxStore.termsCheck('agreementService', true);
+              this.props.reduxStore.btnCheck();
             }}
             termsDisAgree={() => {
               this.changeColor('terms1', 'black');
-              this.props.termsCheck('agreementService', false);
+              this.props.reduxStore.termsCheck('agreementService', false);
+              this.props.reduxStore.btnCheck();
             }}
-            rootState={this.props.rootState} // root state 확인용
           />
           <TermsCardItem
             text={'개인정보 수집 및 이용'}
@@ -149,18 +142,17 @@ export class Terms extends React.Component<Props, State> {
             eachArrowBtn={termsStyles.arrowBtn2}
             eachIconBtn={termsStyles.iconBtn2}
             eachCheckColor={this.state.terms2Color}
-            isBtnAble={this.props.isBtnAble}
-            isBtnDisAble={this.props.isBtnDisAble}
-            navi={this.props.navi}
+            reduxStore={this.props.reduxStore}
             termsAgree={() => {
               this.changeColor('terms2', 'green');
-              this.props.termsCheck('agreementPrivate', true);
+              this.props.reduxStore.termsCheck('agreementPrivate', true);
+              this.props.reduxStore.btnCheck();
             }}
             termsDisAgree={() => {
               this.changeColor('terms2', 'black');
-              this.props.termsCheck('agreementPrivate', false);
+              this.props.reduxStore.termsCheck('agreementPrivate', false);
+              this.props.reduxStore.btnCheck();
             }}
-            rootState={this.props.rootState} // root state 확인용
           />
           <TermsCardItem
             text={'홍보 안내 수신'}
@@ -169,18 +161,15 @@ export class Terms extends React.Component<Props, State> {
             eachArrowBtn={termsStyles.arrowBtn3}
             eachIconBtn={termsStyles.iconBtn3}
             eachCheckColor={this.state.terms3Color}
-            isBtnAble={this.props.isBtnAble}
-            isBtnDisAble={this.props.isBtnDisAble}
-            navi={this.props.navi}
+            reduxStore={this.props.reduxStore}
             termsAgree={() => {
               this.changeColor('terms3', 'green');
-              this.props.termsCheck('agreementMarketing', true);
+              this.props.reduxStore.termsCheck('agreementMarketing', true);
             }}
             termsDisAgree={() => {
               this.changeColor('terms3', 'black');
-              this.props.termsCheck('agreementMarketing', false);
+              this.props.reduxStore.termsCheck('agreementMarketing', false);
             }}
-            rootState={this.props.rootState} // root state 확인용
           />
         </Card>
       </Form>

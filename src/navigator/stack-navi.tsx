@@ -1,12 +1,12 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation';
 import { Main } from '../components/main';
-import { MypageRoot } from '../components/my_page/mypage-root';
 import { TodayPghd } from '../components/my_page/today-pghd';
-import { MyProfile } from '../components/my_profile/myprofile-root';
-import { SignIn } from '../components/sign_in/sign-in-root';
-import { ProfileRoot } from '../components/sign_up/profile-root';
-import { Signup } from '../components/sign_up/sign-up';
 import { TermsText } from '../components/sign_up/terms-text';
+import { reduxSignin } from '../redux/redux-work.js';
+import { reduxMyProfile } from '../redux/redux-work.js';
+import { reduxMypageRoot } from '../redux/redux-work.js';
+import { reduxProfileRoot } from '../redux/redux-work.js';
+import { reduxSignup } from '../redux/redux-work.js';
 
 const appNavigator = createStackNavigator({
   Home: {
@@ -15,32 +15,32 @@ const appNavigator = createStackNavigator({
       header: null,
     }),
   },
-  ProfileRoot: {
-    screen: ProfileRoot,
-    navigationOptions: () => ({
-      header: null,
-    }),
-  },
   Signup: {
-    screen: Signup,
+    screen: reduxSignup,
     navigationOptions: () => ({
       // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
     }),
   },
+  ProfileRoot: {
+    screen: reduxProfileRoot,
+    navigationOptions: () => ({
+      header: null,
+    }),
+  },
   SignIn: {
-    screen: SignIn,
+    screen: reduxSignin,
     navigationOptions: () => ({
       // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
     }),
   },
   MypageRoot: {
-    screen: MypageRoot,
+    screen: reduxMypageRoot,
     navigationOptions: () => ({
       header: null,
     }),
   },
   MyProfile: {
-    screen: MyProfile,
+    screen: reduxMyProfile,
     navigationOptions: () => ({
       // header: null ( 헤더가 없어야 하는 페이지는 활성화 시키기 )
     }),
