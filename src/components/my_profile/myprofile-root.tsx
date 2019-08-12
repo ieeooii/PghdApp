@@ -18,9 +18,6 @@ export interface State {
 }
 
 export class MyProfile extends React.Component<Props, State> {
-  // public state: State;
-  // public props: any;
-
   constructor(props: any) {
     super(props);
     this.state = {
@@ -30,12 +27,14 @@ export class MyProfile extends React.Component<Props, State> {
       birthDate: '',
       relationship: '',
     };
+    console.log('myprofile redux Store', this.props);
+    console.log(AsyncStorage.getAllKeys());
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('token')
+    AsyncStorage.getItem('accessToken')
       .then(token =>
-        AsyncStorage.getItem('email')
+        AsyncStorage.getItem('userEmail')
           .then(email => {
             const checkToken = token !== null ? JSON.parse(token) : null;
             const checkEmail = email !== null ? JSON.parse(email) : null;

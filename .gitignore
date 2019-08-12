@@ -67,9 +67,6 @@ buck-out/
 
 
 
-# .env
-/.env.tsx
-
 # config
-config/
+config/client.tsx
 

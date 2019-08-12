@@ -9,6 +9,7 @@ const TERMS_CHECK = 'TERMS_CHECK';
 const PERMIT = 'PERMIT';
 const BTN_CHECK = 'BTN_CHECK';
 const CHANGE_PROFILE_ROOT_STATE = 'CHANGE_PROFILE_ROOT_STATE';
+const CHANGE_SIGN_IN_STATE = 'CHANGE_SIGN_IN_STATE';
 
 // Action-Creators
 function changeSignupStateAction(key, value) {
@@ -62,6 +63,15 @@ function changeProfileStateAction(key, value) {
     value
   };
 }
+
+function changeSignInStateAction(key, value) {
+  return {
+    type: CHANGE_SIGN_IN_STATE,
+    key,
+    value
+  };
+}
+
 
 // Reducer Functions
 function changeSignupState(state, key, value) {
@@ -124,6 +134,12 @@ function changeProfileState(state, key, value) {
   return obj;
 }
 
+function changeSignInState(state, key, value) {
+  const obj = { ...state };
+  obj[key] = value;
+  return obj;
+}
+
 // Reducer
 const initialState = {
   email: '',
@@ -151,7 +167,9 @@ const initialState = {
   birthDate: '',
   relationship: '환자',
   clientId: CLIENT_ID,
-  clientSecret: CLIENT_SECRET
+  clientSecret: CLIENT_SECRET,
+  failMessageEmailCheck: true,
+  failMessagePasswordCheck: true,
 };
 
 // 액션을 보낼때마다 Redux는 자동으로 Reducer를 실행한다
@@ -191,6 +209,11 @@ function reducer(state = initialState, action) {
       const { value } = action;
       return changeProfileState(state, key, value);
     }
+    case CHANGE_SIGN_IN_STATE: {
+      const { key } = action;
+      const { value } = action;
+      return changeSignInState(state, key, value);
+    }
     default:
       return state;
   }
@@ -204,7 +227,8 @@ export const actionCreators = {
   termsCheckAction,
   btnCheckAction,
   permitAction,
-  changeProfileStateAction
+  changeProfileStateAction,
+  changeSignInStateAction
 };
 
 // Export Reducer
