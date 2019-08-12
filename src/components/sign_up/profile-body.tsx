@@ -4,11 +4,9 @@ import { Platform } from 'react-native';
 import { profileBodyStyles } from '../style';
 
 export interface Props {
-  rootState: any;
-  changeState: any;
+  reduxStore: any;
 }
 export interface State {
-  chosenDate: any;
   selected: any;
   category: any;
 }
@@ -19,36 +17,28 @@ export class ProfileBody extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
     this.state = {
-      chosenDate: '',
       selected: '환자',
       category: ['환자', '보호자', '의사/약사', '다른질환', '기타'],
     };
   }
 
   setBirthDate(newDate: any) {
-    this.props.changeState('birthDate', newDate);
-    this.setState({
-      chosenDate: newDate,
-    });
+    this.props.reduxStore.changeProfileState('birthDate', newDate);
   }
 
-  relationChange(value: string) {
-    this.props.changeState('relationShip', value);
+  setRelation(value: string) {
+    this.props.reduxStore.changeProfileState('relationship', value);
     this.setState({
       selected: value,
     });
   }
 
   render() {
-    this.relationChange = this.relationChange.bind(this);
+    this.setRelation = this.setRelation.bind(this);
     this.setBirthDate = this.setBirthDate.bind(this);
-
     // 생년월일 뽑아내는 코드
     // const birthDay = this.state.chosenDate.toString().substr(4, 12);
     // console.log('profilbody.tsx 렌더');
-    // console.log('root State ==>', this.props.rootState);
-    // console.log('profilbody State ==>', this.state);
-
     return (
       <Form>
         <Form style={profileBodyStyles.innerForm}>
@@ -92,7 +82,7 @@ export class ProfileBody extends React.Component<Props, State> {
               placeholder='클릭하세요'
               iosIcon={<Icon name='arrow-down' />}
               selectedValue={this.state.selected}
-              onValueChange={this.relationChange}
+              onValueChange={this.setRelation}
               textStyle={{ color: 'black' }}
             >
               {this.state.category.map((val: any) => {

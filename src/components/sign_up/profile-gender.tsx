@@ -3,8 +3,7 @@ import * as React from 'react';
 import { profilegenderStyles } from '../style';
 
 export interface Props {
-  rootState: any;
-  changeState: any;
+  reduxStore: any;
 }
 export interface State {
   btnColorMan: string;
@@ -22,13 +21,11 @@ export class ProfileGender extends React.Component<Props, State> {
   }
   render() {
     // console.log('profilgender.tsx 렌더');
-    // console.log('root State ==>', this.props.rootState);
-
     return (
       <Segment style={profilegenderStyles.genderSegment}>
         <Button
           onPress={() => {
-            this.props.changeState('gender', '남자');
+            this.props.reduxStore.changeProfileState('gender', '남자');
             this.setState({
               btnColorMan: 'skyblue',
               btnColorWoman: 'transparent',
@@ -44,7 +41,7 @@ export class ProfileGender extends React.Component<Props, State> {
         </Button>
         <Button
           onPress={() => {
-            this.props.changeState('gender', '여자');
+            this.props.reduxStore.changeProfileState('gender', '여자');
             this.setState({
               btnColorWoman: 'skyblue',
               btnColorMan: 'transparent',

@@ -1,9 +1,17 @@
-/* eslint-disable import/no-unresolved */
 import * as React from 'react';
-import Appcontainer from './src/navigator/stack-navi';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import reducer from './src/redux';
+import Appcontainer from './src/navigator/stack-navi.tsx';
 
-const App = () => {
-  return <Appcontainer />;
+const store = createStore(reducer);
+
+export default App = () => {
+  return (
+    <Provider store={store}>
+      <Appcontainer />
+    </Provider>
+  );
 };
 
-export default App;
+
