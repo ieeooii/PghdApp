@@ -1,45 +1,48 @@
-import { Button } from 'native-base';
+import { Button, Form, Text } from 'native-base';
 import * as React from 'react';
-import { Text, View } from 'react-native';
 import { myprofileStyles } from '../style';
 
 const styles = myprofileStyles;
-export interface Props {
+interface Props {
   navi: any;
+  children?: any;
 }
-export interface State {}
+interface State {}
 
 export class MiniProfile extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
   }
   render() {
+    const age = '10대';
     return (
-      <View>
-        <View style={[styles.shadow]}>
+      <Form>
+        <Form style={[styles.shadow]}>
           <Button
             onPress={() => {
               this.props.navi.navigation.navigate('MyProfile');
             }}
             style={styles.myprofile}
           >
-            <View style={[styles.circle, { width: 80, height: 80 }]} />
-            <View style={{ flexDirection: 'column' }}>
+            <Form style={[styles.circle, { width: 80, height: 80 }]} />
+            <Form style={{ flexDirection: 'column' }}>
               <Text style={[styles.usernicknameMypage, { color: 'black' }]}>
-                react-native
+                {this.props.children[0]}
               </Text>
-              <View style={{ flexDirection: 'row' }}>
+              <Form style={{ flexDirection: 'row' }}>
                 <Text style={[styles.usernicknameMypage, { color: '#767676' }]}>
-                  10대
+                  {age}
                 </Text>
-                <View style={styles.relationship}>
-                  <Text style={styles.relationshipTag}>관계</Text>
-                </View>
-              </View>
-            </View>
+                <Form style={styles.relationship}>
+                  <Text style={styles.relationshipTag}>
+                    {this.props.children[1]}
+                  </Text>
+                </Form>
+              </Form>
+            </Form>
           </Button>
-        </View>
-      </View>
+        </Form>
+      </Form>
     );
   }
 }
