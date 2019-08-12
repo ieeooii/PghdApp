@@ -2,12 +2,7 @@ import { Form, Icon, Input, Item, Text } from 'native-base';
 import * as React from 'react';
 import { emailPasswordForm } from '../style';
 
-export interface Props {
-  email: string;
-  password: string;
-  failMessageEmailCheck: boolean;
-  failMessagePasswordCheck: boolean;
-}
+export interface Props {}
 export interface State {
   onClickShowHidePassWord: boolean;
   inputEmail: string;
@@ -21,7 +16,6 @@ export interface State {
 export class EmailPassword extends React.Component<Props, State> {
   public state: State;
   public props: any;
-
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -101,7 +95,7 @@ export class EmailPassword extends React.Component<Props, State> {
             placeholderTextColor={this.state.emailSelectArea}
             value={this.state.inputEmail}
             onChangeText={text => {
-              this.props.rootState.email = text;
+              this.props.reduxStore.changeSignInState('email', text);
               this.setState({
                 inputEmail: text,
               });
@@ -112,7 +106,7 @@ export class EmailPassword extends React.Component<Props, State> {
             onPress={this.deleteEmailIcon}
           />
         </Item>
-        {this.props.rootState.failMessageEmailCheck === true ? null : (
+        {this.props.reduxStore.failMessageEmailCheck === false && (
           <Text style={{ color: 'red', marginLeft: 20 }}>
             이메일 주소를 다시 확인해주세요.
           </Text>
@@ -129,7 +123,7 @@ export class EmailPassword extends React.Component<Props, State> {
             placeholder='비밀번호'
             placeholderTextColor={this.state.passwordSelectArea}
             onChangeText={text => {
-              this.props.rootState.password = text;
+              this.props.reduxStore.changeSignInState('password', text);
               this.setState({
                 inputPassWord: text,
               });
@@ -141,7 +135,7 @@ export class EmailPassword extends React.Component<Props, State> {
             onPress={this.showHidePasswordIcon}
           />
         </Item>
-        {this.props.rootState.failMessagePasswordCheck === true ? null : (
+        {this.props.reduxStore.failMessagePasswordCheck === false && (
           <Text style={{ color: 'red', marginLeft: 20 }}>
             비밀번호를 다시 확인해 주세요.
           </Text>

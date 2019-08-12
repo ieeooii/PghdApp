@@ -34,7 +34,9 @@ function mapStateToProps(state) {
     birthDate,
     relationship,
     clientId,
-    clientSecret
+    clientSecret,
+    failMessageEmailCheck,
+    failMessagePasswordCheck,
   } = state;
   return {
     email,
@@ -62,7 +64,9 @@ function mapStateToProps(state) {
     birthDate,
     relationship,
     clientId,
-    clientSecret
+    clientSecret,
+    failMessageEmailCheck,
+    failMessagePasswordCheck,
   };
 }
 
@@ -80,7 +84,8 @@ function mapDispatchToProps(dispatch) {
     changeProfileState: bindActionCreators(
       actionCreators.changeProfileStateAction,
       dispatch
-    )
+    ),
+    changeSignInState: bindActionCreators(actionCreators.changeSignInStateAction, dispatch)
   };
 }
 

@@ -43,8 +43,11 @@ export class MypageRoot extends React.Component<Props, State> {
       const signIn = this.props.navigation.state.params.signIn;
       const GET_USER_DATA = `api/v1/users/${signIn.email}`;
       const GET_USER_WALLET = `api/v1/users/${signIn.userId}/userWallet`;
-      await AsyncStorage.setItem('accessToken', signIn.signInToken);
-      await AsyncStorage.setItem('userEmail', signIn.email);
+      await AsyncStorage.setItem(
+        'accessToken',
+        JSON.stringify(signIn.signInToken),
+      );
+      await AsyncStorage.setItem('userEmail', JSON.stringify(signIn.email));
 
       // [GET]userWallet
       const getUserWallet = await this.getRequestFunc(
