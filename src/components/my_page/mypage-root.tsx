@@ -1,3 +1,5 @@
+// tslint:disable-next-line: import-name
+import AsyncStorage from '@react-native-community/async-storage';
 import { Button } from 'native-base';
 import * as React from 'react';
 import { Platform, ScrollView, Text, View } from 'react-native';
@@ -17,8 +19,23 @@ export class MypageRoot extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
   }
+
+  componentDidMount = async () => {
+    try {
+      await AsyncStorage.setItem(
+        'token',
+        JSON.stringify(this.props.navigation.state.params.signIn.signInToken),
+      );
+      await AsyncStorage.setItem(
+        'email',
+        JSON.stringify(this.props.navigation.state.params.signIn.email),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
-    console.log(this.props);
     return (
       <View style={styles.container}>
         <ScrollView>

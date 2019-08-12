@@ -1,6 +1,6 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
-import { CLIENT_ID, CLIENT_SECRET } from '../../../config/client';
+import { CLIENT_ID, CLIENT_SECRET } from '../../../.env';
 import { loginbtn } from '../style';
 import { EmailPassword } from './email-password';
 
@@ -82,6 +82,7 @@ export class SignIn extends React.Component<Props, State> {
                         .then(responseJSON => {
                           this.props.navigation.navigate('MypageRoot', {
                             signIn: {
+                              userId: responseJSON.userId, // PGHD 페이지에서 사용할 unique string
                               signInToken: responseJSON.accessToken, // 로그인 성공시 mypage화면으로 token 전달
                               email: this.state.email,
                             },

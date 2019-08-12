@@ -85,6 +85,8 @@ export class UserInfo extends React.Component<Props, State> {
             />
           )} */}
           <Picker
+            placeholder='Select...'
+            placeholderStyle={{ color: '#445870' }}
             mode='dropdown'
             iosIcon={<Icon name='arrow-down' />}
             style={userInfo.pickerWidth}
@@ -98,7 +100,7 @@ export class UserInfo extends React.Component<Props, State> {
         </CardItem>
         <CardItem bordered style={userInfo.textHeight}>
           <Text style={userInfo.datePickerWidth}>생년월일</Text>
-          {this.props.rootState.birthDate === null ? null : (
+          {this.props.rootState.birthDate === '' ? null : (
             <Input
               selectionColor={'white'}
               style={{ marginLeft: 40 }}
@@ -113,27 +115,29 @@ export class UserInfo extends React.Component<Props, State> {
             modalTransparent={false}
             animationType={'slide'}
             androidMode={'spinner'}
-            placeHolderText='Select Date'
-            textStyle={{ color: 'black' }}
-            placeHolderTextStyle={{ color: 'black' }}
+            placeHolderText='Select...'
+            placeHolderTextStyle={{
+              color: '#445870',
+              marginRight: 20,
+            }}
             onDateChange={this.setDate}
             disabled={false}
           />
           {Platform.OS === 'ios' ? (
             <Ionicons
               name='ios-arrow-down'
-              style={{ fontSize: 21, marginRight: 12 }}
+              style={{ fontSize: 21, right: 5 }}
             />
           ) : (
             <Ionicons
               name='md-arrow-dropdown'
-              style={{ fontSize: 21, marginRight: 13, color: 'gray' }}
+              style={{ fontSize: 21, right: 20, color: 'gray' }}
             />
           )}
         </CardItem>
         <CardItem bordered style={userInfo.textHeight}>
           <Text>질환관계</Text>
-          {this.props.rootState.relationship === null ? null : (
+          {this.props.rootState.relationship === '' ? null : (
             <Input
               selectionColor={'white'}
               style={{ marginLeft: 40 }}
@@ -141,19 +145,20 @@ export class UserInfo extends React.Component<Props, State> {
             />
           )}
           <Picker
+            placeholder='Select...'
+            placeholderStyle={{ color: '#445870' }}
             style={userInfo.relationshipPickerWidth}
             mode='dropdown'
             iosIcon={<Icon name='arrow-down' />}
             selectedValue={this.state.relationshipSelected}
-            textStyle={{ color: 'black' }}
             onValueChange={this.relationshipOnValueChange}
           >
             <Picker.Item label='' value='' />
-            <Picker.Item label='환자' value='1' />
-            <Picker.Item label='보호자' value='2' />
-            <Picker.Item label='의사/약사' value='3' />
-            <Picker.Item label='다른질환' value='4' />
-            <Picker.Item label='기타' value='5' />
+            <Picker.Item label='환자' value='Patient' />
+            <Picker.Item label='보호자' value='Guardian' />
+            <Picker.Item label='의사/약사' value='Doctor/Chemist' />
+            <Picker.Item label='다른질환' value='Other diseases' />
+            <Picker.Item label='기타' value='Etc' />
           </Picker>
         </CardItem>
       </Card>

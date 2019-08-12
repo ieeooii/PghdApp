@@ -14,10 +14,10 @@ export const userInfo = StyleSheet.create({
   textHeight: {
     ...Platform.select({
       ios: {
-        margin: 10,
+        margin: 3,
       },
       android: {
-        margin: 5,
+        margin: 0,
       },
     }),
   },
@@ -47,11 +47,11 @@ export const userInfo = StyleSheet.create({
     ...Platform.select({
       ios: {
         width: 100,
-        marginLeft: 170,
+        right: 7,
       },
       android: {
         width: 100,
-        marginLeft: 210,
+        right: 0,
       },
     }),
   },
@@ -907,6 +907,26 @@ export const todayPghd = StyleSheet.create({
       },
       android: {
         color: 'black',
+      },
+    }),
+  },
+});
+
+export const myProfile = StyleSheet.create({
+  logoutButton: {
+    top: 100,
+    borderColor: mainColor,
+    backgroundColor: mainColor,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginRight: 3,
+    marginLeft: 3,
+    ...Platform.select({
+      ios: {
+        borderRadius: 50,
+      },
+      android: {
+        borderRadius: 0,
       },
     }),
   },

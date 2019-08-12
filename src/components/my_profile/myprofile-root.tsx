@@ -1,11 +1,14 @@
 // tslint:disable-next-line: import-name
 import AsyncStorage from '@react-native-community/async-storage';
-import { Container } from 'native-base';
+import { Button, Container, Text } from 'native-base';
 import * as React from 'react';
+import { myProfile } from '../style';
 import { ModifyPhoto } from './modify-photo';
 import { UserInfo } from './user-info';
 
-export interface Props {}
+export interface Props {
+  navigation: any;
+}
 export interface State {
   email: string;
   nickname: string;
@@ -15,6 +18,9 @@ export interface State {
 }
 
 export class MyProfile extends React.Component<Props, State> {
+  // public state: State;
+  // public props: any;
+
   constructor(props: any) {
     super(props);
     this.state = {
@@ -47,7 +53,7 @@ export class MyProfile extends React.Component<Props, State> {
                 return response.json();
               })
               .then(responseJSON => {
-                // console.log(responseJSON)
+                console.log('잘 들어오니', responseJSON);
                 this.setState({
                   email: responseJSON.email,
                   nickname: responseJSON.nickname,
@@ -71,6 +77,15 @@ export class MyProfile extends React.Component<Props, State> {
       <Container>
         <ModifyPhoto />
         <UserInfo rootState={this.state} />
+        <Button
+          style={myProfile.logoutButton}
+          onPress={async () => {
+            await AsyncStorage.clear();
+            this.props.navigation.navigate('SignIn');
+          }}
+        >
+          <Text>LOG OUT</Text>
+        </Button>
       </Container>
     );
   }

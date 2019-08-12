@@ -1,8 +1,7 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { Alert } from 'react-native';
-import { CLIENT_ID } from '../../../config/client';
-import { CLIENT_SECRET } from '../../../config/client';
+import { CLIENT_ID, CLIENT_SECRET } from '../../../.env';
 import { profileRootStyles } from '../style';
 import { ProfileBody } from './profile-body';
 import { ProfileGender } from './profile-gender';
