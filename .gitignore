@@ -65,5 +65,11 @@ buck-out/
 /ios
 /android
 
+
+
+# .env
+/.env.tsx
+
 # config
 config/
+
