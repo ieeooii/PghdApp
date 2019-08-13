@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ProfileRoot } from '../components/sign_up/profile-root.tsx';
 import { Signup } from '../components/sign_up/sign-up.tsx';
-import { MypageRoot } from '../components/my_page/mypage-root.tsx';
+import { MypageRoot } from '../components/my_page/mypage-root.ios.tsx';
 import { actionCreators } from './index';
 import { MyProfile } from '../components/my_profile/myprofile-root.tsx';
 import { SignIn } from '../components/sign_in/sign-in-root.tsx';
@@ -36,7 +36,7 @@ function mapStateToProps(state) {
     clientId,
     clientSecret,
     failMessageEmailCheck,
-    failMessagePasswordCheck,
+    failMessagePasswordCheck
   } = state;
   return {
     email,
@@ -66,25 +66,19 @@ function mapStateToProps(state) {
     clientId,
     clientSecret,
     failMessageEmailCheck,
-    failMessagePasswordCheck,
+    failMessagePasswordCheck
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeSignupState: bindActionCreators(
-      actionCreators.changeSignupStateAction,
-      dispatch
-    ),
+    changeSignupState: bindActionCreators(actionCreators.changeSignupStateAction, dispatch),
     inputCheck: bindActionCreators(actionCreators.inputCheckAction, dispatch),
     changeFocus: bindActionCreators(actionCreators.changeFocusAction, dispatch),
     termsCheck: bindActionCreators(actionCreators.termsCheckAction, dispatch),
     btnCheck: bindActionCreators(actionCreators.btnCheckAction, dispatch),
     permit: bindActionCreators(actionCreators.permitAction, dispatch),
-    changeProfileState: bindActionCreators(
-      actionCreators.changeProfileStateAction,
-      dispatch
-    ),
+    changeProfileState: bindActionCreators(actionCreators.changeProfileStateAction, dispatch),
     changeSignInState: bindActionCreators(actionCreators.changeSignInStateAction, dispatch)
   };
 }
