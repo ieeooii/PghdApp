@@ -62,6 +62,7 @@ react-native run-ios
 ```
 
 **Android Emulator**
+경로 문제가 해결이 안됐습니다. mypage-root.android.tsx에 있는 code를 mypage-root.ios.tsx에 코드를 바꿔야 테스트가 가능합니다.
 
 ```
 npm start

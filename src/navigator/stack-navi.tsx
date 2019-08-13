@@ -3,10 +3,10 @@ import { Main } from '../components/main';
 import { TodayPghd } from '../components/my_page/today-pghd';
 import { TermsText } from '../components/sign_up/terms-text';
 import { reduxSignin } from '../redux/redux-work.js';
-import { reduxMyProfile } from '../redux/redux-work.js';
 import { reduxMypageRoot } from '../redux/redux-work.js';
 import { reduxProfileRoot } from '../redux/redux-work.js';
 import { reduxSignup } from '../redux/redux-work.js';
+import { reduxMyProfile } from '../redux/redux-work.js';
 
 const appNavigator = createStackNavigator({
   Home: {
