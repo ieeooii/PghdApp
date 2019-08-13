@@ -2,6 +2,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Container, Text } from 'native-base';
 import * as React from 'react';
+import { BASE_URL } from '../../../config/client';
 import { myProfile } from '../style';
 import { ModifyPhoto } from './modify-photo';
 import { UserInfo } from './user-info';
@@ -27,28 +28,22 @@ export class MyProfile extends React.Component<Props, State> {
       birthDate: '',
       relationship: '',
     };
-    console.log('myprofile redux Store', this.props);
-    console.log(AsyncStorage.getAllKeys());
   }
 
   componentDidMount = async () => {
     const accessToken = await AsyncStorage.getItem('accessToken');
     const userEmail = await AsyncStorage.getItem('userEmail');
-    return fetch(
-      `http://api-stage.humanscape.io:80/api/v1/users/${userEmail}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + accessToken,
-        },
+    return fetch(`${BASE_URL}api/v1/users/${userEmail}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + accessToken,
       },
-    )
+    })
       .then(response => {
         return response.json();
       })
       .then(responseJSON => {
-        console.log('잘 들어오니', responseJSON);
         this.setState({
           email: responseJSON.email,
           nickname: responseJSON.nickname,
@@ -63,7 +58,6 @@ export class MyProfile extends React.Component<Props, State> {
   }
 
   render() {
-    console.log(this.state);
     return (
       <Container>
         <ModifyPhoto />
