@@ -10,17 +10,21 @@ import { PghdRecord } from './pghd-record';
 
 const styles = mypageRootStyles;
 const todayButtonName = '오늘 기록하기';
-const pghdRecordZero = '기록 된 내용이 없습니다.';
+// const pghdRecordZero = '기록 된 내용이 없습니다.';
 
 interface Props {
   navigation: any;
   navi: any;
   date: string;
+  email: string;
+  id: string;
+  userWallet: string;
 }
 interface State {
   usersPghdData: any;
   personalInfo: any;
   update: boolean;
+  postUserWallet: number;
 }
 
 const dateFunc = (dateStr: string) => {
@@ -34,25 +38,32 @@ export class MypageRoot extends React.Component<Props, State> {
       usersPghdData: null,
       personalInfo: [],
       update: false,
+      postUserWallet: 0,
     };
   }
 
   componentDidMount = async () => {
     try {
-      console.log(this.props.navigation.state.params.update);
-      const signIn = this.props.navigation.state.params.signIn;
-      const GET_USER_DATA = `api/v1/users/${signIn.email}`;
-      const GET_USER_WALLET = `api/v1/users/${signIn.userId}/userWallet`;
-      await AsyncStorage.setItem(
-        'accessToken',
-        JSON.stringify(signIn.signInToken),
-      );
-      await AsyncStorage.setItem('userEmail', JSON.stringify(signIn.email));
+      const signData = this.props.navigation.state.params.signData;
+      const userEmail = this.props.email;
+      const userId = this.props.id;
+      const GET_USER_DATA = `api/v1/users/${userEmail}`;
+      const POST_GET_USER_WALLET = `api/v1/users/${userId}/userWallet`;
+      await AsyncStorage.setItem('accessToken', signData.accessToken);
+      await AsyncStorage.setItem('userEmail', userEmail);
+
+      // [POST]userWallet
+      if (this.props.userWallet !== '') {
+        this.postUserWalletRequestFunc(
+          signData.accessToken,
+          POST_GET_USER_WALLET,
+        );
+      }
 
       // [GET]userWallet
       const getUserWallet = await this.getRequestFunc(
-        signIn.signInToken,
-        GET_USER_WALLET,
+        signData.accessToken,
+        POST_GET_USER_WALLET,
       );
       await AsyncStorage.setItem(
         'walletAddress',
@@ -63,7 +74,7 @@ export class MypageRoot extends React.Component<Props, State> {
       const walletAddress = await AsyncStorage.getItem('walletAddress');
       const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
       const getUserPghd = await this.getRequestFunc(
-        signIn.signInToken,
+        signData.accessToken,
         GET_USER_PGHD,
       );
       if (getUserPghd.data !== null) {
@@ -72,7 +83,7 @@ export class MypageRoot extends React.Component<Props, State> {
 
       // [GET]Users
       const getUserInfo = await this.getRequestFunc(
-        signIn.signInToken,
+        signData.accessToken,
         GET_USER_DATA,
       );
       let relationStr = '';
@@ -123,6 +134,35 @@ export class MypageRoot extends React.Component<Props, State> {
     }
   }
 
+  // [POST] userWallet
+  postUserWalletRequestFunc = (token: string | null, path: string) => {
+    if (token !== null) {
+      return fetch(BASE_URL + path, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token,
+        },
+        body: JSON.stringify({
+          userId: this.props.id,
+          address: this.props.userWallet,
+          type: 'ethureum',
+          priority: 0,
+        }),
+      })
+        .then(res => {
+          if (res.status !== 200) {
+            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+          } else if (res.status === 200) {
+            return res.json();
+          }
+        })
+        .catch(error => {
+          alert(`error: ${error}`);
+        });
+    }
+  }
+
   renderBooleanFunc = () => {
     this.setState({
       update: true,
@@ -157,9 +197,9 @@ export class MypageRoot extends React.Component<Props, State> {
 
           <Form style={[styles.shadow, { width: '90%', alignSelf: 'center' }]}>
             {this.state.usersPghdData === null ? (
-              <Text>{pghdRecordZero}</Text>
+              <Text>{/*pghdRecordZero*/}</Text>
             ) : (
-              this.state.usersPghdData.map((pghdData: any) => {
+              this.state.usersPghdData.reverse().map((pghdData: any) => {
                 const date = dateFunc(pghdData.updatedAt);
                 const pghd = JSON.parse(pghdData.data).pghd;
                 const pghdId = pghdData.id;

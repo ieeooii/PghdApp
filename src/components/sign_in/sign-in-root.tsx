@@ -10,6 +10,8 @@ export interface Props {
   failMessagePasswordCheck: boolean;
   changeSignInState: any;
   navigation: any;
+  clientId: string;
+  clientSecret: string;
 }
 export interface State {}
 
@@ -39,8 +41,8 @@ export class SignIn extends React.Component<Props, State> {
       body: JSON.stringify({
         email: this.props.email,
         password: this.props.password,
-        clientId: this.props.CLIENT_ID,
-        clientSecret: this.props.CLIENT_SECRET,
+        clientId: this.props.clientId,
+        clientSecret: this.props.clientSecret,
       }),
     });
   }
@@ -73,10 +75,18 @@ export class SignIn extends React.Component<Props, State> {
                           return response.json();
                         })
                         .then(responseJSON => {
+                          this.props.changeSignInState(
+                            'id',
+                            responseJSON.userId,
+                          );
                           this.props.navigation.navigate('MypageRoot', {
-                            signIn: {
-                              userId: responseJSON.userId, // PGHD 페이지에서 사용할 unique string
-                              signInToken: responseJSON.accessToken, // 로그인 성공시 mypage화면으로 token 전달
+                            signData: {
+                              accessToken: responseJSON.accessToken, // 로그인 성공시 mypage화면으로 token 전달
+                              refreshToken: responseJSON.refreshToken,
+                              accessTokenExpiresAt:
+                                responseJSON.accessTokenExpiresAt,
+                              refreshTokenExpiresAt:
+                                responseJSON.refreshTokenExpiresAt,
                               email: this.props.email,
                             },
                           });

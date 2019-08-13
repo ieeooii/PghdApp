@@ -33,7 +33,7 @@ export class ProfileRoot extends React.Component<Props, State> {
   // Pghd 페이지로 이동
   goPghdPage(jsonData: any) {
     this.props.navigation.navigate('MypageRoot', {
-      tokenData: {
+      signData: {
         accessToken: jsonData.accessToken,
         refreshToken: jsonData.refreshToken,
         accessTokenExpiresAt: jsonData.accessTokenExpiresAt,

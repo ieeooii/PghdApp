@@ -175,7 +175,7 @@ export class PghdRecord extends React.Component<Props, State> {
               { padding: 20 },
             ]}
           >
-            <Text style={{ textAlign: 'center' }}>
+            <Text style={{ textAlign: 'center', fontSize: 16 }}>
               {this.props.children[2]}
             </Text>
           </Form>
