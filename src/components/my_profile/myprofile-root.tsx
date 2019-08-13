@@ -2,6 +2,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button, Container, Text } from 'native-base';
 import * as React from 'react';
+import { BASE_URL } from '../../../config/client';
 import { myProfile } from '../style';
 import { ModifyPhoto } from './modify-photo';
 import { UserInfo } from './user-info';
@@ -27,51 +28,36 @@ export class MyProfile extends React.Component<Props, State> {
       birthDate: '',
       relationship: '',
     };
-    console.log('myprofile redux Store', this.props);
-    console.log(AsyncStorage.getAllKeys());
   }
 
-  componentDidMount() {
-    AsyncStorage.getItem('accessToken')
-      .then(token =>
-        AsyncStorage.getItem('userEmail')
-          .then(email => {
-            const checkToken = token !== null ? JSON.parse(token) : null;
-            const checkEmail = email !== null ? JSON.parse(email) : null;
-            return fetch(
-              `http://api-stage.humanscape.io:80/api/v1/users/${checkEmail}`,
-              {
-                method: 'GET',
-                headers: {
-                  'Content-Type': 'application/json',
-                  Authorization: 'Bearer ' + checkToken,
-                },
-              },
-            )
-              .then(response => {
-                return response.json();
-              })
-              .then(responseJSON => {
-                console.log('잘 들어오니', responseJSON);
-                this.setState({
-                  email: responseJSON.email,
-                  nickname: responseJSON.nickname,
-                  type: responseJSON.type,
-                  birthDate: responseJSON.birthDate,
-                  relationship: responseJSON.relationship,
-                });
-              })
-              .catch(error => {
-                console.log('fetch error', error);
-              });
-          })
-          .catch(error => console.log('email erorr', error)),
-      )
-      .catch(error => console.log('token error', error));
+  componentDidMount = async () => {
+    const accessToken = await AsyncStorage.getItem('accessToken');
+    const userEmail = await AsyncStorage.getItem('userEmail');
+    return fetch(`${BASE_URL}api/v1/users/${userEmail}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + accessToken,
+      },
+    })
+      .then(response => {
+        return response.json();
+      })
+      .then(responseJSON => {
+        this.setState({
+          email: responseJSON.email,
+          nickname: responseJSON.nickname,
+          type: responseJSON.type,
+          birthDate: responseJSON.birthDate,
+          relationship: responseJSON.relationship,
+        });
+      })
+      .catch(error => {
+        console.log('fetch error', error);
+      });
   }
 
   render() {
-    console.log(this.state);
     return (
       <Container>
         <ModifyPhoto />

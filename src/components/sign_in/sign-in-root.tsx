@@ -1,5 +1,6 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
+import { BASE_URL } from '../../../config/client';
 import { loginbtn } from '../style';
 import { EmailPassword } from './email-password';
 
@@ -22,7 +23,7 @@ export class SignIn extends React.Component<Props, State> {
 
   onClickLoginCheckEmail() {
     return fetch(
-      `http://api-stage.humanscape.io:80/api/v1/users/join/validation?email=${this.props.email}`,
+      `${BASE_URL}api/v1/users/join/validation?email=${this.props.email}`,
       {
         method: 'GET',
         headers: {
@@ -33,7 +34,7 @@ export class SignIn extends React.Component<Props, State> {
   }
 
   onClickLogin() {
-    return fetch('http://api-stage.humanscape.io:80/api/v1/users/login/moah', {
+    return fetch(`${BASE_URL}api/v1/users/login/moah`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

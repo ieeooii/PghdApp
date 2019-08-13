@@ -7,11 +7,9 @@ import { BASE_URL, CLIENT_ID } from '../../../config/client';
 import { mypageRootStyles } from '../style';
 import { MiniProfile } from './mini-profile';
 import { PghdRecord } from './pghd-record';
-
 const styles = mypageRootStyles;
 const todayButtonName = '오늘 기록하기';
 // const pghdRecordZero = '기록 된 내용이 없습니다.';
-
 interface Props {
   navigation: any;
   navi: any;
@@ -26,11 +24,9 @@ interface State {
   update: boolean;
   postUserWallet: number;
 }
-
 const dateFunc = (dateStr: string) => {
   return dateStr.slice(0, 10);
 };
-
 export class MypageRoot extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -41,7 +37,6 @@ export class MypageRoot extends React.Component<Props, State> {
       postUserWallet: 0,
     };
   }
-
   componentDidMount = async () => {
     try {
       const signData = this.props.navigation.state.params.signData;
@@ -51,25 +46,24 @@ export class MypageRoot extends React.Component<Props, State> {
       const POST_GET_USER_WALLET = `api/v1/users/${userId}/userWallet`;
       await AsyncStorage.setItem('accessToken', signData.accessToken);
       await AsyncStorage.setItem('userEmail', userEmail);
-
       // [POST]userWallet
       if (this.props.userWallet !== '') {
-        this.postUserWalletRequestFunc(
+        console.log(this.props.userWallet);
+        await this.postUserWalletRequestFunc(
           signData.accessToken,
           POST_GET_USER_WALLET,
         );
       }
-
       // [GET]userWallet
       const getUserWallet = await this.getRequestFunc(
         signData.accessToken,
         POST_GET_USER_WALLET,
       );
+      console.log(getUserWallet);
       await AsyncStorage.setItem(
         'walletAddress',
         getUserWallet.data[0].address,
       );
-
       // [GET]PGHD(Get user pghd)
       const walletAddress = await AsyncStorage.getItem('walletAddress');
       const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
@@ -77,10 +71,11 @@ export class MypageRoot extends React.Component<Props, State> {
         signData.accessToken,
         GET_USER_PGHD,
       );
+      console.log(getUserPghd);
       if (getUserPghd.data !== null) {
         this.setState({ usersPghdData: getUserPghd.data });
       }
-
+      console.log(this.state.usersPghdData);
       // [GET]Users
       const getUserInfo = await this.getRequestFunc(
         signData.accessToken,
@@ -99,7 +94,6 @@ export class MypageRoot extends React.Component<Props, State> {
       alert(`error: ${error}`);
     }
   }
-
   componentDidUpdate = async () => {
     // tslint:disable-next-line: no-boolean-literal-compare
     if (this.state.update === true) {
@@ -110,7 +104,6 @@ export class MypageRoot extends React.Component<Props, State> {
       this.setState({ usersPghdData: getUserPghd.data, update: false });
     }
   }
-
   // [GET]
   getRequestFunc = (token: string | null, path: string) => {
     if (token !== null) {
@@ -133,7 +126,6 @@ export class MypageRoot extends React.Component<Props, State> {
         });
     }
   }
-
   // [POST] userWallet
   postUserWalletRequestFunc = (token: string | null, path: string) => {
     if (token !== null) {
@@ -162,13 +154,11 @@ export class MypageRoot extends React.Component<Props, State> {
         });
     }
   }
-
   renderBooleanFunc = () => {
     this.setState({
       update: true,
     });
   }
-
   render() {
     console.log(this.state.update);
     return (
@@ -194,7 +184,6 @@ export class MypageRoot extends React.Component<Props, State> {
               <Text style={styles.todayRecord}>{todayButtonName}</Text>
             </Button>
           </Form>
-
           <Form style={[styles.shadow, { width: '90%', alignSelf: 'center' }]}>
             {this.state.usersPghdData === null ? (
               <Text>{/*pghdRecordZero*/}</Text>
