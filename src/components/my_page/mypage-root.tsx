@@ -49,8 +49,11 @@ export class MypageRoot extends React.Component<Props, State> {
       const userId = this.props.id;
       const GET_USER_DATA = `api/v1/users/${userEmail}`;
       const POST_GET_USER_WALLET = `api/v1/users/${userId}/userWallet`;
-      await AsyncStorage.setItem('accessToken', signData.accessToken);
-      await AsyncStorage.setItem('userEmail', userEmail);
+      await AsyncStorage.setItem(
+        'accessToken',
+        JSON.stringify(signData.accessToken),
+      );
+      await AsyncStorage.setItem('userEmail', JSON.stringify(userEmail));
 
       // [POST]userWallet
       if (this.props.userWallet !== '') {

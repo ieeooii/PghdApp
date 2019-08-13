@@ -72,7 +72,6 @@ function changeSignInStateAction(key, value) {
   };
 }
 
-
 // Reducer Functions
 function changeSignupState(state, key, value) {
   const obj = { ...state };
@@ -169,7 +168,7 @@ const initialState = {
   clientId: CLIENT_ID,
   clientSecret: CLIENT_SECRET,
   failMessageEmailCheck: true,
-  failMessagePasswordCheck: true,
+  failMessagePasswordCheck: true
 };
 
 // 액션을 보낼때마다 Redux는 자동으로 Reducer를 실행한다

@@ -1,6 +1,7 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { Alert } from 'react-native';
+import { BASE_URL } from '../../../config/client';
 import { signupStyles } from '../style';
 import { Email } from './email';
 import { Nickname } from './nickname';
@@ -20,20 +21,17 @@ export class Signup extends React.Component<Props, State> {
 
   // 이메일 중복여부 확인
   emailValidity() {
-    return fetch(
-      `http://api-stage.humanscape.io:80/api/v1/users/exists/${this.props.email}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+    return fetch(`${BASE_URL}api/v1/users/exists/${this.props.email}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+    });
   }
 
   // 회원가입요청
   signupFetch() {
-    return fetch(`http://api-stage.humanscape.io:80/api/v1/users/join`, {
+    return fetch(`${BASE_URL}api/v1/users/join`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -59,21 +57,18 @@ export class Signup extends React.Component<Props, State> {
   }
 
   createWallet(id: any, uniq: any) {
-    return fetch(
-      `http://api-stage.humanscape.io:80/api/v1/users/${id}/userWallet`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: id,
-          address: uniq,
-          type: '1', // type은 뭔지 몰라서 '1'(string)로 해둠
-          priority: 0, // priority도 뭔지 몰라서 0(number)으로 해둠
-        }),
+    return fetch(`${BASE_URL}api/v1/users/${id}/userWallet`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
       },
-    );
+      body: JSON.stringify({
+        userId: id,
+        address: uniq,
+        type: '1', // type은 뭔지 몰라서 '1'(string)로 해둠
+        priority: 0, // priority도 뭔지 몰라서 0(number)으로 해둠
+      }),
+    });
   }
 
   render() {
