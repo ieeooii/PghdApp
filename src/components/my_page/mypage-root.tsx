@@ -4,12 +4,15 @@ import { Button, Container, Form } from 'native-base';
 import * as React from 'react';
 import { Platform, ScrollView, Text } from 'react-native';
 import { BASE_URL, CLIENT_ID } from '../../../config/client';
+import healthKit from '../healthKit';
 import { mypageRootStyles } from '../style';
 import { MiniProfile } from './mini-profile';
 import { PghdRecord } from './pghd-record';
+
 const styles = mypageRootStyles;
 const todayButtonName = '오늘 기록하기';
 // const pghdRecordZero = '기록 된 내용이 없습니다.';
+
 interface Props {
   navigation: any;
   navi: any;
@@ -18,15 +21,21 @@ interface Props {
   id: string;
   userWallet: string;
 }
+
 interface State {
   usersPghdData: any;
-  personalInfo: any;
+  personalInfo: string[];
   update: boolean;
   postUserWallet: number;
 }
+
 const dateFunc = (dateStr: string) => {
-  return dateStr.slice(0, 10);
+  const year = dateStr[0] + dateStr[1] + dateStr[2] + dateStr[3];
+  const month = dateStr[5] + dateStr[6];
+  const day = dateStr[8] + dateStr[9];
+  return [year, month, day];
 };
+
 export class MypageRoot extends React.Component<Props, State> {
   constructor(props: any) {
     super(props);
@@ -37,8 +46,10 @@ export class MypageRoot extends React.Component<Props, State> {
       postUserWallet: 0,
     };
   }
+
   componentDidMount = async () => {
     try {
+      console.log(healthKit);
       const signData = this.props.navigation.state.params.signData;
       const userEmail = this.props.email;
       const userId = this.props.id;
@@ -46,6 +57,7 @@ export class MypageRoot extends React.Component<Props, State> {
       const POST_GET_USER_WALLET = `api/v1/users/${userId}/userWallet`;
       await AsyncStorage.setItem('accessToken', signData.accessToken);
       await AsyncStorage.setItem('userEmail', userEmail);
+
       // [POST]userWallet
       if (this.props.userWallet !== '') {
         console.log(this.props.userWallet);
@@ -54,6 +66,7 @@ export class MypageRoot extends React.Component<Props, State> {
           POST_GET_USER_WALLET,
         );
       }
+
       // [GET]userWallet
       const getUserWallet = await this.getRequestFunc(
         signData.accessToken,
@@ -64,6 +77,7 @@ export class MypageRoot extends React.Component<Props, State> {
         'walletAddress',
         getUserWallet.data[0].address,
       );
+
       // [GET]PGHD(Get user pghd)
       const walletAddress = await AsyncStorage.getItem('walletAddress');
       const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
@@ -73,9 +87,14 @@ export class MypageRoot extends React.Component<Props, State> {
       );
       console.log(getUserPghd);
       if (getUserPghd.data !== null) {
-        this.setState({ usersPghdData: getUserPghd.data });
+        const pghdData = await this.healthKitDataFunc(getUserPghd.data);
+        this.setState({ usersPghdData: pghdData });
+      } else {
+        const pghdData = await this.healthKitDataFunc([]);
+        this.setState({ usersPghdData: pghdData });
       }
       console.log(this.state.usersPghdData);
+
       // [GET]Users
       const getUserInfo = await this.getRequestFunc(
         signData.accessToken,
@@ -88,12 +107,34 @@ export class MypageRoot extends React.Component<Props, State> {
         relationStr += getUserInfo.relationship;
       }
       this.setState({
-        personalInfo: [getUserInfo.nickname, relationStr],
+        personalInfo: [
+          getUserInfo.nickname,
+          relationStr,
+          healthKit.dateOfBirth.age,
+        ],
       });
     } catch (error) {
-      alert(`error: ${error}`);
+      console.log(`error: ${error}`);
     }
   }
+
+  healthKitDataFunc = (serverData: any | null) => {
+    for (let indx = healthKit.activeEnergy.length - 1; indx >= 0; indx -= 1) {
+      const healthObj = {
+        id: indx + '',
+        data: JSON.stringify({
+          pghd:
+            `weight: ${healthKit.weight[indx].value} Ibs${'\n'}` +
+            `activeEnergy: ${healthKit.activeEnergy[indx].value} Kcal${'\n'}` +
+            `steps: ${healthKit.steps.value}`,
+        }),
+        updatedAt: healthKit.activeEnergy[indx].startDate,
+      };
+      serverData.push(healthObj);
+    }
+    return serverData;
+  }
+
   componentDidUpdate = async () => {
     // tslint:disable-next-line: no-boolean-literal-compare
     if (this.state.update === true) {
@@ -101,9 +142,17 @@ export class MypageRoot extends React.Component<Props, State> {
       const accessToken = await AsyncStorage.getItem('accessToken');
       const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
       const getUserPghd = await this.getRequestFunc(accessToken, GET_USER_PGHD);
-      this.setState({ usersPghdData: getUserPghd.data, update: false });
+      if (getUserPghd.data !== null) {
+        const pghdData = await this.healthKitDataFunc(getUserPghd.data);
+        this.setState({ usersPghdData: pghdData, update: false });
+      } else {
+        const pghdData = await this.healthKitDataFunc([]);
+        this.setState({ usersPghdData: pghdData, update: false });
+      }
+      console.log(this.state.usersPghdData);
     }
   }
+
   // [GET]
   getRequestFunc = (token: string | null, path: string) => {
     if (token !== null) {
@@ -116,16 +165,17 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
             return res.json();
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }
+
   // [POST] userWallet
   postUserWalletRequestFunc = (token: string | null, path: string) => {
     if (token !== null) {
@@ -144,21 +194,23 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
             return res.json();
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }
+
   renderBooleanFunc = () => {
     this.setState({
       update: true,
     });
   }
+
   render() {
     console.log(this.state.update);
     return (
@@ -184,6 +236,7 @@ export class MypageRoot extends React.Component<Props, State> {
               <Text style={styles.todayRecord}>{todayButtonName}</Text>
             </Button>
           </Form>
+
           <Form style={[styles.shadow, { width: '90%', alignSelf: 'center' }]}>
             {this.state.usersPghdData === null ? (
               <Text>{/*pghdRecordZero*/}</Text>
