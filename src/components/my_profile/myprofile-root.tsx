@@ -80,7 +80,7 @@ export class MyProfile extends React.Component<Props, State> {
           style={myProfile.logoutButton}
           onPress={async () => {
             await AsyncStorage.clear();
-            this.props.navigation.navigate('SignIn');
+            this.props.navigation.goBack().goBack();
           }}
         >
           <Text>LOG OUT</Text>

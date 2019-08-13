@@ -14,7 +14,10 @@ export class MiniProfile extends React.Component<Props, State> {
     super(props);
   }
   render() {
-    const age = '10대';
+    let age = '미정';
+    if (this.props.children[2] !== undefined) {
+      age = String(this.props.children[2])[0] + '0대';
+    }
     return (
       <Form>
         <Form style={[styles.shadow]}>
