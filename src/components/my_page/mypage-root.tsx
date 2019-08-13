@@ -4,6 +4,7 @@ import { Button, Container, Form } from 'native-base';
 import * as React from 'react';
 import { Platform, ScrollView, Text } from 'react-native';
 import { BASE_URL, CLIENT_ID } from '../../../config/client';
+import healthKit from '../healthKit';
 import { mypageRootStyles } from '../style';
 import { MiniProfile } from './mini-profile';
 import { PghdRecord } from './pghd-record';
@@ -20,15 +21,19 @@ interface Props {
   id: string;
   userWallet: string;
 }
+
 interface State {
   usersPghdData: any;
-  personalInfo: any;
+  personalInfo: string[];
   update: boolean;
   postUserWallet: number;
 }
 
 const dateFunc = (dateStr: string) => {
-  return dateStr.slice(0, 10);
+  const year = dateStr[0] + dateStr[1] + dateStr[2] + dateStr[3];
+  const month = dateStr[5] + dateStr[6];
+  const day = dateStr[8] + dateStr[9];
+  return [year, month, day];
 };
 
 export class MypageRoot extends React.Component<Props, State> {
@@ -44,20 +49,19 @@ export class MypageRoot extends React.Component<Props, State> {
 
   componentDidMount = async () => {
     try {
+      console.log(healthKit);
       const signData = this.props.navigation.state.params.signData;
       const userEmail = this.props.email;
       const userId = this.props.id;
       const GET_USER_DATA = `api/v1/users/${userEmail}`;
       const POST_GET_USER_WALLET = `api/v1/users/${userId}/userWallet`;
-      await AsyncStorage.setItem(
-        'accessToken',
-        JSON.stringify(signData.accessToken),
-      );
-      await AsyncStorage.setItem('userEmail', JSON.stringify(userEmail));
+      await AsyncStorage.setItem('accessToken', signData.accessToken);
+      await AsyncStorage.setItem('userEmail', userEmail);
 
       // [POST]userWallet
       if (this.props.userWallet !== '') {
-        this.postUserWalletRequestFunc(
+        console.log(this.props.userWallet);
+        await this.postUserWalletRequestFunc(
           signData.accessToken,
           POST_GET_USER_WALLET,
         );
@@ -68,6 +72,7 @@ export class MypageRoot extends React.Component<Props, State> {
         signData.accessToken,
         POST_GET_USER_WALLET,
       );
+      console.log(getUserWallet);
       await AsyncStorage.setItem(
         'walletAddress',
         getUserWallet.data[0].address,
@@ -80,9 +85,15 @@ export class MypageRoot extends React.Component<Props, State> {
         signData.accessToken,
         GET_USER_PGHD,
       );
+      console.log(getUserPghd);
       if (getUserPghd.data !== null) {
-        this.setState({ usersPghdData: getUserPghd.data });
+        const pghdData = await this.healthKitDataFunc(getUserPghd.data);
+        this.setState({ usersPghdData: pghdData });
+      } else {
+        const pghdData = await this.healthKitDataFunc([]);
+        this.setState({ usersPghdData: pghdData });
       }
+      console.log(this.state.usersPghdData);
 
       // [GET]Users
       const getUserInfo = await this.getRequestFunc(
@@ -96,11 +107,32 @@ export class MypageRoot extends React.Component<Props, State> {
         relationStr += getUserInfo.relationship;
       }
       this.setState({
-        personalInfo: [getUserInfo.nickname, relationStr],
+        personalInfo: [
+          getUserInfo.nickname,
+          relationStr,
+          healthKit.dateOfBirth.age,
+        ],
       });
     } catch (error) {
-      alert(`error: ${error}`);
+      console.log(`error: ${error}`);
     }
+  }
+
+  healthKitDataFunc = (serverData: any | null) => {
+    for (let indx = healthKit.activeEnergy.length - 1; indx >= 0; indx -= 1) {
+      const healthObj = {
+        id: indx + '',
+        data: JSON.stringify({
+          pghd:
+            `weight: ${healthKit.weight[indx].value} Ibs${'\n'}` +
+            `activeEnergy: ${healthKit.activeEnergy[indx].value} Kcal${'\n'}` +
+            `steps: ${healthKit.steps.value}`,
+        }),
+        updatedAt: healthKit.activeEnergy[indx].startDate,
+      };
+      serverData.push(healthObj);
+    }
+    return serverData;
   }
 
   componentDidUpdate = async () => {
@@ -110,7 +142,14 @@ export class MypageRoot extends React.Component<Props, State> {
       const accessToken = await AsyncStorage.getItem('accessToken');
       const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
       const getUserPghd = await this.getRequestFunc(accessToken, GET_USER_PGHD);
-      this.setState({ usersPghdData: getUserPghd.data, update: false });
+      if (getUserPghd.data !== null) {
+        const pghdData = await this.healthKitDataFunc(getUserPghd.data);
+        this.setState({ usersPghdData: pghdData, update: false });
+      } else {
+        const pghdData = await this.healthKitDataFunc([]);
+        this.setState({ usersPghdData: pghdData, update: false });
+      }
+      console.log(this.state.usersPghdData);
     }
   }
 
@@ -126,13 +165,13 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
             return res.json();
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }
@@ -155,13 +194,13 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${'요청에 응답 할 수 없습니다.'}`);
           } else if (res.status === 200) {
             return res.json();
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }
