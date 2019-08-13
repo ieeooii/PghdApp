@@ -1,6 +1,7 @@
 import { Button, Container, Form, Text } from 'native-base';
 import * as React from 'react';
 import { Alert } from 'react-native';
+import { BASE_URL } from '../../../config/client';
 import { profileRootStyles } from '../style';
 import { ProfileBody } from './profile-body';
 import { ProfileGender } from './profile-gender';
@@ -16,7 +17,7 @@ export class ProfileRoot extends React.Component<Props, State> {
 
   // 버튼 클릭시 로그인 fetch
   login() {
-    return fetch(`http://api-stage.humanscape.io:80/api/v1/users/login/moah`, {
+    return fetch(`${BASE_URL}api/v1/users/login/moah`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
