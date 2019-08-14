@@ -21,7 +21,7 @@ export class Signup extends React.Component<Props, State> {
 
   // 이메일 중복여부 확인
   emailValidity() {
-    return fetch(`${BASE_URL}api/v1/users/exists/${this.props.email}`, {
+    return fetch(BASE_URL + `api/v1/users/exists/${this.props.email}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export class Signup extends React.Component<Props, State> {
 
   // 회원가입요청
   signupFetch() {
-    return fetch(`${BASE_URL}api/v1/users/join`, {
+    return fetch(BASE_URL + `api/v1/users/join`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -57,7 +57,7 @@ export class Signup extends React.Component<Props, State> {
   }
 
   createWallet(id: any, uniq: any) {
-    return fetch(`${BASE_URL}api/v1/users/${id}/userWallet`, {
+    return fetch(BASE_URL + `api/v1/users/${id}/userWallet`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
