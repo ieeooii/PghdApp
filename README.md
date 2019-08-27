@@ -44,6 +44,36 @@ react-native link rn-apple-healthkit
 **Android**
 만약 `android/app`에 `debug.kestore` file이 없다면 [https://github.com/facebook/react-native/issues/25629] 이 링크로 들어간 후 "@bondehagen"이 올린 url click 후 다운로드 합니다. 다운로드가 완료 됐다면 `debug.keystore` file을 `android/app`로 옮겨야합니다.
 
+### Setting
+
+[settings.json](settings.json)에 들어가서 해당 코드로 추가 설정이 필요합니다.
+
+```
+{
+  "workbench.colorTheme": "Spirited Away",
+  "window.zoomLevel": 1,
+  "liveServer.settings.donotShowInfoMsg": true,
+  "eslint.autoFixOnSave": true,
+  "terminal.integrated.rendererType": "dom",
+  "editor.formatOnSave": true,
+  "prettier.singleQuote": false,
+  "javascript.updateImportsOnFileMove.enabled": "never",
+  "javascript.format.enable": false,
+  "prettier.eslintIntegration": true,
+  "files.associations": {
+    ".gitignore": "ignore"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "typescript.format.enable": false,
+  "prettier.tslintIntegration": true,
+  "eslint.alwaysShowStatus": true,
+  "workbench.sideBar.location": "left",
+  "typescript.updateImportsOnFileMove.enabled": "always"
+}
+```
+
 ### And repet
 
 만약 새 라이브러리나 모듈을 설치했다면 아래의 과정을 다시 해주어야합니다.
