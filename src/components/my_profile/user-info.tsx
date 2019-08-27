@@ -27,7 +27,6 @@ export interface State {
 
 export class UserInfo extends React.Component<Props, State> {
   public props: any;
-
   constructor(props: any) {
     super(props);
     this.state = {
@@ -36,6 +35,7 @@ export class UserInfo extends React.Component<Props, State> {
       chosenDate: new Date(),
     };
   }
+
   setDate(newDate: string) {
     this.setState({ chosenDate: newDate });
   }

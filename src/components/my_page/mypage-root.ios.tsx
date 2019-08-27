@@ -13,7 +13,7 @@ const styles = mypageRootStyles;
 const todayButtonName = '오늘 기록하기';
 // const pghdRecordZero = '기록 된 내용이 없습니다.';
 
-interface Props {
+export interface Props {
   navigation: any;
   navi: any;
   date: string;
@@ -21,8 +21,7 @@ interface Props {
   id: string;
   userWallet: string;
 }
-
-interface State {
+export interface State {
   usersPghdData: any;
   personalInfo: string[];
   update: boolean;
@@ -30,10 +29,7 @@ interface State {
 }
 
 const dateFunc = (dateStr: string) => {
-  const year = dateStr[0] + dateStr[1] + dateStr[2] + dateStr[3];
-  const month = dateStr[5] + dateStr[6];
-  const day = dateStr[8] + dateStr[9];
-  return [year, month, day];
+  return dateStr.slice(0, 10);
 };
 
 export class MypageRoot extends React.Component<Props, State> {
@@ -87,10 +83,10 @@ export class MypageRoot extends React.Component<Props, State> {
       );
       console.log(getUserPghd);
       if (getUserPghd.data !== null) {
-        const pghdData = await this.healthKitDataFunc(getUserPghd.data);
+        const pghdData = await this.healthKitDataPushFunc(getUserPghd.data);
         this.setState({ usersPghdData: pghdData });
       } else {
-        const pghdData = await this.healthKitDataFunc([]);
+        const pghdData = await this.healthKitDataPushFunc([]);
         this.setState({ usersPghdData: pghdData });
       }
       console.log(this.state.usersPghdData);
@@ -118,8 +114,9 @@ export class MypageRoot extends React.Component<Props, State> {
     }
   }
 
-  healthKitDataFunc = (serverData: any | null) => {
-    for (let indx = healthKit.activeEnergy.length - 1; indx >= 0; indx -= 1) {
+  // ComponentDidMount Pghd + health Data 정렬[130번째 줄 push]
+  healthKitDataPushFunc = (serverData: any | null) => {
+    for (let indx = 0; indx < healthKit.activeEnergy.length; indx += 1) {
       const healthObj = {
         id: indx + '',
         data: JSON.stringify({
@@ -143,14 +140,32 @@ export class MypageRoot extends React.Component<Props, State> {
       const GET_USER_PGHD = `api/v1/clients/${CLIENT_ID}/users/${walletAddress}/pghd`;
       const getUserPghd = await this.getRequestFunc(accessToken, GET_USER_PGHD);
       if (getUserPghd.data !== null) {
-        const pghdData = await this.healthKitDataFunc(getUserPghd.data);
+        const pghdData = await this.healthKitDataUnshiftFunc(getUserPghd.data);
         this.setState({ usersPghdData: pghdData, update: false });
       } else {
-        const pghdData = await this.healthKitDataFunc([]);
+        const pghdData = await this.healthKitDataUnshiftFunc([]);
         this.setState({ usersPghdData: pghdData, update: false });
       }
       console.log(this.state.usersPghdData);
     }
+  }
+
+  // ComponentDidUpdate Pghd + health Data 정렬[166번째 줄 unshift]
+  healthKitDataUnshiftFunc = (serverData: any | null) => {
+    for (let indx = 0; indx < healthKit.activeEnergy.length; indx += 1) {
+      const healthObj = {
+        id: indx + '',
+        data: JSON.stringify({
+          pghd:
+            `weight: ${healthKit.weight[indx].value} Ibs${'\n'}` +
+            `activeEnergy: ${healthKit.activeEnergy[indx].value} Kcal${'\n'}` +
+            `steps: ${healthKit.steps.value}`,
+        }),
+        updatedAt: healthKit.activeEnergy[indx].startDate,
+      };
+      serverData.unshift(healthObj);
+    }
+    return serverData;
   }
 
   // [GET]
@@ -165,7 +180,7 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            console.log(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${res.status}`);
           } else if (res.status === 200) {
             return res.json();
           }
@@ -194,7 +209,7 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            console.log(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${res.status}`);
           } else if (res.status === 200) {
             return res.json();
           }

@@ -66,7 +66,8 @@ export class MyProfile extends React.Component<Props, State> {
           style={myProfile.logoutButton}
           onPress={async () => {
             await AsyncStorage.clear();
-            this.props.navigation.goBack().goBack();
+            this.props.navigation.pop();
+            this.props.navigation.pop();
           }}
         >
           <Text>LOG OUT</Text>

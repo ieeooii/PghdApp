@@ -12,7 +12,7 @@ const styles = mypageRootStyles;
 const todayButtonName = '오늘 기록하기';
 // const pghdRecordZero = '기록 된 내용이 없습니다.';
 
-interface Props {
+export interface Props {
   navigation: any;
   navi: any;
   date: string;
@@ -20,7 +20,7 @@ interface Props {
   id: string;
   userWallet: string;
 }
-interface State {
+export interface State {
   usersPghdData: any;
   personalInfo: any;
   update: boolean;
@@ -96,7 +96,7 @@ export class MypageRoot extends React.Component<Props, State> {
         personalInfo: [getUserInfo.nickname, relationStr],
       });
     } catch (error) {
-      alert(`error: ${error}`);
+      console.log(`error: ${error}`);
     }
   }
 
@@ -123,13 +123,13 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${res.status}`);
           } else if (res.status === 200) {
             return res.json();
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }
@@ -152,13 +152,13 @@ export class MypageRoot extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${res.status}`);
           } else if (res.status === 200) {
             return res.json();
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }

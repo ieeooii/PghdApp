@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
 import reducer from './src/redux';
+// npm run tsc후 './build/navigator/stack-navi.tsx'로 변경해주세요!
 import Appcontainer from './src/navigator/stack-navi.tsx';
 
 if (__DEV__) {
@@ -10,10 +11,12 @@ if (__DEV__) {
 
 const store = createStore(reducer);
 
-export default App = () => {
+const App = () => {
   return (
     <Provider store={store}>
       <Appcontainer />
     </Provider>
   );
 };
+
+export default App;

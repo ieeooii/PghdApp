@@ -11,11 +11,10 @@ const deleteButtonName = '삭제';
 const modifyButtonName = '수정';
 const cancelButtonName = '취소';
 
-interface State {
+export interface State {
   activebutton?: boolean;
 }
-
-interface Props {
+export interface Props {
   navi?: any;
   children?: any;
 }
@@ -49,14 +48,14 @@ export class PghdRecord extends React.Component<Props, State> {
       })
         .then(res => {
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${res.status}`);
           } else if (res.status === 200) {
-            alert('삭제되었습니다.');
+            console.log('삭제되었습니다.');
             updateFunc();
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }
