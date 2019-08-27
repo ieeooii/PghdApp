@@ -3,11 +3,12 @@ import * as React from 'react';
 import { myprofileStyles } from '../style';
 
 const styles = myprofileStyles;
-interface Props {
+
+export interface Props {
   navi: any;
   children?: any;
 }
-interface State {}
+export interface State {}
 
 export class MiniProfile extends React.Component<Props, State> {
   constructor(props: any) {

@@ -7,9 +7,7 @@
     "test": "jest --coverage",
     "tsc": "tsc --watch",
     "lint": "tslint -p \".\" -t stylish",
-    "tslint-check": "tslint-config-prettier-check ./tslint.json",
-    "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
-    "android": "node node_modules/react-native/local-cli/cli.js run-android"
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",

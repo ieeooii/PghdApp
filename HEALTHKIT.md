@@ -35,6 +35,6 @@ Build fails on 'React/RCTBridgeModule.h' file not found [issue](https://github.c
 
 ### 주의!
 
-1. healthKit은 android와 TypeScript를 지원하지 않습니다.
+1. healthKit은 android와 TypeScript를 지원하지 않습니다. .tsx 형식으로 변환하기 위해서는 [d.ts](https://www.slideshare.net/gloridea/dts-74589285)를 참고하여 `d.ts` file을 만들어야합니다.
 2. `src/components/my_page/mypage-root.ios.tsx`에서 속성 오류(ts-error)가 나지만 제대로 정보를 불러옵니다.
 3. healthKit에서 허용하지 않거나 내용이 없는경우 로직에서 에러가 날 수 있습니다. 현재 일부만 가져온 상태로 경우의 수를 고려해 로직을 짜야할 것 같습니다.

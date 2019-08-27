@@ -20,12 +20,12 @@ const uploadButtonName = '등록';
 const okButtonName = '확인';
 const cancelButtonName = '취소';
 
-interface State {
+export interface State {
   str?: string;
   alertOkbutton?: boolean;
   beforePghd?: string;
 }
-interface Props {
+export interface Props {
   navigation: any;
 }
 
@@ -125,7 +125,7 @@ export class TodayPghd extends React.Component<Props, State> {
         );
       }
     } catch (error) {
-      alert(`error: ${error}`);
+      console.log(`error: ${error}`);
     }
   }
 
@@ -172,15 +172,14 @@ export class TodayPghd extends React.Component<Props, State> {
         }),
       })
         .then(res => {
-          console.log(res);
           if (res.status !== 200) {
-            alert(`error: ${'요청에 응답 할 수 없습니다.'}`);
+            console.log(`error: ${res.status}`);
           } else if (res.status === 200) {
             this.alertOneSelectFunc(success, this.goBackAndSetParamsFunc());
           }
         })
         .catch(error => {
-          alert(`error: ${error}`);
+          console.log(`error: ${error}`);
         });
     }
   }
