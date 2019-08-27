@@ -73,14 +73,23 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    changeSignupState: bindActionCreators(actionCreators.changeSignupStateAction, dispatch),
+    changeSignupState: bindActionCreators(
+      actionCreators.changeSignupStateAction,
+      dispatch
+    ),
     inputCheck: bindActionCreators(actionCreators.inputCheckAction, dispatch),
     changeFocus: bindActionCreators(actionCreators.changeFocusAction, dispatch),
     termsCheck: bindActionCreators(actionCreators.termsCheckAction, dispatch),
     btnCheck: bindActionCreators(actionCreators.btnCheckAction, dispatch),
     permit: bindActionCreators(actionCreators.permitAction, dispatch),
-    changeProfileState: bindActionCreators(actionCreators.changeProfileStateAction, dispatch),
-    changeSignInState: bindActionCreators(actionCreators.changeSignInStateAction, dispatch)
+    changeProfileState: bindActionCreators(
+      actionCreators.changeProfileStateAction,
+      dispatch
+    ),
+    changeSignInState: bindActionCreators(
+      actionCreators.changeSignInStateAction,
+      dispatch
+    )
   };
 }
 

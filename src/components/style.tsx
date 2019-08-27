@@ -92,7 +92,7 @@ const buttonColorAndroid: string = '#5800ff';
 
 export const signupStyles = StyleSheet.create({
   signupContent: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'space-evenly',
     ...Platform.select({
       ios: {

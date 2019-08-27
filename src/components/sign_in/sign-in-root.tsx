@@ -23,7 +23,7 @@ export class SignIn extends React.Component<Props, State> {
 
   onClickLoginCheckEmail() {
     return fetch(
-      `${BASE_URL}api/v1/users/join/validation?email=${this.props.email}`,
+      BASE_URL + `api/v1/users/join/validation?email=${this.props.email}`,
       {
         method: 'GET',
         headers: {
@@ -34,7 +34,7 @@ export class SignIn extends React.Component<Props, State> {
   }
 
   onClickLogin() {
-    return fetch(`${BASE_URL}api/v1/users/login/moah`, {
+    return fetch(BASE_URL + `api/v1/users/login/moah`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
