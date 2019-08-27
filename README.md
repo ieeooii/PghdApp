@@ -88,6 +88,6 @@ react-native run-android
 
 - [React Native](https://facebook.github.io/react-native/) - 기본 프레임워크
 - [React Navigation](https://reactnavigation.org/)
-- [React Native HelthKit](HEALTHKIT.md) - 해당 파일에 작성된 url 확인
+- [React Native HealthKit](HEALTHKIT.md) - 해당 파일에 작성된 url 확인
 - [Redux](https://redux.js.org/)
 - [TypeScript](https://www.typescriptlang.org/)
