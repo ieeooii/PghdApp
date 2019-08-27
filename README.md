@@ -74,7 +74,7 @@ react-native link rn-apple-healthkit
 }
 ```
 
-### And repet
+### And repeat
 
 만약 새 라이브러리나 모듈을 설치했다면 아래의 과정을 다시 해주어야합니다.
 
